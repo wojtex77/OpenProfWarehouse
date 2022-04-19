@@ -1,0 +1,15 @@
+<table class="table table-hover" xmlns:th="http://www.w3.org/1999/xhtml">
+    <tr>
+        <th>Id</th>
+        <th>Alias</th>
+        <th>Pełna nazwa</th>
+        <th>Gęstość [g/cm^3]</th>
+    </tr>
+    <tr th:each="material : ${materialGrades}">
+        <td th:text="${material.id}"></td>
+        <td th:text="${material.alias}"></td>
+        <td th:text="${material.fullName}"></td>
+        <td th:text="${material.density}"></td>
+    </tr>
+
+</table>

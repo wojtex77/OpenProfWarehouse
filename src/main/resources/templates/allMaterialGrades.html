@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Wszystkie gatunki materiałów</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body class="d-flex flex-column h-100">
+<header>
+    <nav th:replace="layouts/navbar"></nav>
+</header>
+
+<main class="flex-shrink-0 my-5">
+    <div class="container">
+        <div class="btn-group">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#newMaterialGrade"
+                    class="btn btn-sm btn-outline-primary">Nowy materiał
+            </button>
+            <button class="btn btn-sm btn-outline-primary">test</button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade " id="newMaterialGrade" tabindex="-1" aria-labelledby="newMaterialGradeLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newMaterialGradeLabel">Nowy materiał</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tutaj będzie forma do dodawania materiału
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="button" class="btn btn-outline-success">Dodaj</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table th:replace="layouts/allMaterialGradesTable"></table>
+
+    </div>
+</main>
+
+<footer th:replace="layouts/footer"></footer>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
