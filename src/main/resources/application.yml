@@ -1,1 +1,10 @@
-
+spring:
+  h2:
+    console:
+      enabled: true
+      path: '/db-console'
+  datasource:
+    url: 'jdbc:h2:file:C:/Users/Wojtek/Desktop/OpenProfWarehouse/opw-db'
+  jpa:
+    hibernate:
+      ddl-auto: update
