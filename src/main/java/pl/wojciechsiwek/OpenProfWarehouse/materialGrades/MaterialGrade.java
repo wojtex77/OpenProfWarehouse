@@ -1,7 +1,11 @@
 package pl.wojciechsiwek.OpenProfWarehouse.materialGrades;
 
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -9,11 +13,16 @@ import java.util.Objects;
 public class MaterialGrade {
 
 
-    private @Id
+    @Id
     @GeneratedValue
-    int id;
+    private int id;
+
+    @NotNull
+    @Column(unique = true)
     public String alias;
+
     private String fullName;
+    @Min(0)
     private Float density;
 
     MaterialGrade() {

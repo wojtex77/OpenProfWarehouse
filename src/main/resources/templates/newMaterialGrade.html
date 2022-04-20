@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Wszystkie gatunki materiałów</title>
+    <title>Edytowanie materiału</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
 </head>
 <body class="d-flex flex-column h-100">
@@ -12,17 +12,14 @@
 
 <main class="flex-shrink-0 my-5">
     <div class="container">
-        <h1>Gatunki materiałów</h1>
-        <hr/>
-        <div class="row g-5">
+        <div class="row">
+            <h1>Nowy materiał</h1>
+            <hr/>
             <div class="col-sm-3">
-                <a th:href="@{/materialgrades/new}">Nowy materiał</a>
-            </div>
-            <div class="col-sm-9">
-                <h3>Istniejące</h3>
-                <table th:replace="materialGrades/table"></table>
+                <form th:replace="materialGrades/form"></form>
             </div>
         </div>
+
     </div>
 </main>
 

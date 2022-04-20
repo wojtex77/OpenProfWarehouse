@@ -1,9 +1,10 @@
-<form action="#" th:action="@{/materialgrades/new}" th:object="${materialGrade}" method="post"
+<form action="#" th:action="@{/materialgrades/new}" th:object="${materialGrade}" method="get"
       xmlns:th="http://www.w3.org/1999/xhtml">
     <input type="text" th:field="*{id}" th:value="${id}" hidden>
     <div class="form-floating my-3">
         <input type="text" th:field="*{alias}" class="form-control" id="alias" placeholder="Alias">
         <label for="alias">Krótka nazwa</label>
+        <span th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></span>
     </div>
     <div class="form-floating my-3">
         <input type="text" th:field="*{fullName}" class="form-control" id="fullName"
@@ -14,6 +15,8 @@
         <input type="number" th:field="*{density}" step="0.01" class="form-control" id="density"
                placeholder="Gęstość">
         <label for="density">Gęstość [g/cm^3]</label>
+        <span th:if="${#fields.hasErrors('density')}" th:errors="*{density}"></span>
     </div>
     <button type="submit" class="btn btn-outline-success col-12 my-3">Zapisz</button>
+    <span th:text="${info}"></span>
 </form>

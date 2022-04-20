@@ -2,13 +2,14 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialGrades;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -31,29 +32,32 @@ public class MaterialGradesController {
         return "allMaterialGrades";
     }
 
-    @PutMapping(path = "/add")
-    ResponseEntity addMaterialGrade(@RequestBody MaterialGrade materialGrade) {
-
-        materialGradeRepository.save(materialGrade);
-        logger.info("material grade added");
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PostMapping(path = "/getmaterials")
-    ResponseEntity<List<MaterialGrade>> getAllMaterialsGrade() {
-        return ResponseEntity.ok(materialGradeRepository.findAll());
-    }
-
-    @PostMapping("/new")
-    public String newMaterialGrade(@ModelAttribute MaterialGrade materialGrade) {
-        try {
-            materialGradeRepository.save(materialGrade);
-
-        }catch (Exception e){
+    @GetMapping("/new")
+    public String newMaterialGrade(@ModelAttribute @Valid MaterialGrade materialGrade, BindingResult bindingResult, Model model) {
+        /*try {
+            if (!bindingResult.hasErrors()) {
+                materialGradeRepository.save(materialGrade);
+            }
+        } catch (Exception e) {
             logger.warn("adding new material gone wrong");
-            return "redirect:/materialgrades/all";
+        } finally {
+            Iterable<MaterialGrade> materialGrades = materialGradeRepository.findAll();
+            model.addAttribute("materialGrades", materialGrades);
+            return "allMaterialGrades";
         }
 
+*/
+        if (!bindingResult.hasErrors()) {
+            try {
+                materialGradeRepository.save(materialGrade);
+            }catch (Exception e){
+                model.addAttribute("info", "Nie można dodać materiału, być może krótka nazwa już istnieje");
+                return "newMaterialGrade";
+            }
+
+        } else {
+            return "newMaterialGrade";
+        }
         return "redirect:/materialgrades/all";
     }
 
