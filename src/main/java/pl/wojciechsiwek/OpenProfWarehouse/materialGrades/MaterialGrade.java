@@ -12,7 +12,7 @@ public class MaterialGrade {
     private @Id
     @GeneratedValue
     int id;
-    private String alias;
+    public String alias;
     private String fullName;
     private Float density;
 

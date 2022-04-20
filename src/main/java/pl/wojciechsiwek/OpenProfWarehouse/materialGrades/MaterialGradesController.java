@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("materialgrades")
@@ -65,6 +66,18 @@ public class MaterialGradesController {
             return "redirect:/materialgrades/all";
         }
         return "redirect:/materialgrades/all";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String newMaterialGrade(@PathVariable int id, Model model) {
+        try {
+            Optional<MaterialGrade> materialGrade = materialGradeRepository.findById(id);
+            model.addAttribute("materialGrade", materialGrade);
+        } catch (Exception e) {
+            logger.warn("something gone wrong");
+            return "redirect:/materialgrades/all";
+        }
+        return "editMaterialGrade";
     }
 
 
