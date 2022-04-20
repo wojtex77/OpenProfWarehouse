@@ -20,20 +20,28 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade " id="newMaterialGrade" tabindex="-1" aria-labelledby="newMaterialGradeLabel" aria-hidden="true">
+        <div class="modal fade " id="newMaterialGrade" tabindex="-1" aria-labelledby="newMaterialGradeLabel"
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="newMaterialGradeLabel">Nowy materiał</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        Tutaj będzie forma do dodawania materiału
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
-                        <button type="button" class="btn btn-outline-success">Dodaj</button>
-                    </div>
+                    <form action="#" th:action="@{/materialgrades/new}" th:object="${materialGrade}" method="post">
+
+                        <div class="modal-body">
+                            <input type="text" th:field="*{alias}"/>
+                            <input type="text" th:field="*{fullName}"/>
+                            <input type="number" th:field="*{density}"/>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Anuluj</button>
+                            <button type="submit" class="btn btn-outline-success">Dodaj</button>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>

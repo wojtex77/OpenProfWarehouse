@@ -6,11 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("materialgrades")
 public class MaterialGradesController {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialGradesController.class);
@@ -21,14 +23,15 @@ public class MaterialGradesController {
         this.materialGradeRepository = materialGradeRepository;
     }
 
-    @GetMapping(path = "/allmaterialgrades")
-    String getAllMaterialGrades(Model model) {
+    @GetMapping(path = "/all")
+    String getAllMaterialGrades(@ModelAttribute MaterialGrade materialGrade, Model model) {
         Iterable<MaterialGrade> materialGrades = materialGradeRepository.findAll();
         model.addAttribute("materialGrades", materialGrades);
+        model.addAttribute("materialGrade", materialGrade);
         return "allMaterialGrades";
     }
 
-    @PutMapping(path = "/addmaterialgrade")
+    @PutMapping(path = "/add")
     ResponseEntity addMaterialGrade(@RequestBody MaterialGrade materialGrade) {
 
         materialGradeRepository.save(materialGrade);
@@ -36,9 +39,17 @@ public class MaterialGradesController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/getmaterials")
-    ResponseEntity<List<MaterialGrade>> getAllMaterialsGrade(){
+    @PostMapping(path = "/getmaterials")
+    ResponseEntity<List<MaterialGrade>> getAllMaterialsGrade() {
         return ResponseEntity.ok(materialGradeRepository.findAll());
     }
+
+    @PostMapping("/new")
+    public String newMaterialGrade(@ModelAttribute MaterialGrade materialGrade, Model model) {
+        materialGradeRepository.save(materialGrade);
+        return "redirect:/materialgrades/all";
+    }
+
+
 
 }
