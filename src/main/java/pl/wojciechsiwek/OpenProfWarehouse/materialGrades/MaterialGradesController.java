@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,11 +44,27 @@ public class MaterialGradesController {
     }
 
     @PostMapping("/new")
-    public String newMaterialGrade(@ModelAttribute MaterialGrade materialGrade, Model model) {
-        materialGradeRepository.save(materialGrade);
+    public String newMaterialGrade(@ModelAttribute MaterialGrade materialGrade) {
+        try {
+            materialGradeRepository.save(materialGrade);
+
+        }catch (Exception e){
+            return "redirect:/materialgrades/all";
+        }
+
         return "redirect:/materialgrades/all";
     }
 
+    @GetMapping("/delete/{id}")
+    public String newMaterialGrade(@ModelAttribute MaterialGrade materialGrade, @PathVariable int id) {
+        try {
+            materialGradeRepository.deleteById(id);
+        } catch (Exception e) {
+            logger.warn("something gone wrong");
+            return "redirect:/materialgrades/all";
+        }
+        return "redirect:/materialgrades/all";
+    }
 
 
 }

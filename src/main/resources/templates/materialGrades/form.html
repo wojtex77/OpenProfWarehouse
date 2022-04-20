@@ -1,0 +1,18 @@
+<form action="#" th:action="@{/materialgrades/new}" th:object="${materialGrade}" method="post">
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{alias}" class="form-control" id="alias"
+               placeholder="name@example.com">
+        <label for="alias">Krótka nazwa</label>
+    </div>
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{fullName}" class="form-control" id="fullName"
+               placeholder="Password">
+        <label for="fullName">Pełna nazwa</label>
+    </div>
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{density}" step="0.01" class="form-control" id="density"
+               placeholder="Gęstość">
+        <label for="density">Gęstość [g/cm^3]</label>
+    </div>
+    <button type="submit" class="btn btn-outline-success col-12 my-3">Dodaj</button>
+</form>

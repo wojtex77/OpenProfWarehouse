@@ -4,12 +4,14 @@
         <th>Alias</th>
         <th>Pełna nazwa</th>
         <th>Gęstość [g/cm^3]</th>
+        <th>Akcje</th>
     </tr>
     <tr th:each="material : ${materialGrades}">
         <td th:text="${material.id}"></td>
         <td th:text="${material.alias}"></td>
         <td th:text="${material.fullName}"></td>
         <td th:text="${material.density}"></td>
+        <td><a th:href="@{/materialgrades/delete/{id}(id=${material.id})}">usuń</a></td>
     </tr>
 
 </table>
