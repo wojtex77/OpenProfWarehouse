@@ -49,6 +49,7 @@ public class MaterialGradesController {
             materialGradeRepository.save(materialGrade);
 
         }catch (Exception e){
+            logger.warn("adding new material gone wrong");
             return "redirect:/materialgrades/all";
         }
 

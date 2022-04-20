@@ -11,7 +11,7 @@
         <td th:text="${material.alias}"></td>
         <td th:text="${material.fullName}"></td>
         <td th:text="${material.density}"></td>
-        <td><a th:href="@{/materialgrades/delete/{id}(id=${material.id})}">usuń</a></td>
+        <td><a class="mx-1" th:href="@{/materialgrades/delete/{id}(id=${material.id})}">usuń</a><a class="mx-1" th:href="@{/materialgrades/edit/{id}(id=${material.id})}">edytuj</a></td>
     </tr>
 
 </table>
