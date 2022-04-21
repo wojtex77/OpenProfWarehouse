@@ -8,6 +8,7 @@ import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.SpecialShape;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("materialshapes")
@@ -41,6 +42,17 @@ public class MaterialShapeController {
     String showNewSpecialForm(@PathVariable int id, Model model){
         repository.deleteById(id);
         return "redirect:/materialshapes/all";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String newMaterialGrade(@PathVariable int id, Model model) {
+        try {
+            Optional<MaterialShape> materialShape = repository.findById(id);
+            model.addAttribute("specialShape", materialShape);
+        } catch (Exception e) {
+            return "redirect:/materialshapes/all";
+        }
+        return "materialShapes/editSpecial";
     }
 
 
