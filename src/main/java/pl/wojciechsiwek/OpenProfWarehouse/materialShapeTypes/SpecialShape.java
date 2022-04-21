@@ -6,11 +6,13 @@ public class SpecialShape implements Shape {
     private double area;
     private String name;
 
-    SpecialShape(String name, double area) {
+    public SpecialShape(String name, double area) {
         this.area = area;
         this.name = name;
         type=ShapeType.SPECIAL;
     }
+
+
 
     @Override
     public void calcArea() {

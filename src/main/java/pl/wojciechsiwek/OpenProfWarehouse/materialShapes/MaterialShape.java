@@ -13,32 +13,39 @@ public class MaterialShape {
     @Id
     @GeneratedValue
     private int id;
+
     @NotNull
     private String name;
+
     @NotNull
     @Positive
     private Double area;
 
+
     MaterialShape() {
     }
 
-    int getId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    Double getArea() {
+    public Double getArea() {
         return area;
     }
 
-    void setArea(Double area) {
+    public void setArea(Double area) {
         this.area = area;
     }
 

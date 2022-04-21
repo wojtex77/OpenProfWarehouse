@@ -2,14 +2,14 @@
     <tr>
         <th>Id</th>
         <th>Nazwa</th>
-        <th>Pole powierzchni</th>
+        <th>Pole powierzchni [mm^2]</th>
         <th>Akcje</th>
     </tr>
-    <tr th:each="material : ${materialShapes}">
-        <td th:text="${material.id}"></td>
-        <td th:text="${material.name}"></td>
-        <td th:text="${material.area}"></td>
-        <td><a class="mx-1" th:href="@{/materialshapes/delete/{id}(id=${material.id})}">usuń</a><a class="mx-1" th:href="@{/materialshapes/edit/{id}(id=${material.id})}">edytuj</a></td>
+    <tr th:each="shape : ${shapes}">
+        <td th:text="${shape.id}"></td>
+        <td th:text="${shape.name}"></td>
+        <td th:text="${shape.area}"></td>
+        <td><a class="mx-1" th:href="@{/materialshapes/delete/{id}(id=${shape.id})}">usuń</a><a class="mx-1" th:href="@{/materialshapes/edit/{id}(id=${shape.id})}">edytuj</a></td>
     </tr>
 
 </table>

@@ -30,7 +30,7 @@ public class MaterialGradesController {
         Iterable<MaterialGrade> materialGrades = materialGradeRepository.findAll();
         model.addAttribute("materialGrades", materialGrades);
         model.addAttribute("materialGrade", materialGrade);
-        return "allMaterialGrades";
+        return "materialGrades/allMaterialGrades";
     }
 
     @GetMapping("/new")
@@ -40,11 +40,11 @@ public class MaterialGradesController {
                 materialGradeRepository.save(materialGrade);
             } catch (Exception e) {
                 model.addAttribute("info", "Nie można dodać materiału, być może krótka nazwa już istnieje");
-                return "newMaterialGrade";
+                return "materialGrades/newMaterialGrade";
             }
 
         } else {
-            return "newMaterialGrade";
+            return "materialGrades/newMaterialGrade";
         }
         return "redirect:/materialgrades/all";
     }
@@ -69,7 +69,7 @@ public class MaterialGradesController {
             logger.warn("something gone wrong");
             return "redirect:/materialgrades/all";
         }
-        return "editMaterialGrade";
+        return "materialGrades/editMaterialGrade";
     }
 
 
