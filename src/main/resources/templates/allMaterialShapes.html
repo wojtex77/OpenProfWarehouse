@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Wszystkie dostępne przekroje</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body class="d-flex flex-column h-100">
+<header>
+    <nav th:replace="layouts/navbar"></nav>
+</header>
+
+<main class="flex-shrink-0 my-5">
+    <div class="container">
+        <h1>Przekroje</h1>
+        <hr/>
+        <div class="row g-5">
+            <div class="col-sm-3">
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false">Stwórz przekrój</a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" th:href="@{/materialshapes/newCircular}">Nowa rura okrągła</a></li>
+                        <li><a class="dropdown-item" th:href="@{/materialshapes/newRectangular}">Nowa rura
+                            prostokątna</a></li>
+                        <li><a class="dropdown-item" th:href="@{/materialshapes/newSpecial}">Nowy profil specjalny</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <h3>Istniejące</h3>
+                <table th:replace="materialShapes/table"></table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="layouts/footer"></footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

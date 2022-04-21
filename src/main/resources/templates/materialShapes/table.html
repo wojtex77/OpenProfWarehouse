@@ -1,0 +1,15 @@
+<table class="table table-hover" xmlns:th="http://www.w3.org/1999/xhtml">
+    <tr>
+        <th>Id</th>
+        <th>Nazwa</th>
+        <th>Pole powierzchni</th>
+        <th>Akcje</th>
+    </tr>
+    <tr th:each="material : ${materialShapes}">
+        <td th:text="${material.id}"></td>
+        <td th:text="${material.name}"></td>
+        <td th:text="${material.area}"></td>
+        <td><a class="mx-1" th:href="@{/materialshapes/delete/{id}(id=${material.id})}">usuń</a><a class="mx-1" th:href="@{/materialshapes/edit/{id}(id=${material.id})}">edytuj</a></td>
+    </tr>
+
+</table>
