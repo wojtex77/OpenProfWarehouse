@@ -12,7 +12,7 @@ class CircularTubeTest {
 
     @BeforeAll
     private static void createObject() {
-        shape = new CircularTube(10, 1);
+        shape = new CircularTube(10d, 1d);
     }
 
     @Test

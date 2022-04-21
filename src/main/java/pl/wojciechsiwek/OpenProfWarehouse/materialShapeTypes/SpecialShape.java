@@ -20,11 +20,16 @@ public class SpecialShape implements Shape {
 
     @Override
     public String generateName() {
-        return name;
+        return null;
     }
 
     @Override
-    public double getArea() {
+    public Double getArea() {
         return area;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }

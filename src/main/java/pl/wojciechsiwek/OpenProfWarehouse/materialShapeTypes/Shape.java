@@ -4,5 +4,6 @@ public interface Shape {
 
     void calcArea();
     String generateName();
-    double getArea();
+    Double getArea();
+    String getName();
 }

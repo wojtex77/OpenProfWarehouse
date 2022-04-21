@@ -1,4 +1,4 @@
-<form action="#" th:action="@{/materialshapes/addCircular}" th:object="${circularShape}" method="post"
+<form action="#" th:action="@{/materialshapes/addRectangular}" th:object="${rectangularShape}" method="post"
       xmlns:th="http://www.w3.org/1999/xhtml">
     <!--<input type="text" th:field="*{id}" hidden>-->
     <div class="form-floating my-3">
@@ -7,10 +7,16 @@
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
     </div>
     <div class="form-floating my-3">
-        <input type="number" th:field="*{outerDiameter}" step="0.1" class="form-control" id="outerDiameter"
+        <input type="number" th:field="*{width}" step="0.1" class="form-control" id="width"
                placeholder="Szerokość [mm]">
-        <label for="outerDiameter">Średnica zewnętrzna [mm]</label>
-        <span th:if="${#fields.hasErrors('outerDiameter')}" th:errors="*{outerDiameter}"></span>
+        <label for="width">Szerokość [mm]</label>
+        <span th:if="${#fields.hasErrors('width')}" th:errors="*{width}"></span>
+    </div>
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{height}" step="0.1" class="form-control" id="height"
+               placeholder="Wysokość [mm]">
+        <label for="height">Wysokość [mm]</label>
+        <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></span>
     </div>
     <div class="form-floating my-3">
         <input type="number" th:field="*{thickness}" step="0.1" class="form-control" id="thickness"
