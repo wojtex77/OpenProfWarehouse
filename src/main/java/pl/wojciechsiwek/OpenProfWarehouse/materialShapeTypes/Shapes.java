@@ -1,4 +1,4 @@
-package pl.wojciechsiwek.OpenProfWarehouse.materialShapes;
+package pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes;
 
 import java.util.List;
 
