@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Wszystkie dostępne przekroje</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <div th:replace="layouts/stylesheets"></div>
+
 </head>
 <body class="d-flex flex-column h-100">
 <header>
@@ -18,13 +19,13 @@
             <div class="col-lg-3">
                 <div class="dropdown">
                     <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                       data-bs-toggle="dropdown" aria-expanded="false">Stwórz przekrój</a>
+                       data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-circle"></i> Dodaj</i></a>
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" th:href="@{/materialshapes/newCircular}">Nowa rura okrągła</a></li>
-                        <li><a class="dropdown-item" th:href="@{/materialshapes/newRectangular}">Nowa rura
+                        <li><a class="dropdown-item" th:href="@{/materialshapes/newCircular}">Rura okrągła</a></li>
+                        <li><a class="dropdown-item" th:href="@{/materialshapes/newRectangular}">Rura
                             prostokątna</a></li>
-                        <li><a class="dropdown-item" th:href="@{/materialshapes/newSpecial}">Nowy profil specjalny</a>
+                        <li><a class="dropdown-item" th:href="@{/materialshapes/newSpecial}">Profil specjalny</a>
                         </li>
                     </ul>
                 </div>

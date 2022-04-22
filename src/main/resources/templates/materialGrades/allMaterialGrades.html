@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Wszystkie gatunki materiałów</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <div th:replace="layouts/stylesheets"></div>
 </head>
 <body class="d-flex flex-column h-100">
 <header>
@@ -16,7 +16,7 @@
         <hr/>
         <div class="row g-5">
             <div class="col-lg-3">
-                <a class="btn btn-outline-secondary" role="button" th:href="@{/materialgrades/new}">Nowy materiał</a>
+                <a class="btn btn-outline-secondary" role="button" th:href="@{/materialgrades/new}"><i class="bi bi-plus-circle"></i> Dodaj</a>
             </div>
             <div class="col-lg-9">
                 <h3>Istniejące</h3>
