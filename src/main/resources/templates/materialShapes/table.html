@@ -9,7 +9,7 @@
         <td th:text="${shape.id}"></td>
         <td th:text="${shape.name}"></td>
         <td th:text="${shape.area}"></td>
-        <td><a class="mx-1" th:href="@{/materialshapes/delete/{id}(id=${shape.id})}">usuń</a><a class="mx-1" th:href="@{/materialshapes/edit/{id}(id=${shape.id})}">edytuj</a></td>
+        <td><a class="mx-1" th:href="@{/materialshapes/delete/{id}(id=${shape.id})}"><i class="bi bi-trash"></i></a><a class="mx-1" th:href="@{/materialshapes/edit/{id}(id=${shape.id})}"><i class="bi bi-pencil-square"></i></a></td>
     </tr>
 
 </table>

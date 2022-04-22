@@ -5,6 +5,7 @@ public class SpecialShape implements Shape {
     private final ShapeType type;
     private double area;
     private String name;
+    private int id;
 
     public SpecialShape(String name, double area) {
         this.area = area;
@@ -12,7 +13,20 @@ public class SpecialShape implements Shape {
         type=ShapeType.SPECIAL;
     }
 
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public ShapeType getType() {
+        return type;
+    }
 
     @Override
     public void calcArea() {
@@ -30,6 +44,6 @@ public class SpecialShape implements Shape {
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 }

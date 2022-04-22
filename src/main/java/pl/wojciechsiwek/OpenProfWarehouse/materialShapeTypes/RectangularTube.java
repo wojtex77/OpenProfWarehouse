@@ -8,6 +8,7 @@ public class RectangularTube implements Shape {
     private Double thickness;
     private Double area;
     private String name;
+    private int id;
 
 
     public RectangularTube(Double width, Double height, Double thickness) {
@@ -16,6 +17,11 @@ public class RectangularTube implements Shape {
         this.thickness = thickness;
         calcArea();
         type = ShapeType.RECTANGULAR;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ShapeType getType() {
@@ -52,6 +58,11 @@ public class RectangularTube implements Shape {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.CircularTube;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.RectangularTube;
+import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.Shape;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,13 +37,28 @@ public class MaterialShapeController {
     }
 
 
+    @GetMapping("/edit/{id}")
+    public String newMaterialShape(@PathVariable int id, Model model) {
+        Shape shape;
+        try {
+            Optional<MaterialShape> materialShape = repository.findById(id);
+            shape = service.returnProperType(materialShape);
+        } catch (Exception e) {
+            return "redirect:/materialshapes/all";
+        }
+        model.addAttribute("shape", shape);
+        String templateToReturn = service.getTemplate(shape);
+        return templateToReturn;
+    }
+
+
     /*
      * Beginning of part of code responsible for SPECIAL shapes
      *
      * */
     @GetMapping(path = "/newSpecial")
     String showNewSpecialForm(Model model) {
-        model.addAttribute("specialShape", new MaterialShape());
+        model.addAttribute("shape", new MaterialShape());
         return "materialShapes/newSpecial";
     }
 
@@ -51,17 +67,6 @@ public class MaterialShapeController {
     String addSpecialShape(@ModelAttribute MaterialShape materialShape, Model model) {
         repository.save(materialShape);
         return "redirect:/materialshapes/all";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String newMaterialGrade(@PathVariable int id, Model model) {
-        try {
-            Optional<MaterialShape> materialShape = repository.findById(id);
-            model.addAttribute("specialShape", materialShape);
-        } catch (Exception e) {
-            return "redirect:/materialshapes/all";
-        }
-        return "materialShapes/editSpecial";
     }
 
     //End of special shape code
@@ -73,7 +78,7 @@ public class MaterialShapeController {
      * */
     @GetMapping(path = "/newRectangular")
     String showNewRectangularForm(Model model) {
-        model.addAttribute("rectangularShape", new RectangularTube(null, null, null));
+        model.addAttribute("shape", new RectangularTube(null, null, null));
         return "materialShapes/newRectangular";
     }
 
@@ -92,7 +97,7 @@ public class MaterialShapeController {
      * */
     @GetMapping(path = "/newCircular")
     String showNewCircularForm(Model model) {
-        model.addAttribute("circularShape", new CircularTube(null, null));
+        model.addAttribute("shape", new CircularTube(null, null));
         return "materialShapes/newCircular";
     }
 

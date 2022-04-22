@@ -8,6 +8,8 @@ public class CircularTube implements Shape {
     private Double thickness;
     private Double area;
 
+    private int id;
+
     private String name;
 
 
@@ -18,9 +20,19 @@ public class CircularTube implements Shape {
             innerDiameter = null;
         } else {
             innerDiameter = outerDiameter - (2 * thickness);
+            generateName();
         }
         type = ShapeType.CIRCULAR;
         calcArea();
+    }
+
+    @Override
+    public int getId() {
+        return id;
+    }
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ShapeType getType() {
