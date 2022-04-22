@@ -29,22 +29,13 @@ public class MaterialShapeService {
             String shapeType = name.substring(0, 2);
             switch (shapeType) {
                 case "RO": {
-                    Pattern pattern = Pattern.compile("(?<=-)(.*?)(?=x)");
-                    Matcher matcher = pattern.matcher(name);
-                    matcher.find();
-                    String outerDiameter = matcher.group(0);
-                    pattern = Pattern.compile("[^x]*$");
-                    matcher = pattern.matcher(name);
-                    matcher.find();
-                    String thickness = matcher.group(0);
-                    Shape shape = new CircularTube(Double.valueOf(outerDiameter), Double.valueOf(thickness));
-                    shape.setId(materialShape.map(MaterialShape::getId).orElse(null));
-                    return shape;
+                    return convertToCircular(materialShape, name);
+                }
+                case "RP": {
+                    return convertToRectangular(materialShape, name);
                 }
                 default: {
-                    Shape shape = new SpecialShape(name, materialShape.map(MaterialShape::getArea).orElse(null));
-                    shape.setId(materialShape.map(MaterialShape::getId).orElse(null));
-                    return shape;
+                    return convertToSpecial(materialShape, name);
                 }
             }
         } else {
@@ -52,11 +43,60 @@ public class MaterialShapeService {
         }
     }
 
+    private Shape convertToRectangular(Optional<MaterialShape> materialShape, String name) {
+        Pattern pattern = Pattern.compile("(?<=-)(.*?)(?=x)");
+        Matcher matcher = pattern.matcher(name);
+        matcher.find();
+        String width = matcher.group(0);
+
+        pattern = Pattern.compile("(?<=x)(.*?)(?=x)");
+        matcher = pattern.matcher(name);
+        matcher.find();
+        String height = matcher.group(0);
+
+        pattern = Pattern.compile("[^x]*$");
+        matcher = pattern.matcher(name);
+        matcher.find();
+        String thickness = matcher.group(0);
+        Shape shape = new RectangularTube(Double.valueOf(width), Double.valueOf(height), Double.valueOf(thickness));
+        shape.setId(materialShape.map(MaterialShape::getId).orElse(null));
+        return shape;
+    }
+
+    private Shape convertToSpecial(Optional<MaterialShape> materialShape, String name) {
+        Shape shape = new SpecialShape(name, materialShape.map(MaterialShape::getArea).orElse(null));
+        shape.setId(materialShape.map(MaterialShape::getId).orElse(null));
+        return shape;
+    }
+
+    private Shape convertToCircular(Optional<MaterialShape> materialShape, String name) {
+        Pattern pattern = Pattern.compile("(?<=-)(.*?)(?=x)");
+        Matcher matcher = pattern.matcher(name);
+        matcher.find();
+        String outerDiameter = matcher.group(0);
+        pattern = Pattern.compile("[^x]*$");
+        matcher = pattern.matcher(name);
+        matcher.find();
+        String thickness = matcher.group(0);
+        Shape shape = new CircularTube(Double.valueOf(outerDiameter), Double.valueOf(thickness));
+        shape.setId(materialShape.map(MaterialShape::getId).orElse(null));
+        return shape;
+    }
+
     String getTemplate(Shape shape) {
 
-        if (shape.getName().substring(0, 2).equals("RO")){
-            return "materialShapes/editCircular";
+        switch (shape.getType()) {
+            case CIRCULAR -> {
+                return "materialShapes/editCircular";
+            }
+            case RECTANGULAR -> {
+                return "materialShapes/editRectangular";
+            }
+            default -> {
+                return "materialShapes/editSpecial";
+            }
         }
-        return "materialShapes/editSpecial";
+
+
     }
 }
