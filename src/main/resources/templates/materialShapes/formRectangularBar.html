@@ -1,0 +1,23 @@
+<form action="#" th:action="@{/materialshapes/addRectangularBar}" th:object="${shape}" method="post"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+    <input type="text" th:field="*{id}" hidden>
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nazwa" readonly>
+        <label for="name">Nazwa</label>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    </div>
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{width}" step="0.1" class="form-control" id="width"
+               placeholder="Szerokość [mm]">
+        <label for="width">Szerokość [mm]</label>
+        <span th:if="${#fields.hasErrors('width')}" th:errors="*{width}"></span>
+    </div>
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{height}" step="0.1" class="form-control" id="height"
+               placeholder="Wysokość [mm]">
+        <label for="height">Wysokość [mm]</label>
+        <span th:if="${#fields.hasErrors('height')}" th:errors="*{height}"></span>
+    </div>
+    <button type="submit" class="btn btn-outline-success col-12 my-3">Zapisz</button>
+    <span th:text="${info}"></span>
+</form>

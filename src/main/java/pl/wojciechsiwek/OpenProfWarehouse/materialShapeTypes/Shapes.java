@@ -8,7 +8,7 @@ public class Shapes {
 
     Shapes() {
         shapes.add(ShapeType.CIRCULAR);
-        shapes.add(ShapeType.RECTANGULAR);
+        shapes.add(ShapeType.RECTANGULAR_TUBE);
         shapes.add(ShapeType.SPECIAL);
     }
 

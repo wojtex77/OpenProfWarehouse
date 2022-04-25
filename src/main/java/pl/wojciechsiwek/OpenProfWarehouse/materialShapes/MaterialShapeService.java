@@ -1,10 +1,7 @@
 package pl.wojciechsiwek.OpenProfWarehouse.materialShapes;
 
 import org.springframework.stereotype.Service;
-import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.CircularTube;
-import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.RectangularTube;
-import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.Shape;
-import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.SpecialShape;
+import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.*;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -28,11 +25,14 @@ public class MaterialShapeService {
         if (name != null) {
             String shapeType = name.substring(0, 2);
             switch (shapeType) {
-                case "RO": {
+                case "RO": { //Circular_tube
                     return convertToCircular(materialShape, name);
                 }
-                case "RP": {
-                    return convertToRectangular(materialShape, name);
+                case "RP": { //Rectangular_tube
+                    return convertToRectangularTube(materialShape, name);
+                }
+                case "PP": { //Rectangular_bar
+                    return convertToRectangularBar(materialShape, name);
                 }
                 default: {
                     return convertToSpecial(materialShape, name);
@@ -43,7 +43,7 @@ public class MaterialShapeService {
         }
     }
 
-    private Shape convertToRectangular(Optional<MaterialShape> materialShape, String name) {
+    private Shape convertToRectangularTube(Optional<MaterialShape> materialShape, String name) {
         Pattern pattern = Pattern.compile("(?<=-)(.*?)(?=x)");
         Matcher matcher = pattern.matcher(name);
         matcher.find();
@@ -83,14 +83,31 @@ public class MaterialShapeService {
         return shape;
     }
 
+    private Shape convertToRectangularBar(Optional<MaterialShape> materialShape, String name) {
+        Pattern pattern = Pattern.compile("(?<=-)(.*?)(?=x)");
+        Matcher matcher = pattern.matcher(name);
+        matcher.find();
+        String width = matcher.group(0);
+        pattern = Pattern.compile("[^x]*$");
+        matcher = pattern.matcher(name);
+        matcher.find();
+        String height = matcher.group(0);
+        Shape shape = new RectangularBar(Double.valueOf(width), Double.valueOf(height));
+        shape.setId(materialShape.map(MaterialShape::getId).orElse(null));
+        return shape;
+    }
+
     String getTemplate(Shape shape) {
 
         switch (shape.getType()) {
             case CIRCULAR -> {
                 return "materialShapes/editCircular";
             }
-            case RECTANGULAR -> {
+            case RECTANGULAR_TUBE -> {
                 return "materialShapes/editRectangular";
+            }
+            case RECTANGULAR_BAR -> {
+                return "materialShapes/editRectangularBar";
             }
             default -> {
                 return "materialShapes/editSpecial";

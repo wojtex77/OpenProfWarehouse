@@ -1,27 +1,20 @@
 package pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes;
 
-public class RectangularTube implements Shape {
+public class RectangularBar implements Shape {
 
     private final ShapeType type;
     private Double width;
     private Double height;
-    private Double thickness;
     private Double area;
     private String name;
     private int id;
 
 
-    public RectangularTube(Double width, Double height, Double thickness) {
+    public RectangularBar(Double width, Double height) {
         this.width = width;
         this.height = height;
-        this.thickness = thickness;
         calcArea();
-        type = ShapeType.RECTANGULAR_TUBE;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
+        type = ShapeType.RECTANGULAR_BAR;
     }
 
     public ShapeType getType() {
@@ -44,14 +37,6 @@ public class RectangularTube implements Shape {
         this.height = height;
     }
 
-    public Double getThickness() {
-        return thickness;
-    }
-
-    public void setThickness(Double thickness) {
-        this.thickness = thickness;
-    }
-
     public String getName() {
         return name;
     }
@@ -66,6 +51,11 @@ public class RectangularTube implements Shape {
     }
 
     @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
     public Double getArea() {
         return area;
     }
@@ -76,20 +66,20 @@ public class RectangularTube implements Shape {
 
     @Override
     public void calcArea() {
-        if (width == null || height == null || thickness == null) {
+        if (width == null || height == null) {
             area = 0d;
         } else {
-            area = 2 * thickness * (height + width) - (4 * thickness * thickness);
+            area = height * width;
         }
     }
 
 
     @Override
     public String generateName() {
-        if (width == null || height == null || thickness == null) {
+        if (width == null || height == null) {
             name = "";
         } else {
-            name = "RP" + "-" + width + "x" + height + "x" + thickness;
+            name = "PP" + "-" + width + "x" + height;
         }
         return name;
     }

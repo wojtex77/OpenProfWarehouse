@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.CircularTube;
+import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.RectangularBar;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.RectangularTube;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.Shape;
 
@@ -68,7 +69,6 @@ public class MaterialShapeController {
         repository.save(materialShape);
         return "redirect:/materialshapes/all";
     }
-
     //End of special shape code
 
 
@@ -91,6 +91,8 @@ public class MaterialShapeController {
     //End of RECTANGULAR shape code
 
 
+
+
     /*
      * Beginning of part of code responsible for CIRCULAR shapes
      *
@@ -108,6 +110,26 @@ public class MaterialShapeController {
         return "redirect:/materialshapes/all";
     }
     //End of CIRCULAR shape code
+
+
+
+    /*
+     * Beginning of part of code responsible for RECTANGULAR_BAR shapes
+     *
+     * */
+    @GetMapping(path = "/newRectangularBar")
+    String showNewRectangularBarForm(Model model) {
+        model.addAttribute("shape", new RectangularBar(null, null));
+        return "materialShapes/newRectangularBar";
+    }
+
+    @PostMapping(path = "/addRectangularBar")
+    String addRectangularBarShape(@ModelAttribute RectangularBar bar, Model model) {
+
+        repository.save(service.toMaterialShape(bar));
+        return "redirect:/materialshapes/all";
+    }
+    //End of RECTANGULAR_BAR shape code
 
 
 }
