@@ -82,7 +82,7 @@ public class MaterialShapeController {
     @PostMapping(path = "/addRectangular")
     String addRectangularShape(@ModelAttribute RectangularTube tube, Model model) {
 
-        repository.save(service.toMaterialShape(tube));
+        repository.save(service.convertToMaterialShape(tube));
         return "redirect:/materialshapes/all";
     }
     //End of RECTANGULAR shape code
@@ -103,7 +103,7 @@ public class MaterialShapeController {
     @PostMapping(path = "/addCircular")
     String addCircularShape(@ModelAttribute CircularTube tube, Model model) {
 
-        repository.save(service.toMaterialShape(tube));
+        repository.save(service.convertToMaterialShape(tube));
         return "redirect:/materialshapes/all";
     }
     //End of CIRCULAR shape code
@@ -123,7 +123,7 @@ public class MaterialShapeController {
     @PostMapping(path = "/addRectangularBar")
     String addRectangularBarShape(@ModelAttribute RectangularBar bar, Model model) {
 
-        repository.save(service.toMaterialShape(bar));
+        repository.save(service.convertToMaterialShape(bar));
         return "redirect:/materialshapes/all";
     }
     //End of RECTANGULAR_BAR shape code
@@ -145,7 +145,7 @@ public class MaterialShapeController {
     @PostMapping(path = "/addCircularBar")
     String addCircularBarShape(@ModelAttribute CircularBar bar, Model model) {
 
-        repository.save(service.toMaterialShape(bar));
+        repository.save(service.convertToMaterialShape(bar));
         return "redirect:/materialshapes/all";
     }
     //End of CIRCULAR_BAR shape code

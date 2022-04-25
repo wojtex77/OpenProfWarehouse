@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 @Service
 public class MaterialShapeService {
 
-    MaterialShape toMaterialShape(Shape tube) {
+    MaterialShape convertToMaterialShape(Shape tube) {
         MaterialShape materialShape = new MaterialShape();
         materialShape.setArea(tube.getArea());
         tube.generateName();
