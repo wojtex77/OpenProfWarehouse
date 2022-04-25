@@ -7,7 +7,7 @@ public class Shapes {
     List<ShapeType> shapes;
 
     Shapes() {
-        shapes.add(ShapeType.CIRCULAR);
+        shapes.add(ShapeType.CIRCULAR_TUBE);
         shapes.add(ShapeType.RECTANGULAR_TUBE);
         shapes.add(ShapeType.SPECIAL);
     }

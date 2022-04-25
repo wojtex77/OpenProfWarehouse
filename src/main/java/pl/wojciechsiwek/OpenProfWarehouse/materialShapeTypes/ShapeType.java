@@ -2,7 +2,8 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes;
 
 public enum ShapeType {
     RECTANGULAR_TUBE,
-    CIRCULAR,
+    CIRCULAR_TUBE,
     SPECIAL,
-    RECTANGULAR_BAR
+    RECTANGULAR_BAR,
+    CIRCULAR_BAR
 }

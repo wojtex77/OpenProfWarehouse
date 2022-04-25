@@ -34,6 +34,9 @@ public class MaterialShapeService {
                 case "PP": { //Rectangular_bar
                     return convertToRectangularBar(materialShape, name);
                 }
+                case "PO": { //Circular_bar
+                    return convertToCircularBar(materialShape, name);
+                }
                 default: {
                     return convertToSpecial(materialShape, name);
                 }
@@ -41,6 +44,17 @@ public class MaterialShapeService {
         } else {
             return new SpecialShape(name, materialShape.map(MaterialShape::getArea).orElse(null));
         }
+    }
+
+    private Shape convertToCircularBar(Optional<MaterialShape> materialShape, String name) {
+        Pattern pattern = Pattern.compile("[^-]*$");
+        Matcher matcher = pattern.matcher(name);
+        matcher.find();
+        String diameter = matcher.group(0);
+
+        Shape shape = new CircularBar(Double.valueOf(diameter));
+        shape.setId(materialShape.map(MaterialShape::getId).orElse(null));
+        return shape;
     }
 
     private Shape convertToRectangularTube(Optional<MaterialShape> materialShape, String name) {
@@ -100,7 +114,7 @@ public class MaterialShapeService {
     String getTemplate(Shape shape) {
 
         switch (shape.getType()) {
-            case CIRCULAR -> {
+            case CIRCULAR_TUBE -> {
                 return "materialShapes/editCircular";
             }
             case RECTANGULAR_TUBE -> {
@@ -108,6 +122,9 @@ public class MaterialShapeService {
             }
             case RECTANGULAR_BAR -> {
                 return "materialShapes/editRectangularBar";
+            }
+            case CIRCULAR_BAR -> {
+                return "materialShapes/editCircularBar";
             }
             default -> {
                 return "materialShapes/editSpecial";

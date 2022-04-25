@@ -22,7 +22,7 @@ public class CircularTube implements Shape {
             innerDiameter = outerDiameter - (2 * thickness);
             generateName();
         }
-        type = ShapeType.CIRCULAR;
+        type = ShapeType.CIRCULAR_TUBE;
         calcArea();
     }
 
