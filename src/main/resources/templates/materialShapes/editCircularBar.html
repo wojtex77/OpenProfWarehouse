@@ -1,31 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Edytowanie pręta okragłego</title>
-    <div th:replace="layouts/stylesheets"></div>
-</head>
-<body class="d-flex flex-column h-100">
-<header>
-    <nav th:replace="layouts/navbar"></nav>
-</header>
+<div th:replace="layouts/headToTitle"></div>
+<title>Edytowanie pręta okragłego</title>
+<div th:replace="layouts/stylesheets"></div>
 
-<main class="flex-shrink-0 my-5">
-    <div class="container">
-        <div class="row">
-            <h1>Edytowanie pręta okragłego</h1>
-            <hr/>
-            <div class="col-sm-3">
-                <h3>Edytuj</h3>
-                <form th:replace="materialShapes/formCircularBar"></form>
-            </div>
-        </div>
-
+<div th:replace="layouts/titleToContent"></div>
+<div class="row">
+    <h1>Edytowanie pręta okragłego</h1>
+    <hr/>
+    <div class="col-sm-3">
+        <h3>Edytuj</h3>
+        <form th:replace="materialShapes/formCircularBar"></form>
     </div>
-</main>
-
-<footer th:replace="layouts/footer"></footer>
-
-<script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
-</html>
+</div>
+<div th:replace="layouts/afterContent"></div>

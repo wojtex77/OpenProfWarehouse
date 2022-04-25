@@ -1,46 +1,33 @@
-<!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Wszystkie dostępne przekroje</title>
-    <div th:replace="layouts/stylesheets"></div>
+<div th:replace="layouts/headToTitle"></div>
+<title>Wszystkie dostępne przekroje</title>
+<div th:replace="layouts/titleToContent"></div>
 
-</head>
-<body class="d-flex flex-column h-100">
-<header>
-    <nav th:replace="layouts/navbar"></nav>
-</header>
 
-<main class="flex-shrink-0 my-5">
-    <div class="container">
-        <h1>Przekroje</h1>
-        <hr/>
-        <div class="row g-5">
-            <div class="col-lg-3">
-                <div class="dropdown">
-                    <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                       data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-circle"></i> Dodaj</i></a>
 
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" th:href="@{/materialshapes/newCircularBar}">Pręt okrągły</a>
-                        <li><a class="dropdown-item" th:href="@{/materialshapes/newRectangularBar}">Pręt prostokątny</a>
-                        <li><a class="dropdown-item" th:href="@{/materialshapes/newCircular}">Rura okrągła</a></li>
-                        <li><a class="dropdown-item" th:href="@{/materialshapes/newRectangular}">Rura prostokątna</a></li>
-                        <li><a class="dropdown-item" th:href="@{/materialshapes/newSpecial}">Profil specjalny</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-9">
-                <h3>Istniejące</h3>
-                <table th:replace="materialShapes/table"></table>
-            </div>
+<h1>Przekroje</h1>
+<hr/>
+<div class="row g-5">
+    <div class="col-lg-3">
+        <div class="dropdown">
+            <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-plus-circle"></i> Dodaj</i></a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" th:href="@{/materialshapes/newCircularBar}">Pręt okrągły</a>
+                <li><a class="dropdown-item" th:href="@{/materialshapes/newRectangularBar}">Pręt prostokątny</a>
+                <li><a class="dropdown-item" th:href="@{/materialshapes/newCircular}">Rura okrągła</a></li>
+                <li><a class="dropdown-item" th:href="@{/materialshapes/newRectangular}">Rura prostokątna</a></li>
+                <li><a class="dropdown-item" th:href="@{/materialshapes/newSpecial}">Profil specjalny</a>
+                </li>
+            </ul>
         </div>
     </div>
-</main>
+    <div class="col-lg-9">
+        <h3>Istniejące</h3>
+        <table th:replace="materialShapes/table"></table>
+    </div>
+</div>
 
-<footer th:replace="layouts/footer"></footer>
 
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-</body>
-</html>
+
+<div th:replace="layouts/afterContent"></div>

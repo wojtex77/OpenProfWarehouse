@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
+<div th:replace="layouts/headToTitle"></div>
     <title>Edytowanie rury okrągłej</title>
     <div th:replace="layouts/stylesheets"></div>
-</head>
-<body class="d-flex flex-column h-100">
-<header>
-    <nav th:replace="layouts/navbar"></nav>
-</header>
 
-<main class="flex-shrink-0 my-5">
-    <div class="container">
+<div th:replace="layouts/titleToContent"></div>
         <div class="row">
             <h1>Edytowanie rury okrągłej</h1>
             <hr/>
@@ -20,12 +11,4 @@
                 <form th:replace="materialShapes/formCircular"></form>
             </div>
         </div>
-
-    </div>
-</main>
-
-<footer th:replace="layouts/footer"></footer>
-
-<script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
-</html>
+<div th:replace="layouts/afterContent"></div>
