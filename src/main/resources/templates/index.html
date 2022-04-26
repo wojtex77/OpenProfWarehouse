@@ -1,23 +1,59 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Panel główny</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
-</head>
-<body class="d-flex flex-column h-100">
-<header>
-    <nav th:replace="layouts/navbar"></nav>
-</header>
+<div th:replace="layouts/headToTitle"></div>
+<title>OpenProfWarehouse</title>
+<div th:replace="layouts/stylesheets"></div>
 
-<main class="flex-shrink-0 my-5">
-    <div class="container">
+<div th:replace="layouts/titleToContent"></div>
         Strona główna aplikacji
-    </div>
-</main>
 
-<footer th:replace="layouts/footer"></footer>
+        <div th:replace="layouts/afterContent"></div>
+        <div th:replace="layouts/scripts"></div>
 
-<script th:src="@{/js/bootstrap.min.js}"></script>
-</body>
-</html>
+        <script type="text/javascript">
+
+
+    var tfConfig = {
+        alternate_rows: true,
+        btn_reset: {
+            text: 'Wyczyść filtry'
+        },
+        rows_counter: {
+            text: 'Wpisów: '
+        },
+        no_results_message: true,
+        mark_active_columns: {
+            highlight_column: true
+        },
+        highlight_keywords: true,
+        no_results_message: true,
+        col_0: 'none',
+        col_4: 'none',
+        col_types: [
+            'number',
+            'string',
+            'string',
+            'number',
+            'none'
+        ],
+        extensions: [{
+            name: 'sort'
+        }],
+        paging: true,
+
+
+        /** Bootstrap integration */
+
+        // aligns filter at cell bottom when Bootstrap is enabled
+        filters_cell_tag: 'th',
+
+        // allows Bootstrap table styling
+        themes: [{
+            name: 'transparent'
+        }]
+    };
+
+    var tf = new TableFilter(document.querySelector('#mainTable'), tfConfig);
+    tf.init();
+
+        </script>
+
+        <div th:replace="layouts/ending"></div>

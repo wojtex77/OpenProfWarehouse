@@ -5,9 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -29,34 +30,21 @@ public class MaterialGradesController {
         Iterable<MaterialGrade> materialGrades = materialGradeRepository.findAll();
         model.addAttribute("materialGrades", materialGrades);
         model.addAttribute("materialGrade", materialGrade);
-        return "allMaterialGrades";
+        return "materialGrades/allMaterialGrades";
     }
 
     @GetMapping("/new")
     public String newMaterialGrade(@ModelAttribute @Valid MaterialGrade materialGrade, BindingResult bindingResult, Model model) {
-        /*try {
-            if (!bindingResult.hasErrors()) {
-                materialGradeRepository.save(materialGrade);
-            }
-        } catch (Exception e) {
-            logger.warn("adding new material gone wrong");
-        } finally {
-            Iterable<MaterialGrade> materialGrades = materialGradeRepository.findAll();
-            model.addAttribute("materialGrades", materialGrades);
-            return "allMaterialGrades";
-        }
-
-*/
         if (!bindingResult.hasErrors()) {
             try {
                 materialGradeRepository.save(materialGrade);
-            }catch (Exception e){
+            } catch (Exception e) {
                 model.addAttribute("info", "Nie można dodać materiału, być może krótka nazwa już istnieje");
-                return "newMaterialGrade";
+                return "materialGrades/newMaterialGrade";
             }
 
         } else {
-            return "newMaterialGrade";
+            return "materialGrades/newMaterialGrade";
         }
         return "redirect:/materialgrades/all";
     }
@@ -81,7 +69,7 @@ public class MaterialGradesController {
             logger.warn("something gone wrong");
             return "redirect:/materialgrades/all";
         }
-        return "editMaterialGrade";
+        return "materialGrades/editMaterialGrade";
     }
 
 

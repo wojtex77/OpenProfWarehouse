@@ -1,0 +1,23 @@
+<form action="#" th:action="@{/materialshapes/addCircular}" th:object="${shape}" method="post"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+    <input type="text" th:field="*{id}" hidden>
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nazwa" readonly>
+        <label for="name">Nazwa</label>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    </div>
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{outerDiameter}" step="0.1" class="form-control" id="outerDiameter"
+               placeholder="Szerokość [mm]">
+        <label for="outerDiameter">Średnica zewnętrzna [mm]</label>
+        <span th:if="${#fields.hasErrors('outerDiameter')}" th:errors="*{outerDiameter}"></span>
+    </div>
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{thickness}" step="0.1" class="form-control" id="thickness"
+               placeholder="Grubość [mm]">
+        <label for="thickness">Grubość [mm]</label>
+        <span th:if="${#fields.hasErrors('thickness')}" th:errors="*{thickness}"></span>
+    </div>
+    <button type="submit" class="btn btn-outline-success col-12 my-3">Zapisz</button>
+    <span th:text="${info}"></span>
+</form>

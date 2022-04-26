@@ -1,0 +1,17 @@
+<form action="#" th:action="@{/materialshapes/addSpecial}" th:object="${shape}" method="post"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+    <input type="text" th:field="*{id}" hidden>
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nazwa">
+        <label for="name">Nazwa</label>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    </div>
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{area}" step="0.01" class="form-control" id="area"
+               placeholder="Pole powierzchni [mm^2]">
+        <label for="area">Pole powierzchni [mm^2]</label>
+        <span th:if="${#fields.hasErrors('area')}" th:errors="*{area}"></span>
+    </div>
+    <button type="submit" class="btn btn-outline-success col-12 my-3">Zapisz</button>
+    <span th:text="${info}"></span>
+</form>

@@ -1,4 +1,4 @@
-<table class="table table-hover" xmlns:th="http://www.w3.org/1999/xhtml">
+<table class="table table-hover" id="mainTable" xmlns:th="http://www.w3.org/1999/xhtml">
     <tr>
         <th>Id</th>
         <th>Alias</th>
@@ -11,7 +11,7 @@
         <td th:text="${material.alias}"></td>
         <td th:text="${material.fullName}"></td>
         <td th:text="${material.density}"></td>
-        <td><a class="mx-1" th:href="@{/materialgrades/delete/{id}(id=${material.id})}">usuń</a><a class="mx-1" th:href="@{/materialgrades/edit/{id}(id=${material.id})}">edytuj</a></td>
+        <td><a class="mx-1" th:href="@{/materialgrades/delete/{id}(id=${material.id})}"><i class="bi bi-trash"></i></a><a class="mx-1" th:href="@{/materialgrades/edit/{id}(id=${material.id})}"><i class="bi bi-pencil-square"></i></a></td>
     </tr>
 
 </table>
