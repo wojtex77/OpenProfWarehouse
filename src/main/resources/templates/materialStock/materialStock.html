@@ -10,9 +10,8 @@
         Wprowadź na magazyn</a>
 </div>
 <div class="row g-5">
-    <div class="col-lg-9">
-        Tutaj będzie tabela z danymi
-        <!--<table th:replace="materialStock/table"></table>-->
+    <div class="col-lg-12">
+        <table th:replace="materialStock/table"></table>
     </div>
 </div>
 
@@ -36,13 +35,15 @@
         },
         highlight_keywords: true,
         no_results_message: true,
-        col_0: 'none',
-        col_4: 'none',
+        col_7: 'none',
         col_types: [
-            'number',
             'string',
             'string',
+            'string',
             'number',
+            'number',
+            'number',
+            'string',
             'none'
         ],
         extensions: [{

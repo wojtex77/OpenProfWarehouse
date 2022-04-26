@@ -25,6 +25,7 @@ public class MaterialStockController {
     @GetMapping(path = "")
     String getStock(@ModelAttribute StockItem item, Model model) {
         List<StockItem> items = this.repository.findAll();
+        model.addAttribute("items", items);
         logger.info("showing all data");
         return "materialStock/materialStock";
     }

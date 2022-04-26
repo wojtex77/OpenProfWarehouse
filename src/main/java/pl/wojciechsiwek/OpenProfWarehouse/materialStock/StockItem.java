@@ -32,59 +32,59 @@ public class StockItem {
         this.materialType = materialType;
     }
 
-    String getSignature() {
+    public String getSignature() {
         return signature;
     }
 
-    void setSignature(String signature) {
+    public void setSignature(String signature) {
         this.signature = signature;
     }
 
-    String getProfile() {
+    public String getProfile() {
         return profile;
     }
 
-    void setProfile(String profile) {
+    public void setProfile(String profile) {
         this.profile = profile;
     }
 
-    String getMaterial() {
+    public String getMaterial() {
         return material;
     }
 
-    void setMaterial(String material) {
+    public void setMaterial(String material) {
         this.material = material;
     }
 
-    double getProfileLength() {
+    public double getProfileLength() {
         return profileLength;
     }
 
-    void setProfileLength(double profileLength) {
+    public void setProfileLength(double profileLength) {
         this.profileLength = profileLength;
     }
 
-    int getQty() {
+    public int getQty() {
         return qty;
     }
 
-    void setQty(int qty) {
+    public void setQty(int qty) {
         this.qty = qty;
     }
 
-    int getAvailableQty() {
+    public int getAvailableQty() {
         return availableQty;
     }
 
-    void setAvailableQty(int availableQty) {
+    public void setAvailableQty(int availableQty) {
         this.availableQty = availableQty;
     }
 
-    String getMaterialType() {
+    public String getMaterialType() {
         return materialType;
     }
 
-    void setMaterialType(String materialType) {
+    public void setMaterialType(String materialType) {
         this.materialType = materialType;
     }
 
