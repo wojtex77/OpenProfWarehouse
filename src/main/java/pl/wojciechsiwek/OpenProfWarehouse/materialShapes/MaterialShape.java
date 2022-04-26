@@ -5,10 +5,12 @@ import com.sun.istack.NotNull;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 @Entity
+@Table(name = "material_shapes")
 public class MaterialShape {
     @Id
     @GeneratedValue
