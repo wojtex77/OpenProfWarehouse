@@ -4,6 +4,7 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialStock;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
