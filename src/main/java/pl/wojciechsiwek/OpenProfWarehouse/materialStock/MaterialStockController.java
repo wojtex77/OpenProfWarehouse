@@ -65,10 +65,20 @@ public class MaterialStockController {
     @GetMapping(path = "/add")
     String addTestData(Model model) {
 
-        StockItem item = new StockItem("2/22","PO-20.0","test",6000,10,5,"powierzony");
+        StockItem item = new StockItem("2/22", "PO-20.0", "test", 6000, 10, 5, "powierzony");
         stockRepository.save(item);
 
         return "materialStock/materialStock";
+    }
+
+    @GetMapping(path = "/delete/{signature}")
+    String addTestData(@ModelAttribute StockItem item, Model model) {
+
+        StockItem stockItem = stockRepository.findBySignatureEquals(item.getSignature());
+        stockRepository.delete(stockItem);
+        logger.info("deleting");
+
+        return "redirect:/materialstock";
     }
 
 }

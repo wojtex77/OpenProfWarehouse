@@ -1,5 +1,7 @@
 package pl.wojciechsiwek.OpenProfWarehouse.materialShapes;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping("materialshapes")
 public class MaterialShapeController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MaterialShapeController.class);
 
     private final MaterialShapeRepository repository;
     private final MaterialShapeService service;
@@ -30,7 +34,13 @@ public class MaterialShapeController {
 
     @GetMapping(path = "/delete/{id}")
     String deleteShape(@PathVariable int id, Model model) {
-        repository.deleteById(id);
+
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            logger.warn("something gone wrong");
+        }
+
         return "redirect:/materialshapes/all";
     }
 
@@ -88,8 +98,6 @@ public class MaterialShapeController {
     //End of RECTANGULAR shape code
 
 
-
-
     /*
      * Beginning of part of code responsible for CIRCULAR shapes
      *
@@ -109,7 +117,6 @@ public class MaterialShapeController {
     //End of CIRCULAR shape code
 
 
-
     /*
      * Beginning of part of code responsible for RECTANGULAR_BAR shapes
      *
@@ -127,9 +134,6 @@ public class MaterialShapeController {
         return "redirect:/materialshapes/all";
     }
     //End of RECTANGULAR_BAR shape code
-
-
-
 
 
     /*

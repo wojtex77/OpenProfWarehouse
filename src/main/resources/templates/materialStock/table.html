@@ -18,7 +18,7 @@
         <td th:text="${item.qty}"></td>
         <td th:text="${item.availableQty}"></td>
         <td th:text="${item.materialType}"></td>
-        <td><a class="mx-1" href="#" disabled><i class="bi bi-trash"></i></a></td>
+        <td><a class="mx-1" th:href="@{/materialstock/delete/{signature}(signature=${item.signature})}"><i class="bi bi-trash"></i></a></td>
     </tr>
 
 </table>

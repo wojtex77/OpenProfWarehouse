@@ -2,7 +2,7 @@
       xmlns:th="http://www.w3.org/1999/xhtml">
 
     <div class="form-floating my-3">
-        <input type="text" th:field="*{signature}" class="form-control" id="signature" placeholder="Certyfikat">
+        <input type="text" th:field="*{signature}" class="form-control" id="signature" placeholder="Certyfikat" pattern="^[a-zA-Z0-9-]*$">
         <label for="signature">Certyfikat</label>
     </div>
 
