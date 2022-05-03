@@ -2,21 +2,27 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialShapes;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.CircularBar;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.RectangularBar;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.Shape;
+import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MaterialShapeServiceTest {
 
     private static MaterialShapeService service;
 
     @BeforeAll
-    private static void setService(){
-        service = new MaterialShapeService();
+    private static void setService() {
+        MaterialShapeRepository shapeRepository = Mockito.mock(MaterialShapeRepository.class);
+        MaterialStockRepository stockRepository = Mockito.mock(MaterialStockRepository.class);
+
+        service = new MaterialShapeService(shapeRepository, stockRepository);
     }
 
 
@@ -91,8 +97,6 @@ class MaterialShapeServiceTest {
         //then
         assertThat(shape.getArea()).isEqualTo(175.92918860102841);
     }
-
-
 
 
     @Test

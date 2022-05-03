@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.*;
 
 import java.util.List;
@@ -33,15 +35,20 @@ public class MaterialShapeController {
     }
 
     @GetMapping(path = "/delete/{id}")
-    String deleteShape(@PathVariable int id, Model model) {
+    RedirectView deleteShape(@PathVariable int id, RedirectAttributes attributes) {
 
         try {
-            repository.deleteById(id);
+            service.deleteMaterialShape(id);
+            attributes.addFlashAttribute("message","Przekrój usunięto");
+        } catch (ShapeDeleteRemoveNotAllowedException e) {
+            logger.warn("can not delete, material shape in use");
+            attributes.addFlashAttribute("message", "Nie można usunąć, materiał w użyciu.");//add message
         } catch (Exception e) {
-            logger.warn("something gone wrong");
+            logger.warn("something gone wrong, shape not deleted");
+            attributes.addFlashAttribute("message","Nie udało się usunąć");
+        } finally {
+            return new RedirectView("/materialshapes/all");
         }
-
-        return "redirect:/materialshapes/all";
     }
 
 

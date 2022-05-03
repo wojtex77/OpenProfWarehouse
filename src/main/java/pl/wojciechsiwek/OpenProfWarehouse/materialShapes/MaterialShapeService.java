@@ -2,6 +2,7 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialShapes;
 
 import org.springframework.stereotype.Service;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.*;
+import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -9,6 +10,15 @@ import java.util.regex.Pattern;
 
 @Service
 public class MaterialShapeService {
+
+    private MaterialShapeRepository shapeRepository;
+    private MaterialStockRepository stockRepository;
+
+
+    MaterialShapeService(MaterialShapeRepository shapeRepository, MaterialStockRepository stockRepository) {
+        this.shapeRepository = shapeRepository;
+        this.stockRepository = stockRepository;
+    }
 
     MaterialShape convertToMaterialShape(Shape tube) {
         MaterialShape materialShape = new MaterialShape();
@@ -132,5 +142,15 @@ public class MaterialShapeService {
         }
 
 
+    }
+
+    void deleteMaterialShape(int id) throws ShapeDeleteRemoveNotAllowedException {
+        Optional<MaterialShape> shape = shapeRepository.findById(id);
+        MaterialShape fromOptional = shape.orElse(null);
+        if (stockRepository.existsByProfileEquals(fromOptional.getName()))
+            throw new ShapeDeleteRemoveNotAllowedException("Material shape in use, can not be deleted");
+        else {
+            shapeRepository.deleteById(id);
+        }
     }
 }

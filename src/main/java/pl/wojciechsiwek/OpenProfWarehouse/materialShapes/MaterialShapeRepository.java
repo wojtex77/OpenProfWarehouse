@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MaterialShapeRepository extends JpaRepository<MaterialShape, Integer> {
+    MaterialShape findByNameEquals(String name);
+
 }
