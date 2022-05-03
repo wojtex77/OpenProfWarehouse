@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -19,10 +21,12 @@ public class MaterialGradesController {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialGradesController.class);
     private final MaterialGradeRepository materialGradeRepository;
+    private final MaterialGradeService materialGradeService;
 
 
-    public MaterialGradesController(MaterialGradeRepository materialGradeRepository) {
+    public MaterialGradesController(MaterialGradeRepository materialGradeRepository, MaterialGradeService materialGradeService) {
         this.materialGradeRepository = materialGradeRepository;
+        this.materialGradeService = materialGradeService;
     }
 
     @GetMapping(path = "/all")
@@ -50,14 +54,19 @@ public class MaterialGradesController {
     }
 
     @GetMapping("/delete/{id}")
-    public String newMaterialGrade(@ModelAttribute MaterialGrade materialGrade, @PathVariable int id) {
+    public RedirectView newMaterialGrade(RedirectAttributes attributes, @PathVariable int id) {
         try {
-            materialGradeRepository.deleteById(id);
+            materialGradeService.deleteMaterialGrade(id);
+            attributes.addFlashAttribute("messageSuccess", "Pomyślnie usunięto.");
+        } catch (GradeRemoveNotAllowedException e) {
+            logger.warn("material grade in use, con not be deleted");
+            attributes.addFlashAttribute("messageWarning", "Gatunek w użyciu, nie można usunąć.");
         } catch (Exception e) {
             logger.warn("something gone wrong");
-            return "redirect:/materialgrades/all";
+            attributes.addFlashAttribute("messageWarning", "Nie udało się usunąć materiału");
+        } finally {
+            return new RedirectView("/materialgrades/all");
         }
-        return "redirect:/materialgrades/all";
     }
 
     @GetMapping("/edit/{id}")

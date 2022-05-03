@@ -65,7 +65,7 @@ public class MaterialStockController {
     @GetMapping(path = "/add")
     String addTestData(Model model) {
 
-        StockItem item = new StockItem("2/22", "PO-20.0", "test", 6000, 10, 5, "powierzony");
+        StockItem item = new StockItem("2222", "PO-20.0", "test", 6000, 10, 5, "powierzony");
         stockRepository.save(item);
 
         return "materialStock/materialStock";

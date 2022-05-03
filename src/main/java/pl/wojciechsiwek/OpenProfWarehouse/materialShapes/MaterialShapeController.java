@@ -39,13 +39,13 @@ public class MaterialShapeController {
 
         try {
             service.deleteMaterialShape(id);
-            attributes.addFlashAttribute("message","Przekrój usunięto");
+            attributes.addFlashAttribute("messageSuccess","Przekrój usunięto");
         } catch (ShapeDeleteRemoveNotAllowedException e) {
             logger.warn("can not delete, material shape in use");
-            attributes.addFlashAttribute("message", "Nie można usunąć, materiał w użyciu.");//add message
+            attributes.addFlashAttribute("messageWarning", "Nie można usunąć, materiał w użyciu.");
         } catch (Exception e) {
             logger.warn("something gone wrong, shape not deleted");
-            attributes.addFlashAttribute("message","Nie udało się usunąć");
+            attributes.addFlashAttribute("messageWarning","Nie udało się usunąć");
         } finally {
             return new RedirectView("/materialshapes/all");
         }
