@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.wojciechsiwek.OpenProfWarehouse.materialGrades.MaterialGrade;
 import pl.wojciechsiwek.OpenProfWarehouse.materialGrades.MaterialGradeRepository;
@@ -51,6 +52,7 @@ public class MaterialStockController {
         if (!bindingResult.hasErrors()) {
             try {
                 stockRepository.save(item);
+                model.addAttribute("message-success", "Pomyslnie zapisano");
             } catch (Exception e) {
                 model.addAttribute("info", "Nie można dodać materiału");
                 return "materialStock/newItem";
@@ -62,17 +64,8 @@ public class MaterialStockController {
         return "redirect:/materialstock";
     }
 
-    @GetMapping(path = "/add")
-    String addTestData(Model model) {
-
-        StockItem item = new StockItem("2222", "PO-20.0", "test", 6000, 10, 5, "powierzony");
-        stockRepository.save(item);
-
-        return "materialStock/materialStock";
-    }
-
     @GetMapping(path = "/delete/{signature}")
-    String addTestData(@ModelAttribute StockItem item, Model model) {
+    String deleteStockItem(@ModelAttribute StockItem item, Model model) {
 
         StockItem stockItem = stockRepository.findBySignatureEquals(item.getSignature());
         stockRepository.delete(stockItem);
@@ -80,5 +73,25 @@ public class MaterialStockController {
 
         return "redirect:/materialstock";
     }
+
+    @GetMapping("/edit/{signature}")
+    public String editStockItem(@PathVariable String signature, Model model) {
+        List<MaterialShape> shapes = shapeRepository.findAll();
+        List<MaterialGrade> materialGrades = gradeRepository.findAll();
+        model.addAttribute("shapes", shapes);
+        model.addAttribute("materials", materialGrades);
+        StockItem stockItem;
+        try {
+            stockItem = stockRepository.findBySignatureEquals(signature);
+            model.addAttribute("item", stockItem);
+            model.addAttribute("message-success", "Pomyślnie zapisano zmiany");
+        } catch (Exception e) {
+            model.addAttribute("message-warning", "Nie udało się przejść do edycji materiału");
+            return "redirect:/materialstock";
+        }
+        model.addAttribute("item", stockItem);
+        return "materialStock/editItem";
+    }
+
 
 }

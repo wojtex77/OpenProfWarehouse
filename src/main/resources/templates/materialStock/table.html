@@ -18,7 +18,8 @@
         <td th:text="${item.qty}"></td>
         <td th:text="${item.availableQty}"></td>
         <td th:text="${item.materialType}"></td>
-        <td><a class="mx-1" th:href="@{/materialstock/delete/{signature}(signature=${item.signature})}"><i class="bi bi-trash"></i></a></td>
+        <td><a class="mx-1" th:href="@{/materialstock/delete/{signature}(signature=${item.signature})}"><i class="bi bi-trash"></i></a>
+            <a class="mx-1" th:href="@{/materialstock/edit/{signature}(signature=${item.signature})}"><i class="bi bi-pencil-square"></i></a></td>
     </tr>
 
 </table>
