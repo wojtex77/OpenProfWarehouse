@@ -1,6 +1,8 @@
 body{
-    background: rgb(255,255,255);
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(232,248,245,0.6194852941176471) 69%, rgba(209,242,235,0.62) 100%);
+    background-image:
+        url("../img/diagmonds-light.png"),
+        linear-gradient(90deg, rgba(6,82,50,1) 0%, rgba(0,0,0,0.5) 10%, rgba(255,255,255,1) 30%, rgba(255,255,255,1) 100%); /* W3C */
+    }
 }
 
 .navbar-brand {
