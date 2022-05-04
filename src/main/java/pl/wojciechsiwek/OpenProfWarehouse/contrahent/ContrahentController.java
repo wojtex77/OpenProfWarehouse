@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -25,50 +24,46 @@ public class ContrahentController {
     }
 
     @GetMapping(path = "")
-    public String showAllContrahents(Model model){
+    public String showAllContrahents(Model model) {
         List<Contrahent> contrahents = repository.findAll();
         model.addAttribute("contrahents", contrahents);
         return "contrahents/all";
     }
 
 
-
     @GetMapping(path = "/new")
-    public String showNewContrahentForm(Model model){
-        Contrahent contrahent = new Contrahent();
+    public String showNewContrahentForm(Model model, @ModelAttribute ("contrahent") Contrahent contrahent) {
+        if (contrahent == null) {
+            contrahent = new Contrahent();
+        }
         model.addAttribute("contrahent", contrahent);
         return "contrahents/new";
     }
 
-    @PostMapping(path = "/add")
-    public ModelAndView addNewContrahentToDb(@ModelAttribute Contrahent contrahent, RedirectAttributes attributes){
-        ModelAndView modelAndView = new ModelAndView();
+    @GetMapping(path = "/add")
+    public RedirectView addNewContrahentToDb(@ModelAttribute Contrahent contrahent, RedirectAttributes attributes) {
         RedirectView redirectView = new RedirectView();
         try {
             service.addContrahent(contrahent);
             attributes.addFlashAttribute("messageSuccess", "Pomyślnie dodano do bazy");
             redirectView.setUrl("/contrahents");
-            modelAndView.setView(redirectView);
-        } catch (DuplicatedEntryException e){
+        } catch (DuplicatedEntryException e) {
             attributes.addFlashAttribute("messageWarning", "W bazie istnieje już użytkownik o podanym aliasie lub nazwie");
-            attributes.addAttribute("contrahent", contrahent);
+            attributes.addFlashAttribute("contrahent", contrahent);
             redirectView.setUrl("/contrahents/new");
-            modelAndView.addObject("contrahent", contrahent);
-            modelAndView.setView(redirectView);
-            return modelAndView;
-        } catch (Exception e){
+        } catch (Exception e) {
             attributes.addFlashAttribute("messageWarning", "Nie dodano do bazy");
         }
-        return new ModelAndView(redirectView);
+        return redirectView;
     }
 
 
     @GetMapping(path = "/delete/{id}")
-    public RedirectView removeContrahentFromDb(RedirectAttributes attributes, @PathVariable int id){
+    public RedirectView removeContrahentFromDb(RedirectAttributes attributes, @PathVariable int id) {
         try {
             service.delete(id);
             attributes.addFlashAttribute("messageSuccess", "Pomyślnie usunięto");
-        } catch (Exception e){
+        } catch (Exception e) {
             attributes.addFlashAttribute("messageWarning", "Nie udało się usunąć");
         }
         return new RedirectView("/contrahents");
