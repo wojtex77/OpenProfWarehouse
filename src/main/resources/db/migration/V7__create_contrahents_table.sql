@@ -4,7 +4,7 @@ CREATE TABLE contrahents (
     full_name varchar(100) NOT NULL,
 
     PRIMARY KEY (id),
-    UNIQUE (signature),
+    UNIQUE (alias),
     UNIQUE (full_name)
 
 );
