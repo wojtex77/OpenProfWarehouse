@@ -1,16 +1,18 @@
 body{
     background-image:
         url("../img/diagmonds-light.png"),
-        linear-gradient(90deg, rgba(6,82,50,1) 0%, rgba(0,0,0,0.5) 10%, rgba(255,255,255,1) 30%, rgba(255,255,255,1) 100%); /* W3C */
-    }
+        /*linear-gradient(90deg, rgba(6,82,50,1) 0%, rgba(0,0,0,0.5) 10%, rgba(255,255,255,1) 30%, rgba(255,255,255,1) 100%); /* W3C */
+          repeating-linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 70%, rgba(0,0,0,0.4) 92%, rgba(6,82,50,1) 100%); /* W3C */
 }
+
 
 .navbar-brand {
     color: #0E6251 !important;
     font-weight: bold !important;
+    font-size: 36px;
 }
 .navbar{
-    background-color: transparent/*mintcream*/;
+    background: rgba(0, 0, 0, 0.1);
 }
 a{
     transition: 0.2s;
@@ -26,12 +28,22 @@ h1, h2, h3, h4, h5 {
 }
 .text-warning{
     color: #E74C3C !important;
-    background-color: #FDEDEC;
+    /*background-color: #FDEDEC;*/
+
+     background: rgb(213,136,126);
+    background: radial-gradient(circle, rgba(213,136,126,0.6026611328125) 0%, rgba(198,128,123,0.2) 31%, rgba(255,255,255,0) 61%);
+
+
     font-weight: bold;
 }
 .text-success{
     color: #186A3B !important;
-    background-color: #ABEBC6;
+    /*background-color: #ABEBC6;*/
+
+    background: rgb(7,156,93);
+    background: radial-gradient(circle, rgba(7,156,93,0.4) 0%, rgba(37,115,41,0.2) 21%, rgba(255,255,255,0) 61%);
+
+
     font-weight: bold;
 }
 
