@@ -25,6 +25,12 @@ h1, h2, h3, h4, h5 {
 .text-warning{
     color: #E74C3C !important;
     background-color: #FDEDEC;
+    font-weight: bold;
+}
+.text-success{
+    color: #186A3B !important;
+    background-color: #ABEBC6;
+    font-weight: bold;
 }
 
 .footer{
