@@ -1,0 +1,51 @@
+<form action="#" th:action="@{/materialstock/new}" th:object="${item}" method="get"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{signature}" class="form-control" id="signature" placeholder="Certyfikat" pattern="^[a-zA-Z0-9-]*$">
+        <label for="signature">Certyfikat</label>
+    </div>
+
+    <div class="form-floating my-3">
+        <select class="form-select" th:field="*{profile}" id="profile" aria-label="Floating label select example">
+            <option th:each="shape : ${shapes}" th:value="${shape.name}" th:text="${shape.name}"></option>
+        </select>
+        <label for="profile">Przekrój</label>
+    </div>
+
+
+    <div class="form-floating my-3">
+        <select class="form-select" th:field="*{material}" id="material" aria-label="Floating label select example">
+            <option th:each="material : ${materials}" th:value="${material.fullName}" th:text="${material.fullName}"></option>
+        </select>
+        <label for="material">Materiał</label>
+    </div>
+
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{profileLength}" step="0.01" min="0.01" class="form-control" id="profileLength"
+               placeholder="Długość [mm]">
+        <label for="profileLength">Długość [mm]</label>
+    </div>
+
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{qty}" step="1" min="0" class="form-control" id="qty"
+               placeholder="Ilość">
+        <label for="qty">Ilość</label>
+    </div>
+
+    <div class="form-floating my-3">
+        <input type="number" th:field="*{availableQty}" step="1" min="0" class="form-control" id="availableQty"
+               placeholder="Ilość dostępna">
+        <label for="availableQty">Ilość dostępna</label>
+    </div>
+
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{materialType}" class="form-control" id="materialType"
+               placeholder="Rodzaj">
+        <label for="materialType">Rodzaj</label>
+    </div>
+
+
+    <button type="submit" class="btn btn-outline-success col-12 my-3">Zapisz</button>
+    <span th:text="${info}"></span>
+</form>

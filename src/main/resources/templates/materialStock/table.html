@@ -1,0 +1,25 @@
+<table class="table table-hover" id="mainTable" xmlns:th="http://www.w3.org/1999/xhtml">
+    <tr>
+        <th>Certyfikat</th>
+        <th>Przekrój</th>
+        <th>Materiał</th>
+        <th>Długość</th>
+        <th>Ilość</th>
+        <th>Ilość dostępna</th>
+        <th>Rodzaj</th>
+        <th>Akcje</th>
+
+    </tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.signature}"></td>
+        <td th:text="${item.profile}"></td>
+        <td th:text="${item.material}"></td>
+        <td th:text="${item.profileLength}"></td>
+        <td th:text="${item.qty}"></td>
+        <td th:text="${item.availableQty}"></td>
+        <td th:text="${item.materialType}"></td>
+        <td><a class="mx-1" th:href="@{/materialstock/delete/{signature}(signature=${item.signature})}"><i class="bi bi-trash"></i></a>
+            <a class="mx-1" th:href="@{/materialstock/edit/{signature}(signature=${item.signature})}"><i class="bi bi-pencil-square"></i></a></td>
+    </tr>
+
+</table>

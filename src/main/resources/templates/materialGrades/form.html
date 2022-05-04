@@ -2,14 +2,9 @@
       xmlns:th="http://www.w3.org/1999/xhtml">
     <input type="text" th:field="*{id}" th:value="${id}" hidden>
     <div class="form-floating my-3">
-        <input type="text" th:field="*{alias}" class="form-control" id="alias" placeholder="Alias">
-        <label for="alias">Krótka nazwa</label>
-        <span th:if="${#fields.hasErrors('alias')}" th:errors="*{alias}"></span>
-    </div>
-    <div class="form-floating my-3">
         <input type="text" th:field="*{fullName}" class="form-control" id="fullName"
-               placeholder="Pełna nazwa">
-        <label for="fullName">Pełna nazwa</label>
+               placeholder="Nazwa">
+        <label for="fullName">Nazwa</label>
     </div>
     <div class="form-floating my-3">
         <input type="number" th:field="*{density}" step="0.01" class="form-control" id="density"
