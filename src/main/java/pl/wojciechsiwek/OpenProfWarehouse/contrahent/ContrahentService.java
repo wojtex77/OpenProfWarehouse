@@ -10,11 +10,14 @@ public class ContrahentService {
         this.repository = repository;
     }
 
-    void addContrahent(Contrahent contrahent) {
+    void addContrahent(Contrahent contrahent) throws Exception{
+        if (repository.existsByAliasEquals(contrahent.getAlias()) || repository.existsByFullNameEquals(contrahent.getFullName())){
+            throw new DuplicatedEntryException("Alias or Fullname of contrahent exists in DB");
+        }
         repository.save(contrahent);
     }
 
-    public void delete(int id) {
+    public void delete(int id){
         repository.deleteById(id);
     }
 }

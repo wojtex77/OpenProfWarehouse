@@ -5,9 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -39,14 +41,25 @@ public class ContrahentController {
     }
 
     @PostMapping(path = "/add")
-    public RedirectView addNewContrahentToDb(@ModelAttribute Contrahent contrahent, RedirectAttributes attributes){
+    public ModelAndView addNewContrahentToDb(@ModelAttribute Contrahent contrahent, RedirectAttributes attributes){
+        ModelAndView modelAndView = new ModelAndView();
+        RedirectView redirectView = new RedirectView();
         try {
             service.addContrahent(contrahent);
             attributes.addFlashAttribute("messageSuccess", "Pomyślnie dodano do bazy");
+            redirectView.setUrl("/contrahents");
+            modelAndView.setView(redirectView);
+        } catch (DuplicatedEntryException e){
+            attributes.addFlashAttribute("messageWarning", "W bazie istnieje już użytkownik o podanym aliasie lub nazwie");
+            attributes.addAttribute("contrahent", contrahent);
+            redirectView.setUrl("/contrahents/new");
+            modelAndView.addObject("contrahent", contrahent);
+            modelAndView.setView(redirectView);
+            return modelAndView;
         } catch (Exception e){
             attributes.addFlashAttribute("messageWarning", "Nie dodano do bazy");
         }
-        return new RedirectView("/contrahents");
+        return new ModelAndView(redirectView);
     }
 
 
