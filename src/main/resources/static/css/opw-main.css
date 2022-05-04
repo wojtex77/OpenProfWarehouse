@@ -1,0 +1,32 @@
+body{
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(232,248,245,0.6194852941176471) 69%, rgba(209,242,235,0.62) 100%);
+}
+
+.navbar-brand {
+    color: #0E6251 !important;
+    font-weight: bold !important;
+}
+.navbar{
+    background-color: transparent/*mintcream*/;
+}
+a{
+    transition: 0.2s;
+    color: #117864 !important;
+}
+a:hover {
+    color: #73C6B6 !important;
+    background-color: transparent !important;
+    decoration: none !important;
+}
+h1, h2, h3, h4, h5 {
+    color: #0E6251 !important;
+}
+.text-warning{
+    color: #E74C3C !important;
+    background-color: #FDEDEC;
+}
+
+.footer{
+    background-color: transparent !important;
+}
