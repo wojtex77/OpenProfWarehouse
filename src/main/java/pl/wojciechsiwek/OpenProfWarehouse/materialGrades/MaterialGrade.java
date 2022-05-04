@@ -1,12 +1,9 @@
 package pl.wojciechsiwek.OpenProfWarehouse.materialGrades;
 
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 @Entity
 @Table(name = "material_grades")
@@ -19,8 +16,6 @@ public class MaterialGrade {
 
     @NotNull
     @Column(unique = true)
-    public String alias;
-
     private String fullName;
     @Min(0)
     private Float density;
@@ -52,29 +47,28 @@ public class MaterialGrade {
         this.id = id;
     }
 
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof MaterialGrade)) return false;
+
         MaterialGrade that = (MaterialGrade) o;
-        return id == that.id && alias.equals(that.alias);
+
+        if (id != that.id) return false;
+        if (!fullName.equals(that.fullName)) return false;
+        return density != null ? density.equals(that.density) : that.density == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, alias);
+        int result = id;
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + (density != null ? density.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
-        return "MaterialGrade{" + "id=" + id + ", alias='" + alias + '\'' + '}';
+        return "MaterialGrade{" + "id=" + id + ", fullName='" + fullName + '\'' + ", density=" + density + '}';
     }
 }
