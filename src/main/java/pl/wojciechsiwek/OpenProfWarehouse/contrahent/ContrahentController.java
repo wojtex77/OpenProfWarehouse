@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -48,6 +45,18 @@ public class ContrahentController {
             attributes.addFlashAttribute("messageSuccess", "Pomyślnie dodano do bazy");
         } catch (Exception e){
             attributes.addFlashAttribute("messageWarning", "Nie dodano do bazy");
+        }
+        return new RedirectView("/contrahents");
+    }
+
+
+    @GetMapping(path = "/delete/{id}")
+    public RedirectView removeContrahentFromDb(RedirectAttributes attributes, @PathVariable int id){
+        try {
+            service.delete(id);
+            attributes.addFlashAttribute("messageSuccess", "Pomyślnie usunięto");
+        } catch (Exception e){
+            attributes.addFlashAttribute("messageWarning", "Nie udało się usunąć");
         }
         return new RedirectView("/contrahents");
     }

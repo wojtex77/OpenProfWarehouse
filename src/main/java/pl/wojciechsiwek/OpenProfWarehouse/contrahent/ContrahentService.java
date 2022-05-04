@@ -13,4 +13,8 @@ public class ContrahentService {
     void addContrahent(Contrahent contrahent) {
         repository.save(contrahent);
     }
+
+    public void delete(int id) {
+        repository.deleteById(id);
+    }
 }
