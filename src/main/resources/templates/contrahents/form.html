@@ -1,0 +1,20 @@
+<form action="#"
+      th:action="${action} == 'new' ? @{/contrahents/add} : @{/contrahents/saveChanges}"
+
+
+      th:object="${contrahent}" method="post"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+    <input type="text" th:field="*{id}" th:value="${contrahent.id}" hidden>
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{alias}" class="form-control" id="alias"
+               placeholder="Alias" th:value="${contrahent.alias}" >
+        <label for="fullName">Alias</label>
+    </div>
+    <div class="form-floating my-3">
+        <input type="text" th:field="*{fullName}" class="form-control" id="fullName"
+               placeholder="Nazwa" th:value="${contrahent.fullName}" >
+        <label for="fullName">Nazwa</label>
+    </div>
+    <button type="submit" class="btn btn-outline-success col-12 my-3">Zapisz</button>
+    <span th:text="${info}"></span>
+</form>

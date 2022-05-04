@@ -19,7 +19,7 @@ class SpecialShapeTest {
         //given + when in beforeAll
 
         //then
-        assertThat(shape.generateName()).isEqualTo("C-schiene");
+        assertThat(shape.getName()).isEqualTo("C-schiene");
 
     }
 

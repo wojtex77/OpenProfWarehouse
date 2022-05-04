@@ -1,8 +1,12 @@
 package pl.wojciechsiwek.OpenProfWarehouse.materialShapes;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.*;
 
 import java.util.List;
@@ -11,6 +15,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping("materialshapes")
 public class MaterialShapeController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MaterialShapeController.class);
 
     private final MaterialShapeRepository repository;
     private final MaterialShapeService service;
@@ -29,9 +35,20 @@ public class MaterialShapeController {
     }
 
     @GetMapping(path = "/delete/{id}")
-    String deleteShape(@PathVariable int id, Model model) {
-        repository.deleteById(id);
-        return "redirect:/materialshapes/all";
+    RedirectView deleteShape(@PathVariable int id, RedirectAttributes attributes) {
+
+        try {
+            service.deleteMaterialShape(id);
+            attributes.addFlashAttribute("messageSuccess","Przekrój usunięto");
+        } catch (ShapeDeleteRemoveNotAllowedException e) {
+            logger.warn("can not delete, material shape in use");
+            attributes.addFlashAttribute("messageWarning", "Nie można usunąć, materiał w użyciu.");
+        } catch (Exception e) {
+            logger.warn("something gone wrong, shape not deleted");
+            attributes.addFlashAttribute("messageWarning","Nie udało się usunąć");
+        } finally {
+            return new RedirectView("/materialshapes/all");
+        }
     }
 
 
@@ -88,8 +105,6 @@ public class MaterialShapeController {
     //End of RECTANGULAR shape code
 
 
-
-
     /*
      * Beginning of part of code responsible for CIRCULAR shapes
      *
@@ -109,7 +124,6 @@ public class MaterialShapeController {
     //End of CIRCULAR shape code
 
 
-
     /*
      * Beginning of part of code responsible for RECTANGULAR_BAR shapes
      *
@@ -127,9 +141,6 @@ public class MaterialShapeController {
         return "redirect:/materialshapes/all";
     }
     //End of RECTANGULAR_BAR shape code
-
-
-
 
 
     /*

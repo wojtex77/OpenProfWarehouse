@@ -1,0 +1,16 @@
+<table class="table table-hover" id="mainTable" xmlns:th="http://www.w3.org/1999/xhtml">
+    <tr>
+        <th>Id</th>
+        <th>Alias</th>
+        <th>Pełna nazwa</th>
+        <th>Akcje</th>
+    </tr>
+
+    <tr th:each="contrahent : ${contrahents}">
+        <td th:text="${contrahent.id}"></td>
+        <td th:text="${contrahent.alias}"></td>
+        <td th:text="${contrahent.fullName}"></td>
+        <td><a class="mx-1" th:href="@{/contrahents/delete/{id}(id=${contrahent.id})}"><i class="bi bi-trash"></i></a><a class="mx-1" th:href="@{/contrahents/edit/{id}(id=${contrahent.id})}"><i class="bi bi-pencil-square"></i></a></td>
+    </tr>
+
+</table>
