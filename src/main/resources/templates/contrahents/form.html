@@ -1,4 +1,8 @@
-<form action="#" th:action="@{/contrahents/add}" th:object="${contrahent}" method="post"
+<form action="#"
+      th:action="${action} == 'new' ? @{/contrahents/add} : @{/contrahents/saveChanges}"
+
+
+      th:object="${contrahent}" method="post"
       xmlns:th="http://www.w3.org/1999/xhtml">
     <input type="text" th:field="*{id}" th:value="${contrahent.id}" hidden>
     <div class="form-floating my-3">

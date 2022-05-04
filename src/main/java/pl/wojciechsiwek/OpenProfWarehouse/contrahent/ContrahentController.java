@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -32,12 +31,39 @@ public class ContrahentController {
 
 
     @GetMapping(path = "/new")
-    public String showNewContrahentForm(Model model, @ModelAttribute ("contrahent") Contrahent contrahent) {
+    public String showNewContrahentForm(Model model, @ModelAttribute("contrahent") Contrahent contrahent) {
         if (contrahent == null) {
             contrahent = new Contrahent();
         }
+        model.addAttribute("action", "new");
         model.addAttribute("contrahent", contrahent);
         return "contrahents/new";
+    }
+
+
+    @GetMapping(path = "/edit/{id}")
+    public String showEditContrahentForm(Model model, @ModelAttribute("contrahent") Contrahent contrahent, @PathVariable int id) {
+        contrahent = repository.getById(id);
+        model.addAttribute("action", "edit");
+        model.addAttribute("contrahent", contrahent);
+        return "contrahents/edit";
+    }
+
+    @PostMapping(path = "/saveChanges")
+    public RedirectView saveEditedContrahentToDb(@ModelAttribute Contrahent contrahent, RedirectAttributes attributes) {
+        RedirectView redirectView = new RedirectView();
+        try {
+            attributes.addFlashAttribute("contrahent", contrahent);
+            service.addContrahent(contrahent);
+            attributes.addFlashAttribute("messageSuccess", "Pomyślnie edytowano");
+            redirectView.setUrl("/contrahents");
+        } catch (DuplicatedEntryException e) {
+            attributes.addFlashAttribute("messageWarning", "W bazie istnieje już użytkownik o podanym aliasie lub nazwie");
+            redirectView.setUrl("/contrahents/edit/" + contrahent.getId());
+        } catch (Exception e) {
+            attributes.addFlashAttribute("messageWarning", "Nie udało się zapisać zmian do bazy");
+        }
+        return redirectView;
     }
 
     @PostMapping(path = "/add")
