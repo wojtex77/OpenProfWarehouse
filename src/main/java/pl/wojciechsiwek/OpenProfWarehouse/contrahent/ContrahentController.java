@@ -40,7 +40,7 @@ public class ContrahentController {
         return "contrahents/new";
     }
 
-    @GetMapping(path = "/add")
+    @PostMapping(path = "/add")
     public RedirectView addNewContrahentToDb(@ModelAttribute Contrahent contrahent, RedirectAttributes attributes) {
         RedirectView redirectView = new RedirectView();
         try {
