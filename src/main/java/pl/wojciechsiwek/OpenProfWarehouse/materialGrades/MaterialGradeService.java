@@ -36,4 +36,8 @@ public class MaterialGradeService {
         }
         gradeRepository.save(materialGrade);
     }
+
+    void saveChange(MaterialGrade materialGrade) {
+        gradeRepository.save(materialGrade);
+    }
 }

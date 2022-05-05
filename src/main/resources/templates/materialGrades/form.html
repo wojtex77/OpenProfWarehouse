@@ -1,4 +1,6 @@
-<form action="#" th:action="@{/materialgrades/add}" th:object="${materialGrade}" method="post"
+<form th:action="${action} == 'new' ? @{/materialgrades/add} : @{/materialgrades/saveChanges}"
+
+      th:object="${materialGrade}" method="post"
       xmlns:th="http://www.w3.org/1999/xhtml">
     <input type="text" th:field="*{id}" th:value="${id}" hidden>
     <div class="form-floating my-3">

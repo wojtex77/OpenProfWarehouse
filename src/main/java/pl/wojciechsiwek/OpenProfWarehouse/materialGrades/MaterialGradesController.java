@@ -7,8 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import pl.wojciechsiwek.OpenProfWarehouse.contrahent.Contrahent;
+import pl.wojciechsiwek.OpenProfWarehouse.materialShapes.MaterialShape;
+import pl.wojciechsiwek.OpenProfWarehouse.parts.Part;
 
-import java.util.Optional;
+import java.util.List;
 
 @Controller
 @RequestMapping("materialgrades")
@@ -31,22 +34,6 @@ public class MaterialGradesController {
         model.addAttribute("materialGrade", materialGrade);
         return "materialGrades/allMaterialGrades";
     }
-//
-//    @GetMapping("/new")
-//    public String newMaterialGrade(@ModelAttribute @Valid MaterialGrade materialGrade, BindingResult bindingResult, Model model) {
-//        if (!bindingResult.hasErrors()) {
-//            try {
-//                materialGradeRepository.save(materialGrade);
-//            } catch (Exception e) {
-//                model.addAttribute("info", "Nie można dodać materiału, być może krótka nazwa już istnieje");
-//                return "materialGrades/newMaterialGrade";
-//            }
-//
-//        } else {
-//            return "materialGrades/newMaterialGrade";
-//        }
-//        return "redirect:/materialgrades/all";
-//    }
 
 
     @GetMapping(path = "/new")
@@ -94,17 +81,42 @@ public class MaterialGradesController {
             return new RedirectView("/materialgrades/all");
         }
     }
+//
+//    @GetMapping("/edit/{id}")
+//    public String newMaterialGrade(@PathVariable int id, Model model) {
+//        try {
+//            Optional<MaterialGrade> materialGrade = materialGradeRepository.findById(id);
+//            model.addAttribute("materialGrade", materialGrade);
+//        } catch (Exception e) {
+//            logger.warn("something gone wrong");
+//            return "redirect:/materialgrades/all";
+//        }
+//        return "materialGrades/editMaterialGrade";
+//    }
+//
 
-    @GetMapping("/edit/{id}")
-    public String newMaterialGrade(@PathVariable int id, Model model) {
-        try {
-            Optional<MaterialGrade> materialGrade = materialGradeRepository.findById(id);
-            model.addAttribute("materialGrade", materialGrade);
-        } catch (Exception e) {
-            logger.warn("something gone wrong");
-            return "redirect:/materialgrades/all";
-        }
+
+    @GetMapping(path = "/edit/{id}")
+    public String showEditGradeForm(Model model, @PathVariable int id) {
+        MaterialGrade grade = materialGradeRepository.findById(id).get();
+
+        model.addAttribute("action", "edit");
+        model.addAttribute("materialGrade", grade);
         return "materialGrades/editMaterialGrade";
+    }
+
+    @PostMapping(path = "/saveChanges")
+    public RedirectView saveChangeToDb(@ModelAttribute MaterialGrade materialGrade, RedirectAttributes attributes) {
+        RedirectView redirectView = new RedirectView();
+        try {
+            materialGradeService.saveChange(materialGrade);
+            attributes.addFlashAttribute("messageSuccess", "Pomyślnie edytowano " + materialGrade.getFullName());
+            redirectView.setUrl("/materialgrades/all");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("messageWarning", "Nie dodano do bazy");
+            redirectView.setUrl("/materialgrades/edit/" + materialGrade.getId());
+        }
+        return redirectView;
     }
 
 
