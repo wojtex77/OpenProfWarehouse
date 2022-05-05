@@ -1,6 +1,7 @@
 package pl.wojciechsiwek.OpenProfWarehouse.parts;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "parts")
@@ -19,8 +20,17 @@ public class Part {
     String profile;
 
     double profileLength;
+    double weight;
 
     public Part() {
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
     public int getId() {
@@ -86,34 +96,14 @@ public class Part {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Part)) return false;
-
+        if (o == null || getClass() != o.getClass()) return false;
         Part part = (Part) o;
-
-        if (id != part.id) return false;
-        if (Double.compare(part.profileLength, profileLength) != 0) return false;
-        if (partName != null ? !partName.equals(part.partName) : part.partName != null) return false;
-        if (drawing != null ? !drawing.equals(part.drawing) : part.drawing != null) return false;
-        if (article != null ? !article.equals(part.article) : part.article != null) return false;
-        if (contrahent != null ? !contrahent.equals(part.contrahent) : part.contrahent != null) return false;
-        if (material != null ? !material.equals(part.material) : part.material != null) return false;
-        return profile != null ? profile.equals(part.profile) : part.profile == null;
+        return id == part.id && Double.compare(part.profileLength, profileLength) == 0 && Double.compare(part.weight, weight) == 0 && Objects.equals(partName, part.partName) && Objects.equals(drawing, part.drawing) && Objects.equals(article, part.article) && Objects.equals(contrahent, part.contrahent) && Objects.equals(material, part.material) && Objects.equals(profile, part.profile);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = id;
-        result = 31 * result + (partName != null ? partName.hashCode() : 0);
-        result = 31 * result + (drawing != null ? drawing.hashCode() : 0);
-        result = 31 * result + (article != null ? article.hashCode() : 0);
-        result = 31 * result + (contrahent != null ? contrahent.hashCode() : 0);
-        result = 31 * result + (material != null ? material.hashCode() : 0);
-        result = 31 * result + (profile != null ? profile.hashCode() : 0);
-        temp = Double.doubleToLongBits(profileLength);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        return Objects.hash(id, partName, drawing, article, contrahent, material, profile, profileLength, weight);
     }
 
     @Override
@@ -127,6 +117,7 @@ public class Part {
                 ", material='" + material + '\'' +
                 ", profile='" + profile + '\'' +
                 ", profileLength=" + profileLength +
+                ", weight=" + weight +
                 '}';
     }
 }

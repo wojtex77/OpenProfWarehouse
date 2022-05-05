@@ -8,6 +8,8 @@
         <th>Materiał</th>
         <th>Profil</th>
         <th>Długość [mm]</th>
+        <th>Masa [kg]</th>
+        <th>Akcje</th>
     </tr>
 
     <tr th:each="part : ${parts}">
@@ -19,6 +21,7 @@
         <td th:text="${part.material}"></td>
         <td th:text="${part.profile}"></td>
         <td th:text="${part.profileLength}"></td>
+        <td th:text="${part.weight}"></td>
         <td><a class="mx-1" th:href="@{/parts/delete/{id}(id=${part.id})}"><i class="bi bi-trash"></i></a><a class="mx-1" th:href="@{/parts/edit/{id}(id=${part.id})}"><i class="bi bi-pencil-square"></i></a></td>
     </tr>
 
