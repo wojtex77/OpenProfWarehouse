@@ -13,6 +13,10 @@ public interface MaterialStockRepository extends JpaRepository<StockItem, String
 
     boolean existsByMaterialEquals(@NonNull String material);
 
+    boolean existsBySignatureEquals(String signature);
+
+
+
 
 
 

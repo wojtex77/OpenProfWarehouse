@@ -6,6 +6,8 @@
         <th>Długość</th>
         <th>Ilość</th>
         <th>Ilość dostępna</th>
+        <th>Masa sztuki [kg]</th>
+        <th>Masa całkowita [kg]</th>
         <th>Rodzaj</th>
         <th>Akcje</th>
 
@@ -17,6 +19,8 @@
         <td th:text="${item.profileLength}"></td>
         <td th:text="${item.qty}"></td>
         <td th:text="${item.availableQty}"></td>
+        <td th:text="${item.singleWeight}"></td>
+        <td th:text="${item.wholeWeight}"></td>
         <td th:text="${item.materialType}"></td>
         <td><a class="mx-1" th:href="@{/materialstock/delete/{signature}(signature=${item.signature})}"><i class="bi bi-trash"></i></a>
             <a class="mx-1" th:href="@{/materialstock/edit/{signature}(signature=${item.signature})}"><i class="bi bi-pencil-square"></i></a></td>
