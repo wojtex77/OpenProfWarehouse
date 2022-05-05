@@ -106,4 +106,16 @@ public class PartController {
         return redirectView;
     }
 
+
+    @GetMapping(path = "/delete/{id}")
+    public RedirectView removePartFromDb(RedirectAttributes attributes, @PathVariable int id) {
+        String nameToInfo = partRepository.findById(id).get().getPartName();
+        try {
+            service.delete(id);
+            attributes.addFlashAttribute("messageSuccess", "Pomyślnie usunięto " + nameToInfo);
+        } catch (Exception e) {
+            attributes.addFlashAttribute("messageWarning", "Nie udało się usunąć");
+        }
+        return new RedirectView("/parts");
+    }
 }

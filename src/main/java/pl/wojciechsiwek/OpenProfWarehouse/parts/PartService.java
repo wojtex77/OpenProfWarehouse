@@ -37,4 +37,8 @@ public class PartService {
         part.setId(partRepository.findByPartNameEquals(part.getPartName()).getId());
         partRepository.save(calculateWeight(part));
     }
+
+    void delete(int id) {
+        partRepository.deleteById(id);
+    }
 }
