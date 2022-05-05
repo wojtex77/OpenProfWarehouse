@@ -7,6 +7,8 @@ import pl.wojciechsiwek.OpenProfWarehouse.materialGrades.MaterialGradeRepository
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapes.MaterialShape;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapes.MaterialShapeRepository;
 
+import java.util.List;
+
 @Service
 public class PartService {
     private final PartRepository partRepository;
@@ -40,5 +42,12 @@ public class PartService {
 
     void delete(int id) {
         partRepository.deleteById(id);
+    }
+
+    public void recalculateWeight(MaterialGrade materialGrade){
+        List<Part> partsFromDb = partRepository.findByMaterialEquals(materialGrade.getFullName());
+        List<Part> partsUpdated = partsFromDb.stream().map(part -> this.calculateWeight(part)).toList();
+
+        partRepository.saveAll(partsUpdated);
     }
 }

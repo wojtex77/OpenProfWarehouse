@@ -29,4 +29,11 @@ public class MaterialGradeService {
             gradeRepository.deleteById(id);
         }
     }
+
+    void addPart(MaterialGrade materialGrade) throws DuplicatedGradeEntryException {
+        if (gradeRepository.existsByFullNameEquals(materialGrade.getFullName())){
+            throw new DuplicatedGradeEntryException();
+        }
+        gradeRepository.save(materialGrade);
+    }
 }

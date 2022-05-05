@@ -4,15 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -36,22 +31,53 @@ public class MaterialGradesController {
         model.addAttribute("materialGrade", materialGrade);
         return "materialGrades/allMaterialGrades";
     }
+//
+//    @GetMapping("/new")
+//    public String newMaterialGrade(@ModelAttribute @Valid MaterialGrade materialGrade, BindingResult bindingResult, Model model) {
+//        if (!bindingResult.hasErrors()) {
+//            try {
+//                materialGradeRepository.save(materialGrade);
+//            } catch (Exception e) {
+//                model.addAttribute("info", "Nie można dodać materiału, być może krótka nazwa już istnieje");
+//                return "materialGrades/newMaterialGrade";
+//            }
+//
+//        } else {
+//            return "materialGrades/newMaterialGrade";
+//        }
+//        return "redirect:/materialgrades/all";
+//    }
 
-    @GetMapping("/new")
-    public String newMaterialGrade(@ModelAttribute @Valid MaterialGrade materialGrade, BindingResult bindingResult, Model model) {
-        if (!bindingResult.hasErrors()) {
-            try {
-                materialGradeRepository.save(materialGrade);
-            } catch (Exception e) {
-                model.addAttribute("info", "Nie można dodać materiału, być może krótka nazwa już istnieje");
-                return "materialGrades/newMaterialGrade";
-            }
 
-        } else {
-            return "materialGrades/newMaterialGrade";
+    @GetMapping(path = "/new")
+    public String showNewGradeForm(Model model, @ModelAttribute("materialGrade") MaterialGrade materialGrade) {
+        if (materialGrade == null) {
+            materialGrade = new MaterialGrade();
         }
-        return "redirect:/materialgrades/all";
+        model.addAttribute("action", "new");
+        model.addAttribute("materialGrade", materialGrade);
+        return "materialGrades/newMaterialGrade";
     }
+
+
+    @PostMapping(path = "/add")
+    public RedirectView addNewGradeToDb(@ModelAttribute MaterialGrade materialGrade, RedirectAttributes attributes) {
+        RedirectView redirectView = new RedirectView();
+        try {
+            materialGradeService.addPart(materialGrade);
+            attributes.addFlashAttribute("messageSuccess", "Pomyślnie dodano do bazy " + materialGrade.getFullName());
+            redirectView.setUrl("/materialgrades/all");
+        } catch (DuplicatedGradeEntryException e) {
+            attributes.addFlashAttribute("messageWarning", "W bazie istnieje już materiał o podanej nazwie");
+            attributes.addFlashAttribute("materialGrades", materialGrade);
+            redirectView.setUrl("/materialgrades/new");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("messageWarning", "Nie dodano do bazy");
+            redirectView.setUrl("/materialgrades/all");
+        }
+        return redirectView;
+    }
+
 
     @GetMapping("/delete/{id}")
     public RedirectView newMaterialGrade(RedirectAttributes attributes, @PathVariable int id) {
