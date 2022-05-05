@@ -25,19 +25,22 @@ public class PartController {
     private final MaterialGradeRepository gradeRepository;
     private final MaterialShapeRepository shapeRepository;
     private final ContrahentRepository contrahentRepository;
+    private final PartRepository partRepository;
 
     private final PartService service;
 
-    public PartController(MaterialGradeRepository gradeRepository, MaterialShapeRepository shapeRepository, ContrahentRepository contrahentRepository, PartService service) {
+    public PartController(MaterialGradeRepository gradeRepository, MaterialShapeRepository shapeRepository, ContrahentRepository contrahentRepository, PartRepository partRepository, PartService service) {
         this.gradeRepository = gradeRepository;
         this.shapeRepository = shapeRepository;
         this.contrahentRepository = contrahentRepository;
+        this.partRepository = partRepository;
         this.service = service;
     }
 
     @GetMapping(path = "")
-    public String showAllParts() {
-
+    public String showAllParts(Model model) {
+        List<Part> parts = partRepository.findAll();
+        model.addAttribute("parts", parts);
         return "parts/all";
     }
 

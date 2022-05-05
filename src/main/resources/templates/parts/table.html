@@ -1,16 +1,25 @@
 <table class="table table-hover" id="mainTable" xmlns:th="http://www.w3.org/1999/xhtml">
     <tr>
         <th>Id</th>
-        <th>Alias</th>
-        <th>Pełna nazwa</th>
-        <th>Akcje</th>
+        <th>Nazwa części</th>
+        <th>Rysunek</th>
+        <th>Artykuł</th>
+        <th>Kontrahent</th>
+        <th>Materiał</th>
+        <th>Profil</th>
+        <th>Długość [mm]</th>
     </tr>
 
-    <tr th:each="contrahent : ${contrahents}">
-        <td th:text="${contrahent.id}"></td>
-        <td th:text="${contrahent.alias}"></td>
-        <td th:text="${contrahent.fullName}"></td>
-        <td><a class="mx-1" th:href="@{/contrahents/delete/{id}(id=${contrahent.id})}"><i class="bi bi-trash"></i></a><a class="mx-1" th:href="@{/contrahents/edit/{id}(id=${contrahent.id})}"><i class="bi bi-pencil-square"></i></a></td>
+    <tr th:each="part : ${parts}">
+        <td th:text="${part.id}"></td>
+        <td th:text="${part.partName}"></td>
+        <td th:text="${part.drawing}"></td>
+        <td th:text="${part.article}"></td>
+        <td th:text="${part.contrahent}"></td>
+        <td th:text="${part.material}"></td>
+        <td th:text="${part.profile}"></td>
+        <td th:text="${part.profileLength}"></td>
+        <td><a class="mx-1" th:href="@{/parts/delete/{id}(id=${part.id})}"><i class="bi bi-trash"></i></a><a class="mx-1" th:href="@{/parts/edit/{id}(id=${part.id})}"><i class="bi bi-pencil-square"></i></a></td>
     </tr>
 
 </table>
