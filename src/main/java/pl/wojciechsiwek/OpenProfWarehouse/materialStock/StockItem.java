@@ -18,6 +18,8 @@ public class StockItem {
     @NotNull double profileLength;
     @NotNull int qty;
     @NotNull int availableQty;
+    @NotNull double singleWeight;
+    @NotNull double wholeWeight;
     @NotNull String materialType;
 
     StockItem() {
@@ -31,6 +33,22 @@ public class StockItem {
         this.qty = qty;
         this.availableQty = availableQty;
         this.materialType = materialType;
+    }
+
+    public double getSingleWeight() {
+        return singleWeight;
+    }
+
+    public void setSingleWeight(double singleWeight) {
+        this.singleWeight = singleWeight;
+    }
+
+    public double getWholeWeight() {
+        return wholeWeight;
+    }
+
+    public void setWholeWeight(double wholeWeight) {
+        this.wholeWeight = wholeWeight;
     }
 
     public String getSignature() {
@@ -92,18 +110,52 @@ public class StockItem {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof StockItem)) return false;
+
         StockItem stockItem = (StockItem) o;
-        return Double.compare(stockItem.profileLength, profileLength) == 0 && qty == stockItem.qty && availableQty == stockItem.availableQty && signature.equals(stockItem.signature) && profile.equals(stockItem.profile) && material.equals(stockItem.material) && materialType.equals(stockItem.materialType);
+
+        if (Double.compare(stockItem.profileLength, profileLength) != 0) return false;
+        if (qty != stockItem.qty) return false;
+        if (availableQty != stockItem.availableQty) return false;
+        if (Double.compare(stockItem.singleWeight, singleWeight) != 0) return false;
+        if (Double.compare(stockItem.wholeWeight, wholeWeight) != 0) return false;
+        if (signature != null ? !signature.equals(stockItem.signature) : stockItem.signature != null) return false;
+        if (profile != null ? !profile.equals(stockItem.profile) : stockItem.profile != null) return false;
+        if (material != null ? !material.equals(stockItem.material) : stockItem.material != null) return false;
+        return materialType != null ? materialType.equals(stockItem.materialType) : stockItem.materialType == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(signature, profile, material, profileLength, qty, availableQty, materialType);
+        int result;
+        long temp;
+        result = signature != null ? signature.hashCode() : 0;
+        result = 31 * result + (profile != null ? profile.hashCode() : 0);
+        result = 31 * result + (material != null ? material.hashCode() : 0);
+        temp = Double.doubleToLongBits(profileLength);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + qty;
+        result = 31 * result + availableQty;
+        temp = Double.doubleToLongBits(singleWeight);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(wholeWeight);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (materialType != null ? materialType.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
-        return "StockItem{" + "signature='" + signature + '\'' + ", profile='" + profile + '\'' + ", material='" + material + '\'' + ", profileLength=" + profileLength + ", qty=" + qty + ", availableQty=" + availableQty + ", materialType='" + materialType + '\'' + '}';
+        return "StockItem{" +
+                "signature='" + signature + '\'' +
+                ", profile='" + profile + '\'' +
+                ", material='" + material + '\'' +
+                ", profileLength=" + profileLength +
+                ", qty=" + qty +
+                ", availableQty=" + availableQty +
+                ", singleWeight=" + singleWeight +
+                ", wholeWeight=" + wholeWeight +
+                ", materialType='" + materialType + '\'' +
+                '}';
     }
 }
