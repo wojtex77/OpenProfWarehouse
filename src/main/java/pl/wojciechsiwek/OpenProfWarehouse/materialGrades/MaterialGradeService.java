@@ -3,6 +3,7 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialGrades;
 import org.springframework.stereotype.Service;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
 import pl.wojciechsiwek.OpenProfWarehouse.parts.PartRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.parts.PartService;
 
 import java.util.Optional;
 
@@ -12,11 +13,13 @@ public class MaterialGradeService {
     private MaterialGradeRepository gradeRepository;
     private MaterialStockRepository stockRepository;
     private PartRepository partRepository;
+    private PartService partService;
 
-    public MaterialGradeService(MaterialGradeRepository gradeRepository, MaterialStockRepository stockRepository, PartRepository partRepository) {
+    public MaterialGradeService(MaterialGradeRepository gradeRepository, MaterialStockRepository stockRepository, PartRepository partRepository, PartService partService) {
         this.gradeRepository = gradeRepository;
         this.stockRepository = stockRepository;
         this.partRepository = partRepository;
+        this.partService = partService;
     }
 
 
@@ -39,5 +42,6 @@ public class MaterialGradeService {
 
     void saveChange(MaterialGrade materialGrade) {
         gradeRepository.save(materialGrade);
+        partService.recalculateWeight(materialGrade);
     }
 }
