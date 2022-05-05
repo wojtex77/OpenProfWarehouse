@@ -2,10 +2,7 @@ package pl.wojciechsiwek.OpenProfWarehouse.parts;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import pl.wojciechsiwek.OpenProfWarehouse.contrahent.Contrahent;
@@ -78,4 +75,35 @@ public class PartController {
         }
         return redirectView;
     }
+
+    @GetMapping(path = "/edit/{id}")
+    public String showEditForm(Model model, @PathVariable int id) {
+        Part part = partRepository.findById(id).get();
+
+        List<MaterialGrade> materials = gradeRepository.findAll();
+        List<MaterialShape> shapes = shapeRepository.findAll();
+        List<Contrahent> contrahents = contrahentRepository.findAll();
+
+        model.addAttribute("action", "edit");
+        model.addAttribute("part", part);
+        model.addAttribute("contrahents", contrahents);
+        model.addAttribute("shapes", shapes);
+        model.addAttribute("materials", materials);
+        return "parts/edit";
+    }
+
+    @PostMapping(path = "/saveChanges")
+    public RedirectView saveChangeToDb(@ModelAttribute Part part, RedirectAttributes attributes) {
+        RedirectView redirectView = new RedirectView();
+        try {
+            service.saveChange(part);
+            attributes.addFlashAttribute("messageSuccess", "Pomyślnie edytowano " + part.getPartName());
+            redirectView.setUrl("/parts");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("messageWarning", "Nie dodano do bazy");
+            redirectView.setUrl("/parts/edit/" + part.getId());
+        }
+        return redirectView;
+    }
+
 }

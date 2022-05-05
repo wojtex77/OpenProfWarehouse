@@ -19,7 +19,7 @@ public class PartService {
         this.shapeRepository = shapeRepository;
     }
 
-    public void addPart(Part part) throws DuplicatedEntryException {
+    void addPart(Part part) throws DuplicatedEntryException {
         if (partRepository.existsByPartNameEquals(part.getPartName())) {
             throw new DuplicatedEntryException("Part with such name exists");
         }
@@ -31,5 +31,10 @@ public class PartService {
         MaterialShape shape = shapeRepository.findByNameEquals(part.getProfile());
         part.setWeight(grade.getDensity() * shape.getArea() * part.getProfileLength() / 100000);
         return part;
+    }
+
+    void saveChange(Part part) {
+        part.setId(partRepository.findByPartNameEquals(part.getPartName()).getId());
+        partRepository.save(calculateWeight(part));
     }
 }

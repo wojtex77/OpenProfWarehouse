@@ -2,12 +2,12 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialShapes;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.CircularBar;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.RectangularBar;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.Shape;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.parts.PartRepository;
 
 import java.util.Optional;
 
@@ -21,8 +21,9 @@ class MaterialShapeServiceTest {
     private static void setService() {
         MaterialShapeRepository shapeRepository = Mockito.mock(MaterialShapeRepository.class);
         MaterialStockRepository stockRepository = Mockito.mock(MaterialStockRepository.class);
+        PartRepository partRepository = Mockito.mock(PartRepository.class);
 
-        service = new MaterialShapeService(shapeRepository, stockRepository);
+        service = new MaterialShapeService(shapeRepository, stockRepository, partRepository);
     }
 
 

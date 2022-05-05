@@ -7,5 +7,11 @@ import org.springframework.stereotype.Repository;
 public interface PartRepository extends JpaRepository<Part, Integer> {
     boolean existsByPartNameEquals(String partName);
 
+    Part findByPartNameEquals(String partName);
 
+    boolean existsByMaterialEquals(String material);
+
+    boolean existsByProfileEquals(String profile);
+
+    boolean existsByContrahentEquals(String contrahent);
 }

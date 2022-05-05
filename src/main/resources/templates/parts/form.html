@@ -7,7 +7,7 @@
         <h4>Identyfikacja</h4>
         <div class="form-floating my-3">
             <input type="text" th:field="*{partName}" class="form-control" id="partName"
-                   placeholder="Nazwa części" required>
+                   placeholder="Nazwa części" required th:readonly="${action != 'new'}">
             <label for="partName">Nazwa części</label>
         </div>
         <div class="form-floating my-3">

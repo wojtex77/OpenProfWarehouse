@@ -37,6 +37,10 @@ public class Part {
         return id;
     }
 
+    void setId(int id) {
+        this.id = id;
+    }
+
     public String getPartName() {
         return partName;
     }

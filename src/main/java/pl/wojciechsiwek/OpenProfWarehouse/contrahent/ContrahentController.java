@@ -89,6 +89,8 @@ public class ContrahentController {
         try {
             service.delete(id);
             attributes.addFlashAttribute("messageSuccess", "Pomyślnie usunięto");
+        } catch (ContrahentRemoveNotAllowedException e) {
+            attributes.addFlashAttribute("messageWarning", "Nie można usunąć, kontrahent w użyciu");
         } catch (Exception e) {
             attributes.addFlashAttribute("messageWarning", "Nie udało się usunąć");
         }
