@@ -39,30 +39,6 @@ public class MaterialStockController {
         logger.info("showing all material stock");
         return "materialStock/materialStock";
     }
-/*
-    @GetMapping("/new")
-    public String newItem(@ModelAttribute @Valid StockItem item, BindingResult bindingResult, Model model) {
-        List<MaterialShape> shapes = shapeRepository.findAll();
-        List<MaterialGrade> materialGrades = gradeRepository.findAll();
-        model.addAttribute("shapes", shapes);
-        model.addAttribute("materials", materialGrades);
-        model.addAttribute("item", item);
-
-        if (!bindingResult.hasErrors()) {
-            try {
-                stockRepository.save(item);
-                model.addAttribute("message-success", "Pomyslnie zapisano");
-            } catch (Exception e) {
-                model.addAttribute("info", "Nie można dodać materiału");
-                return "materialStock/newItem";
-            }
-
-        } else {
-            return "materialStock/newItem";
-        }
-        return "redirect:/materialstock";
-    }
-*/
 
     @GetMapping(path = "/new")
     public String showNewItemForm(Model model, @ModelAttribute("item") StockItem item) {
@@ -118,13 +94,26 @@ public class MaterialStockController {
         try {
             stockItem = stockRepository.findBySignatureEquals(signature);
             model.addAttribute("item", stockItem);
-            model.addAttribute("message-success", "Pomyślnie zapisano zmiany");
         } catch (Exception e) {
             model.addAttribute("message-warning", "Nie udało się przejść do edycji materiału");
             return "redirect:/materialstock";
         }
         model.addAttribute("item", stockItem);
         return "materialStock/editItem";
+    }
+
+    @PostMapping(path = "/saveChanges")
+    public RedirectView saveChangesToDb(@ModelAttribute StockItem item, RedirectAttributes attributes) {
+        RedirectView view = new RedirectView();
+        try {
+            service.saveChanges(item);
+            attributes.addFlashAttribute("messageSuccess", "Pomyślnie edytowano certyfikat " + item.getSignature());
+            view.setUrl("/materialstock");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("messageWarning", "Coś poszło nie tak");
+            view.setUrl("/materialstock");
+        }
+        return view;
     }
 
 

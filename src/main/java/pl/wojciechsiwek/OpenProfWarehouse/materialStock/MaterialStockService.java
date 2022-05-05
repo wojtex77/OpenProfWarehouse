@@ -24,12 +24,19 @@ public class MaterialStockService {
         }
         item.setAvailableQty(item.getQty());
 
+        stockRepository.save(calculateWeight(item));
+    }
+
+    public void saveChanges(StockItem item) {
+        stockRepository.save(calculateWeight(item));
+    }
+
+    private StockItem calculateWeight(StockItem item) {
         MaterialGrade grade = gradeRepository.findByFullNameEquals(item.getMaterial());
         MaterialShape shape = shapeRepository.findByNameEquals(item.getProfile());
 
         item.setSingleWeight(item.getProfileLength()*grade.getDensity()*shape.getArea()/1000000);
-        item.setWholeWeight(item.getSingleWeight()*item.getQty());
-
-        stockRepository.save(item);
+        item.setWholeWeight(item.getSingleWeight()* item.getQty());
+        return item;
     }
 }
