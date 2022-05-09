@@ -2,10 +2,7 @@ package pl.wojciechsiwek.OpenProfWarehouse.orders;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import pl.wojciechsiwek.OpenProfWarehouse.contrahent.Contrahent;
@@ -63,6 +60,18 @@ public class OrderController {
             attributes.addFlashAttribute("messageWarning", "Nie udało się zapisać zlecenia");
             attributes.addFlashAttribute("order", order);
             view.setUrl("/orders/new");
+        }
+        return view;
+    }
+
+    @GetMapping(path = "/delete/{id}")
+    public RedirectView deleteOrder(Model model, @PathVariable("id") int id) {
+        RedirectView view = new RedirectView("/orders");
+        try {
+            service.removeFromDb(id);
+            model.addAttribute("messageSuccess", "Usunieto zlecenie");
+        } catch (Exception e) {
+            model.addAttribute("messageWarning", "Usuwanie zlecenia nie powiodło się");
         }
         return view;
     }

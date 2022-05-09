@@ -17,4 +17,12 @@ public class OrderService {
         orderRepository.save(order);
 
     }
+
+    void removeFromDb(int id) throws Exception {
+        try {
+            orderRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new Exception("Removing order From db failed");
+        }
+    }
 }
