@@ -2,7 +2,8 @@
       th:action="${action} == 'new' ? @{/orders/add} : @{/orders/saveChanges}"
       th:object="${order}" method="post"
       xmlns:th="http://www.w3.org/1999/xhtml">
-    <input type="text" th:field="*{id}" th:value="${order.id}" hidden>
+    <input type="text" th:field="*{id}"
+           hidden>
     <div class="col-lg-3">
         <h4>Identyfikacja</h4>
         <div class="form-floating my-3">

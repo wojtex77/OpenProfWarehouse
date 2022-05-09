@@ -45,7 +45,7 @@ public class OrderController {
     }
 
     @PostMapping(path = "/add")
-    public RedirectView saveOrderToDb(@ModelAttribute Order order, RedirectAttributes attributes) {
+    public RedirectView saveToDb(@ModelAttribute Order order, RedirectAttributes attributes) {
         RedirectView view = new RedirectView();
 
         try {
@@ -72,6 +72,34 @@ public class OrderController {
             model.addAttribute("messageSuccess", "Usunieto zlecenie");
         } catch (Exception e) {
             model.addAttribute("messageWarning", "Usuwanie zlecenia nie powiodło się");
+        }
+        return view;
+    }
+
+
+
+    @GetMapping(path = "/edit/{id}")
+    public String editOrderView(Model model, @PathVariable("id") int id) {
+        List<Contrahent> contrahents = contrahentRepository.findAll();
+
+        model.addAttribute("contrahents", contrahents);
+        model.addAttribute("order", orderRepository.findById(id));
+        model.addAttribute("action", "edit");
+        return "orders/edit";
+    }
+
+    @PostMapping(path = "/saveChanges")
+    public RedirectView saveChangesToDb(@ModelAttribute Order order, RedirectAttributes attributes) {
+        RedirectView view = new RedirectView();
+
+        try {
+            service.saveChanges(order);
+            attributes.addFlashAttribute("messageSuccess", "Pomyslnie edytowano zlecenie " + order.getOrderNumber());
+            view.setUrl("/orders");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("messageWarning", "Nie udało się zapisać zmian");
+            attributes.addFlashAttribute("order", order);
+            view.setUrl("/orders/edit/" + order.getId());
         }
         return view;
     }

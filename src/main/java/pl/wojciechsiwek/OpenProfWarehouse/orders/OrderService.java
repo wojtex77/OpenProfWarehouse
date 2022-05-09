@@ -25,4 +25,12 @@ public class OrderService {
             throw new Exception("Removing order From db failed");
         }
     }
+
+    void saveChanges(Order order) throws Exception {
+        try {
+            orderRepository.save(order);
+        }catch (Exception e){
+            throw new Exception("Saving changes failed");
+        }
+    }
 }
