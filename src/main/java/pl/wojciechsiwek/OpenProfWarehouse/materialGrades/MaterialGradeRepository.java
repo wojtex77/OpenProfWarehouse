@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 public interface MaterialGradeRepository extends JpaRepository<MaterialGrade, Integer> {
     MaterialGrade findByFullNameEquals(String fullName);
 
+    boolean existsByFullNameEquals(String fullName);
+
+
 
 
 

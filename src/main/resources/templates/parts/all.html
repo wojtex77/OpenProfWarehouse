@@ -1,20 +1,19 @@
 <div th:replace="layouts/headToTitle"></div>
-<title>Stan magazynowy</title>
+<title>Baza części</title>
 <div th:replace="layouts/titleToContent"></div>
 
 
-<h1>Stan magazynowy</h1>
+<h1>Baza części</h1>
 <hr/>
 <div class="my-4">
-    <a class="btn btn-outline-secondary" role="button" th:href="@{/materialstock/new}"><i class="bi bi-plus-circle"></i>
-        Wprowadź na magazyn</a>
+    <a class="btn btn-outline-secondary" role="button" th:href="@{/parts/new}"><i
+            class="bi bi-plus-circle"></i> Dodaj</a>
 </div>
-<div class="row g-5">
+<div class="roq g-5">
     <div class="col-lg-12">
-        <table th:replace="materialStock/table"></table>
+        <table th:replace="parts/table"></table>
     </div>
 </div>
-
 <div th:replace="layouts/afterContent"></div>
 <div th:replace="layouts/scripts"></div>
 
@@ -35,19 +34,16 @@
         },
         highlight_keywords: true,
         no_results_message: true,
-
+        col_0: 'none',
         col_9: 'none',
         col_types: [
+            'number',
+            'string',
             'string',
             'string',
             'string',
-            'number',
-            'number',
-            'number',
-            'number',
-            'number',
             'string',
-            'none'
+            'number'
         ],
         extensions: [{
             name: 'sort'
@@ -68,11 +64,6 @@
 
     var tf = new TableFilter(document.querySelector('#mainTable'), tfConfig);
     tf.init();
-
-
-
-
-
 
 </script>
 

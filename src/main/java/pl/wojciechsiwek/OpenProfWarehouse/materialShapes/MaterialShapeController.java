@@ -42,7 +42,7 @@ public class MaterialShapeController {
             attributes.addFlashAttribute("messageSuccess","Przekrój usunięto");
         } catch (ShapeDeleteRemoveNotAllowedException e) {
             logger.warn("can not delete, material shape in use");
-            attributes.addFlashAttribute("messageWarning", "Nie można usunąć, materiał w użyciu.");
+            attributes.addFlashAttribute("messageWarning", "Nie można usunąć, przekrój w użyciu.");
         } catch (Exception e) {
             logger.warn("something gone wrong, shape not deleted");
             attributes.addFlashAttribute("messageWarning","Nie udało się usunąć");

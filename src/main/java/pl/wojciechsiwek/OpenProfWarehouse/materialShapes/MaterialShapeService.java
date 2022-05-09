@@ -3,6 +3,7 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialShapes;
 import org.springframework.stereotype.Service;
 import pl.wojciechsiwek.OpenProfWarehouse.materialShapeTypes.*;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.parts.PartRepository;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -13,11 +14,13 @@ public class MaterialShapeService {
 
     private MaterialShapeRepository shapeRepository;
     private MaterialStockRepository stockRepository;
+    private PartRepository partRepository;
 
 
-    MaterialShapeService(MaterialShapeRepository shapeRepository, MaterialStockRepository stockRepository) {
+    MaterialShapeService(MaterialShapeRepository shapeRepository, MaterialStockRepository stockRepository, PartRepository partRepository) {
         this.shapeRepository = shapeRepository;
         this.stockRepository = stockRepository;
+        this.partRepository = partRepository;
     }
 
     MaterialShape convertToMaterialShape(Shape tube) {
@@ -147,7 +150,7 @@ public class MaterialShapeService {
     void deleteMaterialShape(int id) throws ShapeDeleteRemoveNotAllowedException {
         Optional<MaterialShape> shape = shapeRepository.findById(id);
         MaterialShape fromOptional = shape.orElse(null);
-        if (stockRepository.existsByProfileEquals(fromOptional.getName()))
+        if (stockRepository.existsByProfileEquals(fromOptional.getName()) || partRepository.existsByProfileEquals(fromOptional.getName()))
             throw new ShapeDeleteRemoveNotAllowedException("Material shape in use, can not be deleted");
         else {
             shapeRepository.deleteById(id);
