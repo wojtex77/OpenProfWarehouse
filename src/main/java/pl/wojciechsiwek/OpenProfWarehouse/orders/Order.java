@@ -1,6 +1,10 @@
 package pl.wojciechsiwek.OpenProfWarehouse.orders;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -11,6 +15,7 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Integer id;
     private String orderNumber;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date term;
     private String contrahent;
 
@@ -23,8 +28,8 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
-    public Date getTerm() {
-        return term;
+    public String getTerm() {
+        return convertToLocalDateViaInstant(term);
     }
 
     public void setTerm(Date term) {
@@ -45,6 +50,13 @@ public class Order {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String convertToLocalDateViaInstant(Date dateToConvert) {
+
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     @Override
@@ -71,11 +83,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", orderNumber='" + orderNumber + '\'' +
-                ", term=" + term +
-                ", contrahent='" + contrahent + '\'' +
-                '}';
+        return "Order{" + "id=" + id + ", orderNumber='" + orderNumber + '\'' + ", term=" + term + ", contrahent='" + contrahent + '\'' + '}';
     }
 }
