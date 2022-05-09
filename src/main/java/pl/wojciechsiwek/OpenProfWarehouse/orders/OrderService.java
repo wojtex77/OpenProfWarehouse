@@ -10,11 +10,11 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public void saveOrder(Order order) throws Exception{
-        try {
-            orderRepository.save(order);
-        } catch (Exception e){
-            throw new RuntimeException("Saving order to DB failed");
-        }
+    public void addOrder(Order order) throws Exception {
+
+        if (orderRepository.existsByOrderNumberEquals(order.getOrderNumber()))
+            throw new DuplicatedOrderEntryException("Order number exists");
+        orderRepository.save(order);
+
     }
 }

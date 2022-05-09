@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     boolean existsByContrahentEquals(String contrahent);
 
+    boolean existsByOrderNumberEquals(String orderNumber);
+
+
+
 }

@@ -3,8 +3,6 @@ package pl.wojciechsiwek.OpenProfWarehouse.orders;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -28,8 +26,8 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
-    public String getTerm() {
-        return convertToLocalDateViaInstant(term);
+    public Date getTerm() {
+        return term;
     }
 
     public void setTerm(Date term) {
@@ -52,12 +50,6 @@ public class Order {
         this.id = id;
     }
 
-    public String convertToLocalDateViaInstant(Date dateToConvert) {
-
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    }
 
     @Override
     public boolean equals(Object o) {
