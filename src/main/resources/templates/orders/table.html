@@ -1,0 +1,18 @@
+<table class="table table-hover" id="mainTable" xmlns:th="http://www.w3.org/1999/xhtml">
+    <tr>
+        <th>Id</th>
+        <th>Numer zlecenia</th>
+        <th>Kontrahent</th>
+        <th>Termin</th>
+        <th>Akcje</th>
+    </tr>
+
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.orderNumber}"></td>
+        <td th:text="${order.contrahent}"></td>
+        <td th:text="${order.term}"></td>
+        <td><a class="mx-1" th:href="@{/orders/delete/{id}(id=${order.id})}"><i class="bi bi-trash"></i></a><a class="mx-1" th:href="@{/orders/edit/{id}(id=${order.id})}"><i class="bi bi-pencil-square"></i></a></td>
+    </tr>
+
+</table>
