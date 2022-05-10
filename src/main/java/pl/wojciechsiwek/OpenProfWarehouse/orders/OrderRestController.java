@@ -1,6 +1,8 @@
 package pl.wojciechsiwek.OpenProfWarehouse.orders;
 
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.wojciechsiwek.OpenProfWarehouse.parts.Part;
@@ -21,8 +23,9 @@ public class OrderRestController {
     }
 
     @PostMapping("/getPartsFromDb")
-    public List<Part> getPartsFromDb(){
-        List<Part> parts = partRepository.findAll();
+    public List<Part> getPartsFromDb(@RequestBody MultiValueMap<String, String> formData){
+
+        List<Part> parts = partRepository.findByContrahentEquals(formData.getFirst("contrahent"));
         return parts;
     }
 }

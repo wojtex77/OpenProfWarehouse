@@ -1,7 +1,7 @@
 function getDataFromDB(){
-    var jqxhr = $.post( "http://localhost:8080/orders/getPartsFromDb", function(data, status) {
-      console.log( "success" );
-    })
+    var client = $( "#contrahent option:selected" ).text();
+
+    var jqxhr = $.post( "http://localhost:8080/orders/getPartsFromDb", {'contrahent':client})
       .done(function(data) {
         console.log( "second success" );
         showData(data);
