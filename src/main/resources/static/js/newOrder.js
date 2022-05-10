@@ -1,3 +1,51 @@
+
+function initializeFilteredTable(){
+        var tfConfig = {
+            alternate_rows: true,
+            btn_reset: {
+                text: 'Wyczyść filtry'
+            },
+            rows_counter: {
+                text: 'Wpisów: '
+            },
+            no_results_message: true,
+            mark_active_columns: {
+                highlight_column: true
+            },
+            highlight_keywords: true,
+            no_results_message: true,
+            col_0: 'none',
+            col_9: 'none',
+            col_types: [
+                'number',
+                'string',
+                'string',
+                'string',
+                'string',
+                'string',
+                'number'
+            ],
+            extensions: [{
+                name: 'sort'
+            }],
+            paging: true,
+
+
+            /** Bootstrap integration */
+
+            // aligns filter at cell bottom when Bootstrap is enabled
+            filters_cell_tag: 'th',
+
+            // allows Bootstrap table styling
+            themes: [{
+                name: 'transparent'
+            }]
+        };
+
+        var filteredTable = new TableFilter(document.querySelector('#mainTable'), tfConfig);
+        filteredTable.init();
+};
+
 function getDataFromDB(){
     var client = $( "#contrahent option:selected" ).text();
 
@@ -47,6 +95,7 @@ function showData(data){
       var tableEnding = "</table>";
 
     $('#tableContent').html(tableBeginning + tableContent + tableEnding);
+    initializeFilteredTable();
 
 };
 
@@ -57,7 +106,6 @@ function showSpinner(){
                 </div>
     `);
 };
-
 
 $(document).ready(function(){
     var partsFromDBModal = new bootstrap.Modal(document.getElementById('partsFromDB'));
