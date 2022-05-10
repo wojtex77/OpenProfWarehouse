@@ -8,6 +8,7 @@ function getDataFromDB(){
       })
       .fail(function() {
         console.log( "error" );
+        $('tableContent').html('Nie udało się wczytać danych');
       })
 };
 
@@ -49,6 +50,13 @@ function showData(data){
 
 };
 
+function showSpinner(){
+    $('tableContent').html(`
+                <div class="spinner-grow text-success text-center" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+    `);
+};
 
 
 $(document).ready(function(){
@@ -56,6 +64,7 @@ $(document).ready(function(){
     var showPartsFromDBButton = $('#showPartDB');
 
     showPartsFromDBButton.click(function(){
+        showSpinner();
         partsFromDBModal.show();
         getDataFromDB();
     });
