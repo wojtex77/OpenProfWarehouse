@@ -18,18 +18,42 @@
         </div>
         <div class="form-floating my-3">
             <select class="form-select" th:field="*{contrahent}" id="contrahent">
-                <option th:each="contrahent : ${contrahents}" th:value="${contrahent.fullName}" th:text="${contrahent.fullName}"></option>
+                <option th:each="contrahent : ${contrahents}" th:value="${contrahent.fullName}"
+                        th:text="${contrahent.fullName}"></option>
             </select>
             <label for="contrahent">Kontrahent</label>
         </div>
     </div>
     <div class="col-lg-3">
         <h4>Zamówione części</h4>
+        <button type="button" id="showPartDB" class="btn btn-sm btn-outline-secondary ">Dodaj z bazy</button>
     </div>
     <div class="row">
         <div class="col-lg-3">
-            <button type="submit" class="btn btn-outline-success my-3">Zapisz</button>
+            <button type="submit" class="btn btn-sm btn-outline-secondary my-3">Zapisz</button>
         </div>
     </div>
     <span th:text="${info}"></span>
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="partsFromDB" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Części z bazy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-sm btn-outline-success">Wczytaj</button>
+            </div>
+        </div>
+    </div>
+</div>
