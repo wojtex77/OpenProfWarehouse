@@ -1,0 +1,164 @@
+2022-05-09 14:25:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "CREATE TABLE ORDER[*] (ID INTEGER NOT NULL, CONTRAHENT VARCHAR(255), ORDER_NUMBER VARCHAR(255), TERM TIMESTAMP, PRIMARY KEY (ID))"; oczekiwano "identifier"
+Syntax error in SQL statement "CREATE TABLE ORDER[*] (ID INTEGER NOT NULL, CONTRAHENT VARCHAR(255), ORDER_NUMBER VARCHAR(255), TERM TIMESTAMP, PRIMARY KEY (ID))"; expected "identifier"; SQL statement:
+create table order (id integer not null, contrahent varchar(255), order_number varchar(255), term timestamp, primary key (id)) [42001-200]
+2022-05-09 14:26:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Błąd konwersji danych "'' (CONTRAHENTS: ""ID"" INT DEFAULT NEXT VALUE FOR ""PUBLIC"".""SYSTEM_SEQUENCE_61EA6A63_91EE_4068_8112_AE1C08C1F9B5"" NOT NULL NULL_TO_DEFAULT SEQUENCE ""PUBLIC"".""SYSTEM_SEQUENCE_61EA6A63_91EE_4068_8112_AE1C08C1F9B5"")"
+Data conversion error converting "'' (CONTRAHENTS: ""ID"" INT DEFAULT NEXT VALUE FOR ""PUBLIC"".""SYSTEM_SEQUENCE_61EA6A63_91EE_4068_8112_AE1C08C1F9B5"" NOT NULL NULL_TO_DEFAULT SEQUENCE ""PUBLIC"".""SYSTEM_SEQUENCE_61EA6A63_91EE_4068_8112_AE1C08C1F9B5"")"; SQL statement:
+INSERT INTO "PUBLIC"."CONTRAHENTS"("ID","ALIAS","FULL_NAME")VALUES(?,?,?) [22018-200]
+2022-05-09 14:26:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Błąd konwersji danych "'' (CONTRAHENTS: ""ID"" INT DEFAULT NEXT VALUE FOR ""PUBLIC"".""SYSTEM_SEQUENCE_61EA6A63_91EE_4068_8112_AE1C08C1F9B5"" NOT NULL NULL_TO_DEFAULT SEQUENCE ""PUBLIC"".""SYSTEM_SEQUENCE_61EA6A63_91EE_4068_8112_AE1C08C1F9B5"")"
+Data conversion error converting "'' (CONTRAHENTS: ""ID"" INT DEFAULT NEXT VALUE FOR ""PUBLIC"".""SYSTEM_SEQUENCE_61EA6A63_91EE_4068_8112_AE1C08C1F9B5"" NOT NULL NULL_TO_DEFAULT SEQUENCE ""PUBLIC"".""SYSTEM_SEQUENCE_61EA6A63_91EE_4068_8112_AE1C08C1F9B5"")"; SQL statement:
+INSERT INTO "PUBLIC"."CONTRAHENTS"("ID","ALIAS","FULL_NAME")VALUES(?,?,?) [22018-200]
+2022-05-09 14:26:12 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "ORDERS[*]"
+Syntax error in SQL statement "ORDERS[*]"; SQL statement:
+ORDERS [42000-200]
+2022-05-09 14:26:51 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Nie można odczytać "DATE" jako "2022-06-98"
+Cannot parse "DATE" constant "2022-06-98"; SQL statement:
+INSERT INTO "PUBLIC"."ORDERS"("ID","ORDER_NUMBER","CONTRAHENT","TERM")VALUES(?,?,?,?) [22007-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:457)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.value.ValueDate.parse(ValueDate.java:74)
+	at org.h2.value.Value.convertToDate(Value.java:1093)
+	at org.h2.value.Value.convertTo(Value.java:816)
+	at org.h2.value.Value.convertTo(Value.java:772)
+	at org.h2.value.TypeInfo.cast(TypeInfo.java:515)
+	at org.h2.table.Column.validateConvertUpdateSequence(Column.java:378)
+	at org.h2.table.Table.validateConvertUpdateSequence(Table.java:845)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:187)
+	at org.h2.command.dml.Insert.update(Insert.java:151)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
+	at org.h2.result.UpdatableRow.insertRow(UpdatableRow.java:324)
+	at org.h2.jdbc.JdbcResultSet.insertRow(JdbcResultSet.java:3015)
+	at org.h2.server.web.WebApp.editResult(WebApp.java:1138)
+	at org.h2.server.web.WebApp.process(WebApp.java:247)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:173)
+	at org.h2.server.web.WebServlet.doGet(WebServlet.java:129)
+	at org.h2.server.web.WebServlet.doPost(WebServlet.java:166)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:889)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.IllegalArgumentException: 2022-6-98
+	at org.h2.util.DateTimeUtils.parseDateValue(DateTimeUtils.java:173)
+	at org.h2.value.ValueDate.parse(ValueDate.java:72)
+	... 54 more
+2022-05-09 14:26:51 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Nie można odczytać "DATE" jako "2022-06-98"
+Cannot parse "DATE" constant "2022-06-98"; SQL statement:
+INSERT INTO "PUBLIC"."ORDERS"("ID","ORDER_NUMBER","CONTRAHENT","TERM")VALUES(?,?,?,?) [22007-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:457)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.value.ValueDate.parse(ValueDate.java:74)
+	at org.h2.value.Value.convertToDate(Value.java:1093)
+	at org.h2.value.Value.convertTo(Value.java:816)
+	at org.h2.value.Value.convertTo(Value.java:772)
+	at org.h2.value.TypeInfo.cast(TypeInfo.java:515)
+	at org.h2.table.Column.validateConvertUpdateSequence(Column.java:378)
+	at org.h2.table.Table.validateConvertUpdateSequence(Table.java:845)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:187)
+	at org.h2.command.dml.Insert.update(Insert.java:151)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:191)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:152)
+	at org.h2.result.UpdatableRow.insertRow(UpdatableRow.java:324)
+	at org.h2.jdbc.JdbcResultSet.insertRow(JdbcResultSet.java:3015)
+	at org.h2.server.web.WebApp.editResult(WebApp.java:1138)
+	at org.h2.server.web.WebApp.process(WebApp.java:247)
+	at org.h2.server.web.WebApp.processRequest(WebApp.java:173)
+	at org.h2.server.web.WebServlet.doGet(WebServlet.java:129)
+	at org.h2.server.web.WebServlet.doPost(WebServlet.java:166)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:681)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:764)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:889)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1743)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.lang.IllegalArgumentException: 2022-6-98
+	at org.h2.util.DateTimeUtils.parseDateValue(DateTimeUtils.java:173)
+	at org.h2.value.ValueDate.parse(ValueDate.java:72)
+	... 54 more
+2022-05-09 14:32:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "CREATE TABLE ORDER[*] (ID INTEGER NOT NULL, CONTRAHENT VARCHAR(255), ORDER_NUMBER VARCHAR(255), TERM TIMESTAMP, PRIMARY KEY (ID))"; oczekiwano "identifier"
+Syntax error in SQL statement "CREATE TABLE ORDER[*] (ID INTEGER NOT NULL, CONTRAHENT VARCHAR(255), ORDER_NUMBER VARCHAR(255), TERM TIMESTAMP, PRIMARY KEY (ID))"; expected "identifier"; SQL statement:
+create table order (id integer not null, contrahent varchar(255), order_number varchar(255), term timestamp, primary key (id)) [42001-200]
+2022-05-09 14:34:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "CREATE TABLE ORDER[*] (ID INTEGER NOT NULL, CONTRAHENT VARCHAR(255), ORDER_NUMBER VARCHAR(255), TERM TIMESTAMP, PRIMARY KEY (ID))"; oczekiwano "identifier"
+Syntax error in SQL statement "CREATE TABLE ORDER[*] (ID INTEGER NOT NULL, CONTRAHENT VARCHAR(255), ORDER_NUMBER VARCHAR(255), TERM TIMESTAMP, PRIMARY KEY (ID))"; expected "identifier"; SQL statement:
+create table order (id integer not null, contrahent varchar(255), order_number varchar(255), term timestamp, primary key (id)) [42001-200]
+2022-05-09 14:40:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "CREATE TABLE ORDER[*] (ID INTEGER NOT NULL, CONTRAHENT VARCHAR(255), ORDER_NUMBER VARCHAR(255), TERM TIMESTAMP, PRIMARY KEY (ID))"; oczekiwano "identifier"
+Syntax error in SQL statement "CREATE TABLE ORDER[*] (ID INTEGER NOT NULL, CONTRAHENT VARCHAR(255), ORDER_NUMBER VARCHAR(255), TERM TIMESTAMP, PRIMARY KEY (ID))"; expected "identifier"; SQL statement:
+create table order (id integer not null, contrahent varchar(255), order_number varchar(255), term timestamp, primary key (id)) [42001-200]
+2022-05-09 14:40:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "SELECT ORDER0_.ID AS ID1_4_, ORDER0_.CONTRAHENT AS CONTRAHE2_4_, ORDER0_.ORDER_NUMBER AS ORDER_NU3_4_, ORDER0_.TERM AS TERM4_4_ FROM ORDER[*] ORDER0_"; oczekiwano "identifier"
+Syntax error in SQL statement "SELECT ORDER0_.ID AS ID1_4_, ORDER0_.CONTRAHENT AS CONTRAHE2_4_, ORDER0_.ORDER_NUMBER AS ORDER_NU3_4_, ORDER0_.TERM AS TERM4_4_ FROM ORDER[*] ORDER0_"; expected "identifier"; SQL statement:
+select order0_.id as id1_4_, order0_.contrahent as contrahe2_4_, order0_.order_number as order_nu3_4_, order0_.term as term4_4_ from order order0_ [42001-200]

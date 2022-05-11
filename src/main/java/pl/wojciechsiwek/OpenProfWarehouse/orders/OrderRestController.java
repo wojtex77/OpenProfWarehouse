@@ -28,4 +28,13 @@ public class OrderRestController {
         List<Part> parts = partRepository.findByContrahentEquals(formData.getFirst("contrahent"));
         return parts;
     }
+
+
+    @PostMapping("/getPartFromDb")
+    public Part getPartFromDb(@RequestBody MultiValueMap<String, String> formData){
+
+        Part part = partRepository.findById(Integer.parseInt(formData.getFirst("partId"))).get();
+        return part;
+    }
+
 }

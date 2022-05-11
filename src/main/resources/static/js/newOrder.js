@@ -15,14 +15,14 @@ function initializeFilteredTable(){
             highlight_keywords: true,
             no_results_message: true,
             col_0: 'none',
-            col_9: 'none',
+            col_8: 'none',
             col_types: [
                 'number',
                 'string',
                 'string',
                 'string',
                 'string',
-                'string',
+                'number',
                 'number'
             ],
             extensions: [{
@@ -51,7 +51,7 @@ function getDataFromDB(){
 
     var jqxhr = $.post( "http://localhost:8080/orders/getPartsFromDb", {'contrahent':client})
       .done(function(data) {
-        console.log( "second success" );
+        console.log( "all parts loaded from db" );
         showData(data);
       })
       .fail(function() {
@@ -60,19 +60,47 @@ function getDataFromDB(){
       })
 };
 
+function addPartToTable(data){
+    $('#partsTable tr:last').after(
+    `
+        <tr>
+            <td>` + data.partName + `</td>
+            <td>` + '<input type = "number" class="form-control form-control-sm" id = "partId-' + data.id + '" step="1" min="0" value = "0"></input></td>' +`
+            <td>` + data.profile + `</td>
+            <td>` + data.profileLength + `</td>
+            <td>` + data.material + `</td>
+            <td>` + "akcja" + `</td>
+        </tr>
+    `
+    );
+};
+
+function loadPart(id){
+
+    var jqxhr = $.post( "http://localhost:8080/orders/getPartFromDb", {'partId':id})
+          .done(function(data) {
+            console.log( "part loaded from db" );
+            addPartToTable(data);
+          })
+          .fail(function() {
+            console.log( "error" );
+            alert(' nie pobrano części z bazy');
+          })
+};
+
 function showData(data){
     var tableBeginning = `
-    <table class="table table-hover" id="mainTable">
+    <table class="table table-sm table-hover" id="mainTable">
         <tr>
             <th>Id</th>
             <th>Nazwa części</th>
             <th>Rysunek</th>
             <th>Artykuł</th>
-            <th>Kontrahent</th>
             <th>Materiał</th>
             <th>Profil</th>
             <th>Długość</th>
             <th>Masa [kg]</th>
+            <th>Akcje</th>
         </tr>
 
         `;
@@ -84,18 +112,23 @@ function showData(data){
                 <td>` + data[i].partName + `</td>
                 <td>` + data[i].drawing + `</td>
                 <td>` + data[i].article + `</td>
-                <td>` + data[i].contrahent + `</td>
                 <td>` + data[i].material + `</td>
                 <td>` + data[i].profile + `</td>
                 <td>` + data[i].profileLength + `</td>
-                <td>` + data[i].weight + `</td>
-           </tr>
+                <td>` + data[i].weight + `</td>` +
+                '<td><button class="btn btn-sm loadButton" id="load-' + data[i].id + '">Wczytaj</button></td>' +
+           `</tr>
         `
         };
       var tableEnding = "</table>";
 
     $('#tableContent').html(tableBeginning + tableContent + tableEnding);
     initializeFilteredTable();
+    $('.loadButton').click(function(){
+        console.log(this.id);
+        var id = this.id.substring(5);
+        loadPart(id);
+    });
 
 };
 
@@ -116,6 +149,5 @@ $(document).ready(function(){
         partsFromDBModal.show();
         getDataFromDB();
     });
-
 });
 
