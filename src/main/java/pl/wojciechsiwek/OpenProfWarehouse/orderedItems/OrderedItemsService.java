@@ -22,19 +22,17 @@ public class OrderedItemsService {
     public void saveItems(String orderNumber, Map<Integer, Integer> map) {
         List<OrderedItems> items = new LinkedList<OrderedItems>();
         map.forEach((partId, qty) -> {
-            items.add(new OrderedItems(orderNumber,partId,qty));
+            items.add(new OrderedItems(orderNumber, partId, qty));
         });
         orderedItemsRepository.saveAll(items);
     }
 
-    public List<OrderedItemsExtended> getOrderedItemsExtendedByOrder(String orderNumber){
+    public List<OrderedItemsExtended> getOrderedItemsExtendedByOrder(String orderNumber) {
         List<OrderedItemsExtended> itemsExtended = new ArrayList<>();
         List<OrderedItems> simpleItems = orderedItemsRepository.findByOrderNumberEquals(orderNumber);
         simpleItems.forEach(simpleItem -> {
             Part part = partRepository.findById(simpleItem.getPartId()).get();
-            itemsExtended.add(
-                    new OrderedItemsExtended(simpleItem.getId(), part.getId(), part.getPartName(),simpleItem.getQty(),part.getProfile(),part.getProfileLength(),part.getMaterial())
-            );
+            itemsExtended.add(new OrderedItemsExtended(simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(), part.getProfile(), part.getProfileLength(), part.getMaterial()));
         });
         return itemsExtended;
     }
@@ -45,6 +43,7 @@ public class OrderedItemsService {
         for (int i = 0; i < partIds.size(); i++) {
             items.add(new OrderedItems(itemIds.get(i), orderNumber, partIds.get(i), ammountOfParts.get(i)));
         }
-        orderedItemsRepository.saveAll(items);
+        if (items.size() <= 1) orderedItemsRepository.save(items.get(0));
+        else orderedItemsRepository.saveAll(items);
     }
 }
