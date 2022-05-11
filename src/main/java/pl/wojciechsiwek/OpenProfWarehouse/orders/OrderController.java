@@ -45,11 +45,12 @@ public class OrderController {
     }
 
     @PostMapping(path = "/add")
-    public RedirectView saveToDb(@ModelAttribute Order order, RedirectAttributes attributes) {
+    public RedirectView saveToDb(@ModelAttribute Order order, @RequestParam("partId") List<Integer> partIds,
+                                 @RequestParam("ammountOfPart") List<Integer> ammountOfParts, RedirectAttributes attributes) {
         RedirectView view = new RedirectView();
 
         try {
-            service.addOrder(order);
+            service.addOrder(order, partIds, ammountOfParts);
             attributes.addFlashAttribute("messageSuccess", "Pomyslnie dodano zlecenie " + order.getOrderNumber());
             view.setUrl("/orders");
         } catch (DuplicatedOrderEntryException e) {
@@ -75,7 +76,6 @@ public class OrderController {
         }
         return view;
     }
-
 
 
     @GetMapping(path = "/edit/{id}")

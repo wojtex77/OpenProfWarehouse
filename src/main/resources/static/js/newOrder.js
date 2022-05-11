@@ -63,16 +63,15 @@ function getDataFromDB(){
 
 function addPartToTable(data){
     $('#partsTable tr:last').after(
-    `
-        <tr>
+    `   <tr>
+            <td hidden>` + '<input type="number" name="partId" value = "' + data.id + '">' + `</td>
             <td>` + data.partName + `</td>
-            <td>` + '<input type = "number" class="form-control form-control-sm" id = "partId-' + data.id + '" step="1" min="0" value = "0"></input></td>' +`
+            <td>` + '<input type = "number" class="form-control form-control-sm" name = "ammountOfPart" step="1" min="0" value = "0"></input></td>' +`
             <td>` + data.profile + `</td>
             <td>` + data.profileLength + `</td>
             <td>` + data.material + `</td>
             <td>` + "akcja" + `</td>
-        </tr>
-    `
+        </tr>`
     );
 };
 
