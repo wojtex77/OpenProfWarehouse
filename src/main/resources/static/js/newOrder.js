@@ -48,8 +48,9 @@ function initializeFilteredTable(){
 
 function getDataFromDB(){
     var client = $( "#contrahent option:selected" ).text();
+    var url = window.location.protocol + "//" + window.location.host;
 
-    var jqxhr = $.post( "http://localhost:8080/orders/getPartsFromDb", {'contrahent':client})
+    var jqxhr = $.post( url + "/orders/getPartsFromDb", {'contrahent':client})
       .done(function(data) {
         console.log( "all parts loaded from db" );
         showData(data);
@@ -76,8 +77,8 @@ function addPartToTable(data){
 };
 
 function loadPart(id){
-
-    var jqxhr = $.post( "http://localhost:8080/orders/getPartFromDb", {'partId':id})
+    var url = window.location.protocol + "//" + window.location.host;
+    var jqxhr = $.post( url + "/orders/getPartFromDb", {'partId':id})
           .done(function(data) {
             console.log( "part loaded from db" );
             addPartToTable(data);
