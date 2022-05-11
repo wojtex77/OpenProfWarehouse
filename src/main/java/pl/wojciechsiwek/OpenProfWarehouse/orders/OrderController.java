@@ -7,6 +7,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import pl.wojciechsiwek.OpenProfWarehouse.contrahent.Contrahent;
 import pl.wojciechsiwek.OpenProfWarehouse.contrahent.ContrahentRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsExtended;
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsService;
 
 import java.util.List;
 
@@ -17,11 +19,13 @@ public class OrderController {
     private final OrderRepository orderRepository;
     private final ContrahentRepository contrahentRepository;
     private final OrderService service;
+    private final OrderedItemsService orderedItemsService;
 
-    public OrderController(OrderRepository orderRepository, ContrahentRepository contrahentRepository, OrderService service) {
+    public OrderController(OrderRepository orderRepository, ContrahentRepository contrahentRepository, OrderService service, OrderedItemsService orderedItemsService) {
         this.orderRepository = orderRepository;
         this.contrahentRepository = contrahentRepository;
         this.service = service;
+        this.orderedItemsService = orderedItemsService;
     }
 
 
@@ -80,20 +84,24 @@ public class OrderController {
 
     @GetMapping(path = "/edit/{id}")
     public String editOrderView(Model model, @PathVariable("id") int id) {
+        Order order = orderRepository.findById(id).get();
         List<Contrahent> contrahents = contrahentRepository.findAll();
+        List<OrderedItemsExtended> items = orderedItemsService.getOrderedItemsExtendedByOrder(order.getOrderNumber());
 
         model.addAttribute("contrahents", contrahents);
-        model.addAttribute("order", orderRepository.findById(id));
+        model.addAttribute("orderedItems", items);
+        model.addAttribute("order", order);
         model.addAttribute("action", "edit");
         return "orders/edit";
     }
 
     @PostMapping(path = "/saveChanges")
-    public RedirectView saveChangesToDb(@ModelAttribute Order order, RedirectAttributes attributes) {
+    public RedirectView saveChangesToDb(@ModelAttribute Order order, @RequestParam("partId") List<Integer> partIds,
+                                        @RequestParam("ammountOfPart") List<Integer> ammountOfParts, @RequestParam("itemId") List<Integer> itemIds, RedirectAttributes attributes) {
         RedirectView view = new RedirectView();
 
         try {
-            service.saveChanges(order);
+            service.saveChanges(order, partIds, ammountOfParts, itemIds);
             attributes.addFlashAttribute("messageSuccess", "Pomyslnie edytowano zlecenie " + order.getOrderNumber());
             view.setUrl("/orders");
         } catch (Exception e) {

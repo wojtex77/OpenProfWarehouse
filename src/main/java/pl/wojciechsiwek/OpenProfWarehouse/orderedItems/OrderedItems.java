@@ -17,6 +17,13 @@ public class OrderedItems {
     public OrderedItems() {
     }
 
+    OrderedItems(Integer id, String orderNumber, Integer partId, Integer qty) {
+        this.id = id;
+        this.orderNumber = orderNumber;
+        this.partId = partId;
+        this.qty = qty;
+    }
+
     OrderedItems(String orderNumber, Integer partId, Integer qty) {
         this.orderNumber = orderNumber;
         this.partId = partId;

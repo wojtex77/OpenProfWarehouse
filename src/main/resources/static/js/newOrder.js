@@ -71,6 +71,7 @@ function addPartToTable(data){
             <td>` + data.profileLength + `</td>
             <td>` + data.material + `</td>
             <td>` + "akcja" + `</td>
+            <td hidden>` + '<input type="number" name="itemId" value="" hidden>' + `</td>
         </tr>`
     );
 };

@@ -37,19 +37,22 @@ public class OrderService {
         }
     }
 
-    void saveChanges(Order order) throws Exception {
+    void saveChanges(Order order, List<Integer> partIds, List<Integer> ammountOfParts, List<Integer> itemIds) throws Exception {
+
         try {
             orderRepository.save(order);
-        }catch (Exception e){
+            itemsService.saveChanges(order.getOrderNumber(), partIds, ammountOfParts, itemIds);
+
+        } catch (Exception e) {
             throw new Exception("Saving changes failed");
         }
     }
 
-    Map<Integer, Integer> combinePartIdAndQtyLists(List<Integer> ids, List<Integer> qtys){
+    Map<Integer, Integer> combinePartIdAndQtyLists(List<Integer> ids, List<Integer> qtys) {
         if (ids.size() != qtys.size())
-            throw new IllegalArgumentException ("Cannot combine lists with dissimilar sizes");
-        Map<Integer,Integer> map = new LinkedHashMap<Integer,Integer>();
-        for (int i=0; i<ids.size(); i++) {
+            throw new IllegalArgumentException("Cannot combine lists with dissimilar sizes");
+        Map<Integer, Integer> map = new LinkedHashMap<Integer, Integer>();
+        for (int i = 0; i < ids.size(); i++) {
             map.put(ids.get(i), qtys.get(i));
         }
         return map;
