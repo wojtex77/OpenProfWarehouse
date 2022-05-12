@@ -56,7 +56,8 @@ public class OrderController {
         try {
             service.addOrder(order, partIds, ammountOfParts);
             attributes.addFlashAttribute("messageSuccess", "Pomyslnie dodano zlecenie " + order.getOrderNumber());
-            view.setUrl("/orders");
+            int id = orderRepository.findByOrderNumberEquals(order.getOrderNumber()).getId();
+            view.setUrl("/orders/edit/" + id);
         } catch (DuplicatedOrderEntryException e) {
             attributes.addFlashAttribute("messageWarning", "Podany numer zlecenia już istnieje");
             attributes.addFlashAttribute("order", order);
@@ -96,14 +97,18 @@ public class OrderController {
     }
 
     @PostMapping(path = "/saveChanges")
-    public RedirectView saveChangesToDb(@ModelAttribute Order order, @RequestParam("partId") List<Integer> partIds,
-                                        @RequestParam("ammountOfPart") List<Integer> ammountOfParts, @RequestParam("itemId") List<Integer> itemIds, RedirectAttributes attributes) {
+    public RedirectView saveChangesToDb(@ModelAttribute Order order,
+                                        @RequestParam("partId") List<Integer> partIds,
+                                        @RequestParam("ammountOfPart") List<Integer> ammountOfParts,
+                                        @RequestParam("itemId") List<Integer> itemIds,
+                                        @RequestParam("idsToDelete") List<Integer> idsToDelete,
+                                        RedirectAttributes attributes) {
         RedirectView view = new RedirectView();
-
         try {
-            service.saveChanges(order, partIds, ammountOfParts, itemIds);
+            service.saveChanges(order, partIds, ammountOfParts, itemIds, idsToDelete);
             attributes.addFlashAttribute("messageSuccess", "Pomyslnie edytowano zlecenie " + order.getOrderNumber());
-            view.setUrl("/orders");
+            int id = orderRepository.findByOrderNumberEquals(order.getOrderNumber()).getId();
+            view.setUrl("/orders/edit/" + id);
         } catch (Exception e) {
             attributes.addFlashAttribute("messageWarning", "Nie udało się zapisać zmian");
             attributes.addFlashAttribute("order", order);

@@ -37,7 +37,7 @@ public class OrderedItemsService {
         return itemsExtended;
     }
 
-    public void saveChanges(String orderNumber, List<Integer> partIds, List<Integer> ammountOfParts, List<Integer> itemIds) {
+    public void saveChanges(String orderNumber, List<Integer> partIds, List<Integer> ammountOfParts, List<Integer> itemIds, List<Integer> idsToDelete) {
 
         List<OrderedItems> items = new LinkedList<OrderedItems>();
         for (int i = 0; i < partIds.size(); i++) {
@@ -45,5 +45,10 @@ public class OrderedItemsService {
         }
         if (items.size() <= 1) orderedItemsRepository.save(items.get(0));
         else orderedItemsRepository.saveAll(items);
+
+        if (idsToDelete.size() > 1){
+            idsToDelete.remove(0);
+            orderedItemsRepository.deleteAllById(idsToDelete);
+        }
     }
 }

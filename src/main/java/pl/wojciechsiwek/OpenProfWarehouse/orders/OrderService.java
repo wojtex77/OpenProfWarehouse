@@ -37,11 +37,11 @@ public class OrderService {
         }
     }
 
-    void saveChanges(Order order, List<Integer> partIds, List<Integer> ammountOfParts, List<Integer> itemIds) throws Exception {
+    void saveChanges(Order order, List<Integer> partIds, List<Integer> ammountOfParts, List<Integer> itemIds, List<Integer> partsToDelete) throws Exception {
 
         try {
             orderRepository.save(order);
-            itemsService.saveChanges(order.getOrderNumber(), partIds, ammountOfParts, itemIds);
+            itemsService.saveChanges(order.getOrderNumber(), partIds, ammountOfParts, itemIds, partsToDelete);
 
         } catch (Exception e) {
             throw new Exception("Saving changes failed");

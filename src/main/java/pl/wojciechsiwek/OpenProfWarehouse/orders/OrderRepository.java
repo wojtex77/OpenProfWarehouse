@@ -9,6 +9,10 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     boolean existsByOrderNumberEquals(String orderNumber);
 
+    Order findByOrderNumberEquals(String orderNumber);
+
+
+
 
 
 }

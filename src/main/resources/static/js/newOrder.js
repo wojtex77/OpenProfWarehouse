@@ -63,14 +63,14 @@ function getDataFromDB(){
 
 function addPartToTable(data){
     $('#partsTable tr:last').after(
-    `   <tr>
+       '<tr id="rowPart-' + data.id + '">' + `
             <td hidden>` + '<input type="number" name="partId" value = "' + data.id + '">' + `</td>
             <td>` + data.partName + `</td>
             <td>` + '<input type = "number" class="form-control form-control-sm" name = "ammountOfPart" step="1" min="0" value = "0"></input></td>' +`
             <td>` + data.profile + `</td>
             <td>` + data.profileLength + `</td>
-            <td>` + data.material + `</td>
-            <td>` + "akcja" + `</td>
+            <td>` + data.material + `</td>` +
+            '<td><button type="button" class="btn btn-sm removeButton" id="remove-' + data.id + '" disabled>Usuń</button></td>' +`
             <td hidden>` + '<input type="number" name="itemId" value="" hidden>' + `</td>
         </tr>`
     );
@@ -126,7 +126,6 @@ function showData(data){
     $('#tableContent').html(tableBeginning + tableContent + tableEnding);
     initializeFilteredTable();
     $('.loadButton').click(function(){
-        console.log(this.id);
         var id = this.id.substring(5);
         loadPart(id);
     });
@@ -141,6 +140,21 @@ function showSpinner(){
     `);
 };
 
+function toggleToRemove(id){
+    var rowPart = "#rowPart-" + id;
+    var status = $(rowPart).attr("status");
+    if( status != "active" ) {
+       $(rowPart).attr("style","color: none");
+       $( "#inputDelete-" + id ).remove();
+       $(rowPart).attr("status", "active");
+    } else {
+       $(rowPart).attr("status","toRemove");
+       $(rowPart).attr("style","color: red");
+       $('#partsIdsToDeleteInputs').append('<input type="number" name="idsToDelete" value="' + id + '" id="inputDelete-' + id + '"></input>');
+    }
+
+};
+
 $(document).ready(function(){
     var partsFromDBModal = new bootstrap.Modal(document.getElementById('partsFromDB'));
     var showPartsFromDBButton = $('#showPartDB');
@@ -150,5 +164,13 @@ $(document).ready(function(){
         partsFromDBModal.show();
         getDataFromDB();
     });
+
+    var id;
+    $('.removeButton').click(function(){
+            id = this.id.substring(7);
+            toggleToRemove(id);
+        });
+
+
 });
 

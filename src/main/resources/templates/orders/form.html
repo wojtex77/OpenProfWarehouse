@@ -39,14 +39,14 @@
                     <th>Akcje</th>
                     <th hidden>id</th>
                 </tr>
-                <tr th:each="item: ${orderedItems}">
+                <tr  th:each="item: ${orderedItems}" th:id="'rowPart-' + ${item.id}" status="active">
                     <td hidden><input type="number" name="partId" th:value="${item.partId}"> </td>
                     <td th:text="${item.partName}"/>
                     <td><input type = "number" class="form-control form-control-sm" name = "ammountOfPart" step="1" min="0" th:value = ${item.qty}></td>
                     <td th:text="${item.profile}"/>
                     <td th:text="${item.profileLength}"/>
                     <td th:text="${item.material}"/>
-                    <td>akcja</td>
+                    <td><button type="button" class="btn btn-sm removeButton" th:id="'remove-' + ${item.id}">Usuń</button></td>
                     <td hidden><input type="number" name="itemId" th:value="${item.Id}" hidden></td>
                 </tr>
 
@@ -58,6 +58,9 @@
         <div class="col-lg-3">
             <button type="submit" class="btn btn-sm btn-outline-secondary my-3">Zapisz</button>
         </div>
+    </div>
+    <div id="partsIdsToDeleteInputs" hidden>
+        <input type="number" name="idsToDelete" value="0">
     </div>
     <span th:text="${info}"></span>
 </form>
@@ -78,7 +81,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Zamknij</button>
-                <button type="button" class="btn btn-sm btn-outline-success">Wczytaj</button>
             </div>
         </div>
     </div>
