@@ -1,0 +1,87 @@
+<form class="row g-5" action="#"
+      th:action="${action} == 'new' ? @{/orders/add} : @{/orders/saveChanges}"
+      th:object="${order}" method="post"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+    <input type="text" th:field="*{id}"
+           hidden>
+    <div class="col-lg-3">
+        <h4>Identyfikacja</h4>
+        <div class="form-floating my-3">
+            <input type="text" th:field="*{orderNumber}" class="form-control" id="orderNumber"
+                   placeholder="Numer zlecenia" required th:readonly="${action != 'new'}">
+            <label for="orderNumber">Numer zlecenia</label>
+        </div>
+        <div class="form-floating my-3">
+            <input type="date" th:field="*{term}" class="form-control" id="term"
+                   placeholder="Termin" required>
+            <label for="term">Termin</label>
+        </div>
+        <div class="form-floating my-3">
+            <select class="form-select" th:field="*{contrahent}" id="contrahent">
+                <option th:each="contrahent : ${contrahents}" th:value="${contrahent.fullName}"
+                        th:text="${contrahent.fullName}"></option>
+            </select>
+            <label for="contrahent">Kontrahent</label>
+        </div>
+    </div>
+    <div class="col-lg-6 mx-5">
+        <h4>Zamówione części</h4>
+        <button type="button" id="showPartDB" class="btn btn-sm btn-outline-secondary ">Dodaj z bazy</button>
+        <div class="row g-3">
+            <table class="table table-sm table-hover" id="partsTable">
+                <tr>
+                    <th hidden></th>
+                    <th>Część</th>
+                    <th>Ilość</th>
+                    <th>Przekrój</th>
+                    <th>Długość [mm]</th>
+                    <th>Materiał</th>
+                    <th>Akcje</th>
+                    <th hidden>id</th>
+                </tr>
+                <tr  th:each="item: ${orderedItems}" th:id="'rowPart-' + ${item.id}" status="active">
+                    <td hidden><input type="number" name="partId" th:value="${item.partId}"> </td>
+                    <td th:text="${item.partName}"/>
+                    <td><input type = "number" class="form-control form-control-sm" name = "ammountOfPart" step="1" min="0" th:value = ${item.qty}></td>
+                    <td th:text="${item.profile}"/>
+                    <td th:text="${item.profileLength}"/>
+                    <td th:text="${item.material}"/>
+                    <td><button type="button" class="btn btn-sm removeButton" th:id="'remove-' + ${item.id}">Usuń</button></td>
+                    <td hidden><input type="number" name="itemId" th:value="${item.Id}" hidden></td>
+                </tr>
+
+
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <button type="submit" class="btn btn-sm btn-outline-secondary my-3">Zapisz</button>
+        </div>
+    </div>
+    <div id="partsIdsToDeleteInputs" hidden>
+        <input type="number" name="idsToDelete" value="0">
+    </div>
+    <span th:text="${info}"></span>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="partsFromDB" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Części z bazy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="tableContent">
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>

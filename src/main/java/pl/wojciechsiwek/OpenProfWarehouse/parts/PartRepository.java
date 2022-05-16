@@ -19,5 +19,8 @@ public interface PartRepository extends JpaRepository<Part, Integer> {
 
     List<Part> findByMaterialEquals(String material);
 
+    List<Part> findByContrahentEquals(String contrahent);
+
+
 
 }

@@ -1,0 +1,21 @@
+<div th:replace="layouts/headToTitle"></div>
+<title>Edytowanie zlecenia</title>
+
+<div th:replace="layouts/titleToContent"></div>
+
+
+<div class="row">
+    <h1>Edytowanie zlecenia</h1>
+    <hr/>
+    <div>
+        <form th:replace="orders/form"></form>
+    </div>
+</div>
+
+
+<div th:replace="layouts/afterContent"></div>
+<div th:replace="layouts/scripts"></div>
+<script th:src="@{/js/newOrder.js}" type="text/javascript"></script>
+
+
+<div th:replace="layouts/ending"></div>
