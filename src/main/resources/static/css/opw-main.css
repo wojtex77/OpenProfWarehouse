@@ -50,3 +50,24 @@ h1, h2, h3, h4, h5 {
 .footer{
     background-color: transparent !important;
 }
+
+#workspaceTabs li button {
+    border-color: #0E6251;
+    background-color: transparent;
+    color: #0E6251;
+    transition: width 1s;
+}
+
+#workspaceTabs li button:hover {
+    border-color: #0E6251;
+    background-color: transparent;
+    color: #73C6B6;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #0E6251;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    font-weight: bold;
+}

@@ -11,6 +11,10 @@ public class OrderedItemsExtended {
     private String profile;
     private double profileLength;
     private String material;
+    private String orderNumber = null;
+    private String article = null;
+    private String drawing = null;
+    private double weight;
 
     OrderedItemsExtended(int id, int partId, String partName, int qty, String profile, double profileLength, String material) {
         this.id = id;
@@ -22,8 +26,54 @@ public class OrderedItemsExtended {
         this.material = material;
     }
 
+    OrderedItemsExtended(int id, int partId, String partName, int qty, String profile, double profileLength, String material, String orderNumber, String article, String drawing, double weight) {
+        this.id = id;
+        this.partId = partId;
+        this.partName = partName;
+        this.qty = qty;
+        this.profile = profile;
+        this.profileLength = profileLength;
+        this.material = material;
+        this.orderNumber = orderNumber;
+        this.article = article;
+        this.drawing = drawing;
+        this.weight = weight;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
+    }
+
+    public String getDrawing() {
+        return drawing;
+    }
+
+    public void setDrawing(String drawing) {
+        this.drawing = drawing;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public String getPartName() {

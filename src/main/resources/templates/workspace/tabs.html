@@ -1,0 +1,35 @@
+<ul class="nav nav-tabs my-2 mx-3" id="workspaceTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                role="tab" aria-controls="home" aria-selected="true">Rozkład
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="parts-tab" data-bs-toggle="tab" data-bs-target="#parts" type="button"
+                role="tab" aria-controls="parts" aria-selected="false">Części
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                role="tab" aria-controls="contact" aria-selected="false">Materiał wyjściowy
+        </button>
+    </li>
+</ul>
+<div class="tab-content" id="workspaceTabsContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">Tutaj będzie praca
+        na profilach
+    </div>
+    <div class="tab-pane fade my-3" id="parts" role="tabpanel" aria-labelledby="parts-tab">
+
+
+
+        <button type="button" id="showPartFromDb" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#partsFromDbModal">
+            Dodaj ze zleceń
+        </button>
+
+
+    </div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Tutaj będą wczytane
+        profile z magazynu
+    </div>
+</div>
