@@ -19,15 +19,8 @@
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">Tutaj będzie praca
         na profilach
     </div>
-    <div class="tab-pane fade my-3" id="parts" role="tabpanel" aria-labelledby="parts-tab">
-
-
-
-        <button type="button" id="showPartFromDb" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#partsFromDbModal">
-            Dodaj ze zleceń
-        </button>
-
-
+    <div class="tab-pane fade my-3" id="parts" role="tabpanel" aria-labelledby="parts-tab"
+         th:insert="workspace/partsTab">
     </div>
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Tutaj będą wczytane
         profile z magazynu

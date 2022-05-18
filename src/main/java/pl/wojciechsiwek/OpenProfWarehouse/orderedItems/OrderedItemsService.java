@@ -64,4 +64,15 @@ public class OrderedItemsService {
         });
         return itemsExtended;
     }
+
+
+    public OrderedItemsExtended getOrderedItem(int id) {
+        OrderedItems simpleItem = orderedItemsRepository.findById(id).get();
+        Part part = partRepository.findById(simpleItem.getPartId()).get();
+        return new OrderedItemsExtended(
+                simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(),
+                part.getProfile(), part.getProfileLength(), part.getMaterial(),
+                simpleItem.getOrderNumber(), part.getArticle(), part.getDrawing(),
+                part.getWeight());
+    }
 }
