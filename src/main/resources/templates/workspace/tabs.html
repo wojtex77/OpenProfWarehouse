@@ -10,8 +10,8 @@
         </button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                role="tab" aria-controls="contact" aria-selected="false">Materiał wyjściowy
+        <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles" type="button"
+                role="tab" aria-controls="profiles" aria-selected="false">Materiał wyjściowy
         </button>
     </li>
 </ul>
@@ -22,7 +22,7 @@
     <div class="tab-pane fade my-3" id="parts" role="tabpanel" aria-labelledby="parts-tab"
          th:insert="workspace/partsTab">
     </div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Tutaj będą wczytane
+    <div class="tab-pane fade" id="profiles" role="tabpanel" aria-labelledby="profiles-tab" th:insert="workspace/profilesTab">Tutaj będą wczytane
         profile z magazynu
     </div>
 </div>

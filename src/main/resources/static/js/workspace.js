@@ -36,6 +36,44 @@ function initializeOrderedItemsFromDbTable(){
         filteredTable.init();
 };
 
+function initializeProfilesFromDbTable(){
+        var tfConfig = {
+            alternate_rows: true,
+            btn_reset: {
+                text: 'Wyczyść filtry'
+            },
+            rows_counter: {
+                text: 'Wpisów: '
+            },
+            no_results_message: true,
+            mark_active_columns: {
+                highlight_column: true
+            },
+            highlight_keywords: true,
+            no_results_message: true,
+            col_0: 'none',
+            col_8: 'none',
+            extensions: [{
+                name: 'sort'
+            }],
+            paging: true,
+
+
+            /** Bootstrap integration */
+
+            // aligns filter at cell bottom when Bootstrap is enabled
+            filters_cell_tag: 'th',
+
+            // allows Bootstrap table styling
+            themes: [{
+                name: 'transparent'
+            }]
+        };
+
+        var filteredTable = new TableFilter(document.querySelector('#tableWithProfilesFromDb'), tfConfig);
+        filteredTable.init();
+};
+
 function initializeOrderedItemsTable(){
         var tfConfig = {
             alternate_rows: true,
@@ -89,6 +127,19 @@ function loadPart(id){
           })
 };
 
+function loadProfile(signature){
+    var url = window.location.protocol + "//" + window.location.host;
+    var jqxhr = $.post( url + "/stock/getsignature", {'signature':signature})
+          .done(function(data) {
+            console.log( "profile loaded from db" );
+            addProfileToTable(data);
+            addHiddenProfileInput(data);
+          })
+          .fail(function() {
+            console.log( "error" );
+            alert(' nie pobrano profila z bazy');
+          })
+};
 
 function addItemToTable(data){
     $('#tableWithParts tr:last').after(
@@ -106,8 +157,32 @@ function addItemToTable(data){
     );
 };
 
+function addProfileToTable(data){
+    $('#tableWithProfiles tr:last').after(
+       '<tr id="rowProfile-' + data.signature + '">' + `
+            <td>` + data.signature + `</td>
+            <td>` + data.profile + `</td>
+            <td>` + data.material +`</td>
+            <td>` + data.profileLength + `</td>
+            <td>` + data.qty + `</td>
+            <td>` + data.availableQty + `</td>
+            <td>` + data.singleWeight + `</td>
+            <td>` + data.wholeWeight + `</td>` +
+            '<td><button type="button" class="btn btn-sm removeButton" id="remove-' + data.signature + '" disabled>Usuń</button></td>' +`
+        </tr>`
+    );
+};
+
 function addHiddenItemInput(data){
-    $('#inputs').append('<input type="number" name="orderedItemId" value="' + data.id + '" hidden/>');
+
+    $('#inputs').append('<input type="number" name="orderedItemId" value="' + data.id + '" id="part-' + data.id + '" hidden/>');
+
+}
+
+function addHiddenProfileInput(data){
+
+    $('#inputs').append('<input type="number" name="stockItemId" value="' + data.signature + '" id="profile-' + data.signature + '" hidden/>');
+
 }
 
 function showOrderedItemsInModal(data){
@@ -172,9 +247,70 @@ function getPartsFromOrders(){
       })
 };
 
+function getProfilesFromStock(){
+
+    var url = window.location.protocol + "//" + window.location.host;
+
+    var jqxhr = $.post( url + "/stock/getstock")
+      .done(function(data) {
+        console.log( "all profiles loaded from db" );
+        showProfilesInModal(data);
+      })
+      .fail(function() {
+        console.log( "error" );
+        //$('tableWithOrderedItemsFromDb').html('Nie udało się wczytać danych');
+      })
+};
+
+function showProfilesInModal(data){
+    var tableBeginning = `
+            <table class="table table-sm table-hover" id="profilesTable">
+                <tr>
+                    <th>Certyfikat</th>
+                    <th>Profil</th>
+                    <th>Materiał</th>
+                    <th>Długość [mm]</th>
+                    <th>Ilość</th>
+                    <th>Ilość dostępna</th>
+                    <th>Masa sztuki [kg]</th>
+                    <th>Masa całkowita [kg]</th>
+                    <th>Akcje</th>
+                </tr>
+
+                `;
+             var tableContent="";
+             for(let i=0; i< data.length; i++){
+                 tableContent = tableContent + `
+                   <tr>
+                        <td>` + data[i].signature + `</td>
+                        <td>` + data[i].profile + `</td>
+                        <td>` + data[i].material + `</td>
+                        <td>` + data[i].profileLength + `</td>
+                        <td>` + data[i].qty + `</td>
+                        <td>` + data[i].availableQty + `</td>
+                        <td>` + data[i].singleWeight + `</td>
+                        <td>` + data[i].wholeWeight + `</td>` +
+                        '<td><button type="button" class="btn btn-sm loadProfileButton" id="loadProfile-' + data[i].signature + '">Wczytaj</button></td>' +
+                   `</tr>
+                `
+                };
+              var tableEnding = "</table>";
+
+            $('#tableWithProfilesFromDb').html(tableBeginning + tableContent + tableEnding);
+            initializeProfilesFromDbTable();
+
+            $('.loadProfileButton').click(function(){
+                var signature = this.id.substring(12);
+                loadProfile(signature);
+            });
+};
+
 $(document).ready(function(){
     var partsFromDBModal = new bootstrap.Modal(document.getElementById('partsFromDbModal'));
     var showPartsFromDBButton = $('#showPartFromDb');
+
+    var profilesFromDBModal = new bootstrap.Modal(document.getElementById('profilesFromDbModal'));
+    var showProfilesFromDBButton = $('#showProfilesFromDb');
 
     $('#saveWSBtn').click(function(){
     var url = window.location.protocol + "//" + window.location.host;
@@ -192,5 +328,10 @@ $(document).ready(function(){
     showPartsFromDBButton.click(function(){
         partsFromDBModal.show();
         getPartsFromOrders();
+    });
+
+    showProfilesFromDBButton.click(function(){
+        profilesFromDBModal.show();
+        getProfilesFromStock();
     });
 });

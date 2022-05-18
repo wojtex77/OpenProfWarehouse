@@ -9,8 +9,10 @@
     <h1>Obszar roboczy</h1>
     <form th:action="@{/wsrest/save}" method="post">
         <button type="button" id="saveWSBtn" class="btn btn-outline-secondary">Zapisz</button>
+
         <div th:replace="workspace/tabs"></div>
         <div th:replace="workspace/modals"></div>
+
         <div id="inputs"></div>
     </form>
 </div>
