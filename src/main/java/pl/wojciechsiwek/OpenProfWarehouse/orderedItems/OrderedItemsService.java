@@ -68,11 +68,23 @@ public class OrderedItemsService {
 
     public OrderedItemsExtended getOrderedItem(int id) {
         OrderedItems simpleItem = orderedItemsRepository.findById(id).get();
-        Part part = partRepository.findById(simpleItem.getPartId()).get();
-        return new OrderedItemsExtended(
-                simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(),
-                part.getProfile(), part.getProfileLength(), part.getMaterial(),
-                simpleItem.getOrderNumber(), part.getArticle(), part.getDrawing(),
-                part.getWeight());
+        return extendOrderedItem(simpleItem);
     }
+
+    public OrderedItemsExtended extendOrderedItem(OrderedItems item) {
+        Part part = partRepository.findById(item.getPartId()).get();
+        return new OrderedItemsExtended(
+                item.getId(), part.getId(), part.getPartName(), item.getQty(),
+                part.getProfile(), part.getProfileLength(), part.getMaterial(), item.getOrderNumber(), part.getArticle(), part.getDrawing(), part.getWeight());
+
+    }
+
+    public List<OrderedItemsExtended> extendListOfOrderedItems(List<OrderedItems> orderedItems){
+        List<OrderedItemsExtended> extendedItems= new ArrayList<>();
+        orderedItems.forEach(item ->{
+            extendedItems.add(extendOrderedItem(item));
+        });
+        return extendedItems;
+    }
+
 }

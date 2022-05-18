@@ -40,6 +40,10 @@ public class OrderedItemsExtended {
         this.weight = weight;
     }
 
+    public void decreaseQty(){
+        qty--;
+    }
+
     public int getId() {
         return id;
     }
