@@ -175,13 +175,13 @@ function addProfileToTable(data){
 
 function addHiddenItemInput(data){
 
-    $('#inputs').append('<input type="number" name="orderedItemId" value="' + data.id + '" id="part-' + data.id + '" hidden/>');
+    $('#inputs').append('<input type="number" class="orderedItemId" name="orderedItemId[]" value="' + data.id + '" id="part-' + data.id + '" readonly />');
 
 }
 
 function addHiddenProfileInput(data){
 
-    $('#inputs').append('<input type="number" name="stockItemId" value="' + data.signature + '" id="profile-' + data.signature + '" hidden/>');
+    $('#inputs').append('<input type="text" class="stockItemId" name="stockItemId[]" value="' + data.signature + '" id="profile-' + data.signature + '" readonly />');
 
 }
 
@@ -305,12 +305,76 @@ function showProfilesInModal(data){
             });
 };
 
+function showSingleProfileNesting(profile){
+
+
+    var strBuilder = [];
+    for(key in profile.itemsOnProfile) {
+      if (profile.itemsOnProfile.hasOwnProperty(key)) {
+        strBuilder.push("Key is " + key + ", value is " + profile.itemsOnProfile[key] + "\n");
+
+        var stringToParse = key.substring(20).replace(/'/g, '"');
+        console.log(stringToParse);
+        var object = jQuery.parseJSON(stringToParse);
+
+      }
+    }
+
+    alert(strBuilder.join(""));
+
+    $('#nestingDetails').append(`
+        <div class="row">
+            <div class="col-1">Certyfikat: </div>
+            <div class="fw-bold col-11">` + profile.profileSignature + `</div>
+            <div class="col-2 offset-2">Część: <span class="fw-bold">` + profile.itemsOnProfile + `</span></div><div class="col-1"> L= 650</div><div class="col-7"> sztuk 3</div>
+            <div class="col-2 offset-2">Część: <span class="fw-bold">234</span></div><div class="col-1"> L= 125</div><div class="col-7"> sztuk 8</div>
+        </div>
+    `);
+
+};
+
+function showNestingDetails(data){
+
+    showSingleProfileNesting(data[0]);
+
+};
+
+function runNesting(){
+    var stockItemsSignatures = [];
+    $('input[name="stockItemId[]"]').each(function() {
+        stockItemsSignatures.push($(this).val());
+    });
+
+    var orderedItemsIds = [];
+    $('input[name="orderedItemId[]"]').each(function() {
+        orderedItemsIds.push($(this).val());
+    });
+
+
+    var url = window.location.protocol + "//" + window.location.host;
+    var jqxhr = $.post( url + "/wsrest/nest", {
+            "stockItemsSignatures" : stockItemsSignatures,
+            "orderedItemsIds": orderedItemsIds
+          })
+          .done(function(data) {
+            console.log("Nesting done");
+            showNestingDetails(data);
+
+          })
+          .fail(function() {
+            console.log( "error" );
+            alert('Nie udało się wykonać nestingu, sprawdź czy wczytałeś części oraz materiał wejściowy');
+          });
+};
+
 $(document).ready(function(){
     var partsFromDBModal = new bootstrap.Modal(document.getElementById('partsFromDbModal'));
     var showPartsFromDBButton = $('#showPartFromDb');
 
     var profilesFromDBModal = new bootstrap.Modal(document.getElementById('profilesFromDbModal'));
     var showProfilesFromDBButton = $('#showProfilesFromDb');
+
+    var runNestingButton = $('#runNestingBtn');
 
     $('#saveWSBtn').click(function(){
     var url = window.location.protocol + "//" + window.location.host;
@@ -333,5 +397,10 @@ $(document).ready(function(){
     showProfilesFromDBButton.click(function(){
         profilesFromDBModal.show();
         getProfilesFromStock();
+    });
+
+    runNestingButton.click(function(){
+        runNesting();
+
     });
 });

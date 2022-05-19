@@ -11,11 +11,19 @@ public class SingleProfileNested {
         this.itemsOnProfile = itemsOnProfile;
     }
 
-    String getProfileSignature() {
+    public String getProfileSignature() {
         return profileSignature;
     }
 
-    Map getItemsOnProfile() {
+    public void setProfileSignature(String profileSignature) {
+        this.profileSignature = profileSignature;
+    }
+
+    public Map getItemsOnProfile() {
         return itemsOnProfile;
+    }
+
+    public void setItemsOnProfile(Map itemsOnProfile) {
+        this.itemsOnProfile = itemsOnProfile;
     }
 }

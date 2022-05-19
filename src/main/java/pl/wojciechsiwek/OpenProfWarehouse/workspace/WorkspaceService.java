@@ -38,7 +38,13 @@ public class WorkspaceService {
         int i = 0;
 
         while (i < stockSignaturesToUse.size() && orderedItemsList.size() > 0) {
-            list.add(nestOnSingleStockItem(stockToUse.get(i), orderedItemsList));
+            while (stockToUse.get(i).getAvailableQty() > 0 && orderedItemsList.size() > 0) {
+                SingleProfileNested singleProfileNested = nestOnSingleStockItem(stockToUse.get(i), orderedItemsList);
+                if (singleProfileNested != null) {
+                    list.add(singleProfileNested);
+                    stockToUse.get(i).decreaseAvailableQty();
+                }
+            }
             i++;
         }
         return list;
@@ -49,9 +55,10 @@ public class WorkspaceService {
         float shortestPartLength = orderedItemsList.stream().min(Comparator.comparing(OrderedItemsExtended::getProfileLength)).get().getProfileLength();
         List<OrderedItemsExtended> fullyNestedItems = new ArrayList<>();
 
-        Map partsOnProfile = new HashMap<Integer, Integer>();
+        Map partsOnProfile = new HashMap<OrderedItemsExtended, Integer>();
 
         for (int i = 0; i < orderedItemsList.size(); i++) { //Druga pętla iterująca po każdej części w liście aż do momentu gdy już nic się nie zmieści.
+
             int qty = 0; // licznik ile sztuk zamówionej częsci zmieści się na profilu
             while ((availableLength >= orderedItemsList.get(i).getProfileLength()) && orderedItemsList.get(i).getQty() > 0) { //petla sprawdzająca ile tej samej części zmieści się na profilu
                 if (orderedItemsList.get(i).getProfileLength() <= stockItem.getProfileLength()) {
@@ -60,7 +67,7 @@ public class WorkspaceService {
                     orderedItemsList.get(i).decreaseQty();
                 }
             }
-            if (qty > 0) partsOnProfile.put(orderedItemsList.get(i).getId(), qty);
+            if (qty > 0) partsOnProfile.put(orderedItemsList.get(i), qty);
             if (orderedItemsList.get(i).getQty() == 0) fullyNestedItems.add(orderedItemsList.get(i));
             if (availableLength < shortestPartLength) break;
         }

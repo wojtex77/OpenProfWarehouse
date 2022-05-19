@@ -2,42 +2,41 @@ package pl.wojciechsiwek.OpenProfWarehouse.workspace;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "wsrest")
 public class WorkspaceRestController {
     private final WorkspaceService service;
+    private final MaterialStockRepository materialStockRepository;
+    private final OrderedItemsService orderedItemsService;
+    private final OrderedItemsRepository orderedItemsRepository;
 
-    public WorkspaceRestController(WorkspaceService service) {
+    public WorkspaceRestController(WorkspaceService service, MaterialStockRepository materialStockRepository, OrderedItemsService orderedItemsService, OrderedItemsRepository orderedItemsRepository) {
         this.service = service;
+        this.materialStockRepository = materialStockRepository;
+        this.orderedItemsService = orderedItemsService;
+        this.orderedItemsRepository = orderedItemsRepository;
     }
 
 
     @PostMapping("/save")
-    public String saveWS(){
+    public String saveWS() {
 
         return "Zapisano";
     }
 
 
     @PostMapping("/nest")
-    public String doNesting(){
-        List<String> stockSignaturesToUse = new ArrayList<>();
-        List<Integer> orderedItemsIds = new ArrayList<>();
-        stockSignaturesToUse.add("1-22");
-        stockSignaturesToUse.add("1-22-3");
-        stockSignaturesToUse.add("5-22");
-        orderedItemsIds.add(45);
-        orderedItemsIds.add(46);
-        orderedItemsIds.add(47);
+    public List<SingleProfileNested> doNesting(@RequestParam(value = "stockItemsSignatures[]") List<String> stockSignaturesToUse, @RequestParam(value = "orderedItemsIds[]") List<Integer> orderedItemsIds) {
 
-        List<SingleProfileNested> nestingList = service.doNesting(stockSignaturesToUse,orderedItemsIds);
-
-        return "Zapisano";
+        return service.doNesting(stockSignaturesToUse, orderedItemsIds);
     }
 
 }

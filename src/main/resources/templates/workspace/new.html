@@ -9,6 +9,7 @@
     <h1>Obszar roboczy</h1>
     <form th:action="@{/wsrest/save}" method="post">
         <button type="button" id="saveWSBtn" class="btn btn-outline-secondary">Zapisz</button>
+        <button type="button" id="runNestingBtn" class="btn btn-outline-secondary">Autorozkład</button>
 
         <div th:replace="workspace/tabs"></div>
         <div th:replace="workspace/modals"></div>

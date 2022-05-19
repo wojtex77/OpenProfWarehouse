@@ -98,6 +98,9 @@ public class StockItem {
     public void setAvailableQty(int availableQty) {
         this.availableQty = availableQty;
     }
+    public void decreaseAvailableQty() {
+        this.availableQty--;
+    }
 
     public String getMaterialType() {
         return materialType;
