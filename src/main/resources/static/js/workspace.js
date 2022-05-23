@@ -150,11 +150,16 @@ function addItemToTable(data){
             <td>` + data.profile + `</td>
             <td>` + data.profileLength + `</td>
             <td>` + data.material + `</td>` +
-            '<td><button type="button" class="btn btn-sm removeButton" id="remove-' + data.id + '" disabled>Usuń</button></td>' +`
+            '<td><button type="button" class="btn btn-sm removePartButton" id="removePart-' + data.id + '">Usuń</button></td>' +`
             <td hidden>` + '<input type="number" name="partId" value = "' + data.id + '">' + `</td>
             <td hidden>` + '<input type="number" name="itemId" value="" hidden>' + `</td>
         </tr>`
     );
+
+    $('.removePartButton').click(function(){
+            partId = this.id.substring(11);
+            removeOrderedItem(partId);
+        });
 };
 
 function addProfileToTable(data){
@@ -168,15 +173,31 @@ function addProfileToTable(data){
             <td>` + data.availableQty + `</td>
             <td>` + data.singleWeight + `</td>
             <td>` + data.wholeWeight + `</td>` +
-            '<td><button type="button" class="btn btn-sm removeButton" id="remove-' + data.signature + '" disabled>Usuń</button></td>' +`
+            '<td><button type="button" class="btn btn-sm removeStockButton" id="removeStock-' + data.signature + '">Usuń</button></td>' +`
         </tr>`
     );
+
+    $('.removeStockButton').click(function(){
+        stockId = this.id.substring(12);
+        removeStockItem(stockId);
+    });
 };
 
 function addHiddenItemInput(data){
 
     $('#inputs').append('<input type="number" class="orderedItemId" name="orderedItemId[]" value="' + data.id + '" id="part-' + data.id + '" readonly hidden />');
 
+}
+
+function removeOrderedItem(partId){
+    $('#rowPart-' + partId).remove();
+    $('#part-' + partId).remove();
+}
+
+
+function removeStockItem(stockId){
+    $('#rowProfile-' + stockId).remove();
+    $('#profile-' + stockId).remove();
 }
 
 function addHiddenProfileInput(data){
@@ -370,18 +391,6 @@ $(document).ready(function(){
 
     var runNestingButton = $('#runNestingBtn');
 
-    $('#saveWSBtn').click(function(){
-    var url = window.location.protocol + "//" + window.location.host;
-
-    var jqxhr = $.post( url + "/wsrest/save")
-          .done(function(data) {
-            console.log("Saved succesfull");
-          })
-          .fail(function() {
-            console.log( "error" );
-            alert('error');
-          })
-    });
 
     showPartsFromDBButton.click(function(){
         partsFromDBModal.show();
@@ -395,6 +404,5 @@ $(document).ready(function(){
 
     runNestingButton.click(function(){
         runNesting();
-
     });
 });
