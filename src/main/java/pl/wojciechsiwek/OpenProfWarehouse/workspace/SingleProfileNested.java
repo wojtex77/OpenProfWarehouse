@@ -1,12 +1,15 @@
 package pl.wojciechsiwek.OpenProfWarehouse.workspace;
 
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsExtended;
+
+import java.util.List;
 import java.util.Map;
 
 public class SingleProfileNested {
     private String profileSignature;
-    private Map itemsOnProfile; //key is orderedItemId, value is qty on profile
+    private List<OrderedItemsExtended> itemsOnProfile;
 
-    SingleProfileNested(String profileSignature, Map itemsOnProfile) {
+    SingleProfileNested(String profileSignature, List itemsOnProfile) {
         this.profileSignature = profileSignature;
         this.itemsOnProfile = itemsOnProfile;
     }
@@ -19,11 +22,11 @@ public class SingleProfileNested {
         this.profileSignature = profileSignature;
     }
 
-    public Map getItemsOnProfile() {
+    public List getItemsOnProfile() {
         return itemsOnProfile;
     }
 
-    public void setItemsOnProfile(Map itemsOnProfile) {
+    public void setItemsOnProfile(List itemsOnProfile) {
         this.itemsOnProfile = itemsOnProfile;
     }
 }

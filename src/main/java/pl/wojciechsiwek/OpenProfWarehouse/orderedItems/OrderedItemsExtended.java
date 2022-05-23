@@ -8,6 +8,8 @@ public class OrderedItemsExtended {
     private int partId;
     private String partName;
     private int qty;
+    private int nestedQty;
+    private int toNestQty;
     private String profile;
     private double profileLength;
     private String material;
@@ -31,6 +33,7 @@ public class OrderedItemsExtended {
         this.partId = partId;
         this.partName = partName;
         this.qty = qty;
+        this.toNestQty = qty;
         this.profile = profile;
         this.profileLength = profileLength;
         this.material = material;
@@ -40,8 +43,25 @@ public class OrderedItemsExtended {
         this.weight = weight;
     }
 
-    public void decreaseQty(){
-        qty--;
+    public int getNestedQty() {
+        return nestedQty;
+    }
+
+    public void setNestedQty(int nestedQty) {
+        this.nestedQty = nestedQty;
+    }
+
+    public int getToNestQty() {
+        return toNestQty;
+    }
+
+    public void setToNestQty(int toNestQty) {
+        this.toNestQty = toNestQty;
+    }
+
+    public void nestItem() {
+        toNestQty--;
+        nestedQty++;
     }
 
     public int getId() {

@@ -8,7 +8,9 @@ import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsRepository;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsService;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderetItemsExtendedLengthComparator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class WorkspaceService {
@@ -23,11 +25,19 @@ public class WorkspaceService {
         this.orderedItemsService = orderedItemsService;
     }
 
+    List<StockItem> getStockToUse(List<String> stockSignaturesToUse) {
+        return stockRepository.findBySignatureInOrderByProfileLengthDesc(stockSignaturesToUse);
+    }
+
+    List<OrderedItemsExtended> getOrderedItemsExtended(List<Integer> orderedItemsIds) {
+        return orderedItemsService.extendListOfOrderedItems(orderedItemsRepository.findByIdInOrderByQtyDesc(orderedItemsIds));
+    }
 
     List<SingleProfileNested> doNesting(List<String> stockSignaturesToUse, List<Integer> orderedItemsIds) throws IllegalStateException {
 
-        List<StockItem> stockToUse = stockRepository.findBySignatureInOrderByProfileLengthDesc(stockSignaturesToUse);
-        List<OrderedItemsExtended> orderedItemsList = orderedItemsService.extendListOfOrderedItems(orderedItemsRepository.findByIdInOrderByQtyDesc(orderedItemsIds));
+        List<StockItem> stockToUse = getStockToUse(stockSignaturesToUse);
+        List<OrderedItemsExtended> orderedItemsList = getOrderedItemsExtended(orderedItemsIds);
+
         Comparator comparator = new OrderetItemsExtendedLengthComparator().reversed();
         orderedItemsList.sort(comparator);
 
@@ -55,23 +65,23 @@ public class WorkspaceService {
         float shortestPartLength = orderedItemsList.stream().min(Comparator.comparing(OrderedItemsExtended::getProfileLength)).get().getProfileLength();
         List<OrderedItemsExtended> fullyNestedItems = new ArrayList<>();
 
-        Map partsOnProfile = new HashMap<OrderedItemsExtended, Integer>();
+        List<OrderedItemsExtended> partsOnProfile = new ArrayList<>();
 
-        for (int i = 0; i < orderedItemsList.size(); i++) { //Druga pętla iterująca po każdej części w liście aż do momentu gdy już nic się nie zmieści.
+        for (int i = 0; i < orderedItemsList.size(); i++) { //Iterating each part on sigle profile up the profile is fully used
 
-            int qty = 0; // licznik ile sztuk zamówionej częsci zmieści się na profilu
-            while ((availableLength >= orderedItemsList.get(i).getProfileLength()) && orderedItemsList.get(i).getQty() > 0) { //petla sprawdzająca ile tej samej części zmieści się na profilu
+            int qty = 0; // counter how many orderedItems can be nested on profile
+            while ((availableLength >= orderedItemsList.get(i).getProfileLength()) && orderedItemsList.get(i).getToNestQty() > 0) { //petla sprawdzająca ile tej samej części zmieści się na profilu
                 if (orderedItemsList.get(i).getProfileLength() <= stockItem.getProfileLength()) {
                     qty++;
                     availableLength = availableLength - orderedItemsList.get(i).getProfileLength();
-                    orderedItemsList.get(i).decreaseQty();
+                    orderedItemsList.get(i).nestItem();
                 }
             }
-            if (qty > 0) partsOnProfile.put(orderedItemsList.get(i), qty);
-            if (orderedItemsList.get(i).getQty() == 0) fullyNestedItems.add(orderedItemsList.get(i));
+            if (qty > 0) partsOnProfile.add(orderedItemsList.get(i));
+            if (orderedItemsList.get(i).getToNestQty() == 0) fullyNestedItems.add(orderedItemsList.get(i));
             if (availableLength < shortestPartLength) break;
         }
-        if (fullyNestedItems != null) {
+        if (fullyNestedItems != null) { //remove nested item from orderedItems List
             for (int i = 0; i < fullyNestedItems.size(); i++) {
                 orderedItemsList.remove(fullyNestedItems.get(i));
             }

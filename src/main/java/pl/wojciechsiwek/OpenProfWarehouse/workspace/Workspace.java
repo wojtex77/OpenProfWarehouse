@@ -1,37 +1,47 @@
 package pl.wojciechsiwek.OpenProfWarehouse.workspace;
 
 import org.springframework.stereotype.Component;
-import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.StockItem;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsExtended;
-import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsRepository;
-import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsService;
 
 import java.util.List;
 
 @Component
 public class Workspace {
-    private List<SingleProfileNested> nestingList;
-    private List<StockItem> stockToUse;
-    private List<OrderedItemsExtended> orderedItemsList;
-    private MaterialStockRepository stockRepository;
-    private OrderedItemsService orderedItemsService;
-    private OrderedItemsRepository orderedItemsRepository;
 
-    public Workspace(MaterialStockRepository stockRepository,
-                     OrderedItemsService orderedItemsService,
-                     OrderedItemsRepository orderedItemsRepository,
-                     List<String> stockSignaturesToUse,
-                     List<Integer> orderedItemsIds) {
-        this.stockRepository = stockRepository;
-        this.orderedItemsService = orderedItemsService;
-        this.orderedItemsRepository = orderedItemsRepository;
-        this.stockToUse = this.stockRepository.findBySignatureInOrderByProfileLengthDesc(stockSignaturesToUse);
-        this.orderedItemsList = this.orderedItemsService.extendListOfOrderedItems(this.orderedItemsRepository.findByIdInOrderByQtyDesc(orderedItemsIds));
+    private final WorkspaceService workspaceService;
 
+    private List<SingleProfileNested> profileNestedList;
+    private List<OrderedItemsExtended> orderedItemsExtendedList;
+    private List<StockItem> stockItemList;
+
+    Workspace(List<String> stockSignaturesToUse, List<Integer> orderedItemsIds, WorkspaceService workspaceService) {
+        this.workspaceService = workspaceService;
+        this.orderedItemsExtendedList = workspaceService.getOrderedItemsExtended(orderedItemsIds);
+        this.stockItemList = workspaceService.getStockToUse(stockSignaturesToUse);
     }
 
-    void setNestingList(List<SingleProfileNested> nestingList) {
-        this.nestingList = nestingList;
+    public List<SingleProfileNested> getProfileNestedList() {
+        return profileNestedList;
+    }
+
+    void setProfileNestedList(List<SingleProfileNested> profileNestedList) {
+        this.profileNestedList = profileNestedList;
+    }
+
+    public List<OrderedItemsExtended> getOrderedItemsExtendedList() {
+        return orderedItemsExtendedList;
+    }
+
+    void setOrderedItemsExtendedList(List<OrderedItemsExtended> orderedItemsExtendedList) {
+        this.orderedItemsExtendedList = orderedItemsExtendedList;
+    }
+
+    public List<StockItem> getStockItemList() {
+        return stockItemList;
+    }
+
+    void setStockItemList(List<StockItem> stockItemList) {
+        this.stockItemList = stockItemList;
     }
 }

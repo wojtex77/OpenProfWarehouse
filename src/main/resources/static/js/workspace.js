@@ -315,12 +315,8 @@ function showSingleProfileNesting(profile){
 
         var stringToParse = key.substring(20).replace(/'/g, '"');
         console.log(stringToParse);
-        var object = jQuery.parseJSON(stringToParse);
-
       }
     }
-
-    alert(strBuilder.join(""));
 
     $('#nestingDetails').append(`
         <div class="row">
