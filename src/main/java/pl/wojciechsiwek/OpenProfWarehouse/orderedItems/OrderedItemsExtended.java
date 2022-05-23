@@ -43,6 +43,26 @@ public class OrderedItemsExtended {
         this.weight = weight;
     }
 
+    OrderedItemsExtended(int id, int partId, String partName, int qty, int nestedQty, int toNestQty, String profile, double profileLength, String material, String orderNumber, String article, String drawing, double weight) {
+        this.id = id;
+        this.partId = partId;
+        this.partName = partName;
+        this.qty = qty;
+        this.nestedQty = nestedQty;
+        this.toNestQty = toNestQty;
+        this.profile = profile;
+        this.profileLength = profileLength;
+        this.material = material;
+        this.orderNumber = orderNumber;
+        this.article = article;
+        this.drawing = drawing;
+        this.weight = weight;
+    }
+
+    public OrderedItemsExtended(OrderedItemsExtended item) {
+        this(item.id, item.partId, item.partName, item.qty, item.nestedQty, item.toNestQty, item.profile, item.profileLength, item.material, item.orderNumber, item.article, item.drawing, item.weight);
+    }
+
     public int getNestedQty() {
         return nestedQty;
     }

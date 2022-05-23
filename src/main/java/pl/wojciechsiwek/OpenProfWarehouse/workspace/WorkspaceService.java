@@ -77,7 +77,10 @@ public class WorkspaceService {
                     orderedItemsList.get(i).nestItem();
                 }
             }
-            if (qty > 0) partsOnProfile.add(orderedItemsList.get(i));
+            if (qty > 0) {
+                partsOnProfile.add(new OrderedItemsExtended(orderedItemsList.get(i)));
+                orderedItemsList.get(i).setNestedQty(0);
+            }
             if (orderedItemsList.get(i).getToNestQty() == 0) fullyNestedItems.add(orderedItemsList.get(i));
             if (availableLength < shortestPartLength) break;
         }

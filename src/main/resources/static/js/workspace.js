@@ -175,13 +175,13 @@ function addProfileToTable(data){
 
 function addHiddenItemInput(data){
 
-    $('#inputs').append('<input type="number" class="orderedItemId" name="orderedItemId[]" value="' + data.id + '" id="part-' + data.id + '" readonly />');
+    $('#inputs').append('<input type="number" class="orderedItemId" name="orderedItemId[]" value="' + data.id + '" id="part-' + data.id + '" readonly hidden />');
 
 }
 
 function addHiddenProfileInput(data){
 
-    $('#inputs').append('<input type="text" class="stockItemId" name="stockItemId[]" value="' + data.signature + '" id="profile-' + data.signature + '" readonly />');
+    $('#inputs').append('<input type="text" class="stockItemId" name="stockItemId[]" value="' + data.signature + '" id="profile-' + data.signature + '" readonly hidden />');
 
 }
 
@@ -305,33 +305,31 @@ function showProfilesInModal(data){
             });
 };
 
-function showSingleProfileNesting(profile){
+function showSingleProfileNesting(profiles){
 
-
-    var strBuilder = [];
-    for(key in profile.itemsOnProfile) {
-      if (profile.itemsOnProfile.hasOwnProperty(key)) {
-        strBuilder.push("Key is " + key + ", value is " + profile.itemsOnProfile[key] + "\n");
-
-        var stringToParse = key.substring(20).replace(/'/g, '"');
-        console.log(stringToParse);
-      }
-    }
-
-    $('#nestingDetails').append(`
-        <div class="row">
-            <div class="col-1">Certyfikat: </div>
-            <div class="fw-bold col-11">` + profile.profileSignature + `</div>
-            <div class="col-2 offset-2">Część: <span class="fw-bold">` + profile.itemsOnProfile + `</span></div><div class="col-1"> L= 650</div><div class="col-7"> sztuk 3</div>
-            <div class="col-2 offset-2">Część: <span class="fw-bold">234</span></div><div class="col-1"> L= 125</div><div class="col-7"> sztuk 8</div>
-        </div>
-    `);
+    for(var i = 0; i < profiles.length; i++){
+        $('#nestingDetails').append(`
+            <div class="row">
+                <div class="col-1">Profil: </div>
+                <div class="fw-bold col-11"> ` + profiles[i].profileSignature + `</div>` +
+                showPartsOnSingleProfile(profiles[i].itemsOnProfile) + `
+            </div>
+        `);
+    };
 
 };
 
-function showNestingDetails(data){
+function showPartsOnSingleProfile(data){
+    var html = "";
+    for(var i=0; i< data.length; i++){
+        html += `<div class="col-2 offset-2">Część: <span class="fw-bold">` + data[i].partName + `</span></div><div class="col-2"> <span class="fw-bold">L [mm]= ` + data[i].profileLength + `</span></div><div class="col-6"> sztuk: <span class="fw-bold">` + data[i].nestedQty + `</span></div>`;
+    };
+    return html;
+}
 
-    showSingleProfileNesting(data[0]);
+function showNestingDetails(data){
+    $('#nestingDetails').empty();
+    showSingleProfileNesting(data.profileNestedList);
 
 };
 
