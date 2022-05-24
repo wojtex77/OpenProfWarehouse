@@ -46,7 +46,7 @@ public class WorkspaceService {
 
         while (i < workspace.getStockItemList().size() && workspace.getOrderedItemsExtendedList().size() > 0) {
             while (workspace.getStockItemList().get(i).getAvailableQty() > 0 && workspace.getOrderedItemsExtendedList().size() > 0) {
-                SingleProfileNested singleProfileNested = nestOnSingleStockItem(workspace.getStockItemList().get(i), workspace.getOrderedItemsExtendedList());
+                SingleProfileNested singleProfileNested = nestOnSingleStockItem(workspace.getStockItemList().get(i), workspace.getOrderedItemsExtendedList(), workspace);
                 if (singleProfileNested != null) {
                     list.add(singleProfileNested);
                     workspace.getStockItemList().get(i).decreaseAvailableQty();
@@ -56,13 +56,16 @@ public class WorkspaceService {
         }
         workspace.setProfileNestedList(list);
 
-        workspace.getOrderedItemsExtendedList().forEach(item -> {item.setNestedQty(item.getQty()-item.getToNestQty());});
+        workspace.getOrderedItemsExtendedList().forEach(item -> {
+            item.setNestedQty(item.getQty() - item.getToNestQty());
+        });
 
         return workspace;
     }
 
-    private SingleProfileNested nestOnSingleStockItem(StockItem stockItem, List<OrderedItemsExtended> orderedItemsList) {
-        double availableLength = stockItem.getProfileLength();
+    private SingleProfileNested nestOnSingleStockItem(StockItem stockItem, List<OrderedItemsExtended> orderedItemsList, Workspace workspace) {
+
+        double availableLength = stockItem.getProfileLength() - (2 * workspace.getProfileMargin());
         float shortestPartLength = orderedItemsList.stream().min(Comparator.comparing(OrderedItemsExtended::getProfileLength)).get().getProfileLength();
         List<OrderedItemsExtended> fullyNestedItems = new ArrayList<>();
 
@@ -74,7 +77,7 @@ public class WorkspaceService {
             while ((availableLength >= orderedItemsList.get(i).getProfileLength()) && orderedItemsList.get(i).getToNestQty() > 0) { //petla sprawdzająca ile tej samej części zmieści się na profilu
                 if (orderedItemsList.get(i).getProfileLength() <= stockItem.getProfileLength()) {
                     qty++;
-                    availableLength = availableLength - orderedItemsList.get(i).getProfileLength();
+                    availableLength = availableLength - orderedItemsList.get(i).getProfileLength() - workspace.getPartDistance();
                     orderedItemsList.get(i).nestItem();
                 }
             }
@@ -85,11 +88,6 @@ public class WorkspaceService {
             if (orderedItemsList.get(i).getToNestQty() == 0) fullyNestedItems.add(orderedItemsList.get(i));
             if (availableLength < shortestPartLength) break;
         }
-//        if (fullyNestedItems != null) { //remove nested item from orderedItems List
-//            for (int i = 0; i < fullyNestedItems.size(); i++) {
-//                orderedItemsList.remove(fullyNestedItems.get(i));
-//            }
-//        }
         return new SingleProfileNested(stockItem, partsOnProfile);
     }
 }

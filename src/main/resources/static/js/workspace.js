@@ -365,11 +365,16 @@ function runNesting(){
         orderedItemsIds.push($(this).val());
     });
 
+    var profileMargin = $('#profileMargin').val();
+    var partDistance = $('#partDistance').val();
+
 
     var url = window.location.protocol + "//" + window.location.host;
     var jqxhr = $.post( url + "/wsrest/nest", {
             "stockItemsSignatures" : stockItemsSignatures,
-            "orderedItemsIds": orderedItemsIds
+            "orderedItemsIds": orderedItemsIds,
+            "profileMargin": profileMargin,
+            "partDistance": partDistance
           })
           .done(function(data) {
             console.log("Nesting done");
@@ -399,6 +404,8 @@ function showItemsStatus(data){
             `
                     <div class="col-5">Część:</div>
                     <div class="fw-bold col-7">` + parts[i].partName + `</div>
+                    <div class="col-5">Długość:</div>
+                    <div class="fw-bold col-7">` + parts[i].profileLength + `</div>
                     <div class="col-5">Zlecenie:</div>
                     <div class="fw-bold col-7">` + parts[i].orderNumber + `</div>
                     <div class="col-5">Ilość zlecona:</div>
