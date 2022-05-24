@@ -36,10 +36,9 @@ public class WorkspaceRestController {
     @PostMapping("/nest")
     public Workspace doNesting(@RequestParam(value = "stockItemsSignatures[]") List<String> stockSignaturesToUse, @RequestParam(value = "orderedItemsIds[]") List<Integer> orderedItemsIds) {
 
-        Workspace workspace = new Workspace(stockSignaturesToUse,orderedItemsIds,service);
+        Workspace workspace = new Workspace(service.getStockToUseBySignatures(stockSignaturesToUse),service.getOrderedItemsExtendedByIds(orderedItemsIds));
 
-        workspace.setProfileNestedList(service.doNesting(stockSignaturesToUse, orderedItemsIds));
-        return workspace;
+        return service.doNesting(workspace);
     }
 
 }

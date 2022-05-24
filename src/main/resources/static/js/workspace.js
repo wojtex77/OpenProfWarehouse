@@ -330,9 +330,9 @@ function showSingleProfileNesting(profiles){
 
     for(var i = 0; i < profiles.length; i++){
         $('#nestingDetails').append(`
-            <div class="row">
+            <div class='row my-3 bg-dark bg-gradient p-2 bg-opacity-10'>
                 <div class="col-1">Profil: </div>
-                <div class="fw-bold col-11"> ` + profiles[i].profileSignature + `</div>` +
+                <div class="col-11"><span class = "fw-bold">` + profiles[i].stockItem.signature + `</span><span class="fw-light fw-italic"> (L= ` + profiles[i].stockItem.profileLength + ` mm)</span></div>` +
                 showPartsOnSingleProfile(profiles[i].itemsOnProfile) + `
             </div>
         `);
@@ -343,7 +343,7 @@ function showSingleProfileNesting(profiles){
 function showPartsOnSingleProfile(data){
     var html = "";
     for(var i=0; i< data.length; i++){
-        html += `<div class="col-2 offset-2">Część: <span class="fw-bold">` + data[i].partName + `</span></div><div class="col-2"> <span class="fw-bold">L [mm]= ` + data[i].profileLength + `</span></div><div class="col-6"> sztuk: <span class="fw-bold">` + data[i].nestedQty + `</span></div>`;
+        html += `<div class="col-2 offset-2">Część: <span class="fw-bold">` + data[i].partName + `</span></div><div class="col-2">L [mm]= <span class="fw-bold">` + data[i].profileLength + `</span></div><div class="col-6"> sztuk: <span class="fw-bold">` + data[i].nestedQty + `</span></div>`;
     };
     return html;
 }
@@ -374,12 +374,43 @@ function runNesting(){
           .done(function(data) {
             console.log("Nesting done");
             showNestingDetails(data);
+            showItemsStatus(data);
 
           })
           .fail(function() {
             console.log( "error" );
             alert('Nie udało się wykonać nestingu, sprawdź czy wczytałeś części oraz materiał wejściowy');
           });
+};
+
+function showItemsStatus(data){
+    $('#nestedPartsDetails').empty();
+    var parts = data.orderedItemsExtendedList;
+
+    var type;
+    for (var i = 0; i< parts.length; i++){
+
+        if(parts[i].qty == parts[i].nestedQty) type = `<div class="row my-3 bg-success bg-gradient p-2 bg-opacity-10">`;
+        if((parts[i].qty > parts[i].nestedQty) && (parts[i].nestedQty != 0)) type = `<div class="row my-3 bg-primary bg-gradient p-2 bg-opacity-10">`;
+        if(parts[i].nestedQty == 0) type = `<div class="row my-3 p-2">`;
+
+        $('#nestedPartsDetails').append(
+            type +
+            `
+                    <div class="col-5">Część:</div>
+                    <div class="fw-bold col-7">` + parts[i].partName + `</div>
+                    <div class="col-5">Zlecenie:</div>
+                    <div class="fw-bold col-7">` + parts[i].orderNumber + `</div>
+                    <div class="col-5">Ilość zlecona:</div>
+                    <div class="fw-bold col-7">` + parts[i].qty + `</div>
+                    <div class="col-5">Ilość rozłożona:</div>
+                    <div class="fw-bold col-7">` + parts[i].nestedQty + `</div>
+                </div>
+            `
+        );
+
+    }
+
 };
 
 $(document).ready(function(){

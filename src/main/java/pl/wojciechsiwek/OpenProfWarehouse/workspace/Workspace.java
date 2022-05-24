@@ -9,16 +9,14 @@ import java.util.List;
 @Component
 public class Workspace {
 
-    private final WorkspaceService workspaceService;
 
     private List<SingleProfileNested> profileNestedList;
     private List<OrderedItemsExtended> orderedItemsExtendedList;
     private List<StockItem> stockItemList;
 
-    Workspace(List<String> stockSignaturesToUse, List<Integer> orderedItemsIds, WorkspaceService workspaceService) {
-        this.workspaceService = workspaceService;
-        this.orderedItemsExtendedList = workspaceService.getOrderedItemsExtended(orderedItemsIds);
-        this.stockItemList = workspaceService.getStockToUse(stockSignaturesToUse);
+    Workspace(List<StockItem> stockItemList, List<OrderedItemsExtended> orderedItemsExtendedList) {
+        this.orderedItemsExtendedList = orderedItemsExtendedList;
+        this.stockItemList = stockItemList;
     }
 
     public List<SingleProfileNested> getProfileNestedList() {

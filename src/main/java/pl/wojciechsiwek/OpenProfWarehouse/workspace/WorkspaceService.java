@@ -25,39 +25,40 @@ public class WorkspaceService {
         this.orderedItemsService = orderedItemsService;
     }
 
-    List<StockItem> getStockToUse(List<String> stockSignaturesToUse) {
+    List<StockItem> getStockToUseBySignatures(List<String> stockSignaturesToUse) {
         return stockRepository.findBySignatureInOrderByProfileLengthDesc(stockSignaturesToUse);
     }
 
-    List<OrderedItemsExtended> getOrderedItemsExtended(List<Integer> orderedItemsIds) {
+    List<OrderedItemsExtended> getOrderedItemsExtendedByIds(List<Integer> orderedItemsIds) {
         return orderedItemsService.extendListOfOrderedItems(orderedItemsRepository.findByIdInOrderByQtyDesc(orderedItemsIds));
     }
 
-    List<SingleProfileNested> doNesting(List<String> stockSignaturesToUse, List<Integer> orderedItemsIds) throws IllegalStateException {
-
-        List<StockItem> stockToUse = getStockToUse(stockSignaturesToUse);
-        List<OrderedItemsExtended> orderedItemsList = getOrderedItemsExtended(orderedItemsIds);
+    Workspace doNesting(Workspace workspace) throws IllegalStateException {
 
         Comparator comparator = new OrderetItemsExtendedLengthComparator().reversed();
-        orderedItemsList.sort(comparator);
+        workspace.getOrderedItemsExtendedList().sort(comparator);
 
         List<SingleProfileNested> list = new ArrayList<>();
-        if (stockToUse == null || orderedItemsList == null) {
+        if (workspace.getStockItemList() == null || workspace.getOrderedItemsExtendedList() == null) {
             throw new IllegalStateException("Parts or profiles lists to nesting can not be null");
         }
         int i = 0;
 
-        while (i < stockSignaturesToUse.size() && orderedItemsList.size() > 0) {
-            while (stockToUse.get(i).getAvailableQty() > 0 && orderedItemsList.size() > 0) {
-                SingleProfileNested singleProfileNested = nestOnSingleStockItem(stockToUse.get(i), orderedItemsList);
+        while (i < workspace.getStockItemList().size() && workspace.getOrderedItemsExtendedList().size() > 0) {
+            while (workspace.getStockItemList().get(i).getAvailableQty() > 0 && workspace.getOrderedItemsExtendedList().size() > 0) {
+                SingleProfileNested singleProfileNested = nestOnSingleStockItem(workspace.getStockItemList().get(i), workspace.getOrderedItemsExtendedList());
                 if (singleProfileNested != null) {
                     list.add(singleProfileNested);
-                    stockToUse.get(i).decreaseAvailableQty();
+                    workspace.getStockItemList().get(i).decreaseAvailableQty();
                 }
             }
             i++;
         }
-        return list;
+        workspace.setProfileNestedList(list);
+
+        workspace.getOrderedItemsExtendedList().forEach(item -> {item.setNestedQty(item.getQty()-item.getToNestQty());});
+
+        return workspace;
     }
 
     private SingleProfileNested nestOnSingleStockItem(StockItem stockItem, List<OrderedItemsExtended> orderedItemsList) {
@@ -84,11 +85,11 @@ public class WorkspaceService {
             if (orderedItemsList.get(i).getToNestQty() == 0) fullyNestedItems.add(orderedItemsList.get(i));
             if (availableLength < shortestPartLength) break;
         }
-        if (fullyNestedItems != null) { //remove nested item from orderedItems List
-            for (int i = 0; i < fullyNestedItems.size(); i++) {
-                orderedItemsList.remove(fullyNestedItems.get(i));
-            }
-        }
-        return new SingleProfileNested(stockItem.getSignature(), partsOnProfile);
+//        if (fullyNestedItems != null) { //remove nested item from orderedItems List
+//            for (int i = 0; i < fullyNestedItems.size(); i++) {
+//                orderedItemsList.remove(fullyNestedItems.get(i));
+//            }
+//        }
+        return new SingleProfileNested(stockItem, partsOnProfile);
     }
 }

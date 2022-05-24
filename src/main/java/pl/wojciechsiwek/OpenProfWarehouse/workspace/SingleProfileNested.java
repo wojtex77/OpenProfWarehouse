@@ -1,25 +1,25 @@
 package pl.wojciechsiwek.OpenProfWarehouse.workspace;
 
+import pl.wojciechsiwek.OpenProfWarehouse.materialStock.StockItem;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsExtended;
 
 import java.util.List;
-import java.util.Map;
 
 public class SingleProfileNested {
-    private String profileSignature;
+    private StockItem stockItem;
     private List<OrderedItemsExtended> itemsOnProfile;
 
-    SingleProfileNested(String profileSignature, List itemsOnProfile) {
-        this.profileSignature = profileSignature;
+    SingleProfileNested(StockItem profileSignature, List itemsOnProfile) {
+        this.stockItem = profileSignature;
         this.itemsOnProfile = itemsOnProfile;
     }
 
-    public String getProfileSignature() {
-        return profileSignature;
+    public StockItem getStockItem() {
+        return stockItem;
     }
 
-    public void setProfileSignature(String profileSignature) {
-        this.profileSignature = profileSignature;
+    public void setStockItem(StockItem stockItem) {
+        this.stockItem = stockItem;
     }
 
     public List getItemsOnProfile() {
