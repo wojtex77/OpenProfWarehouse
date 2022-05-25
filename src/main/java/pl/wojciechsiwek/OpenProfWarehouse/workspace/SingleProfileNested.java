@@ -4,6 +4,7 @@ import pl.wojciechsiwek.OpenProfWarehouse.materialStock.StockItem;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsExtended;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SingleProfileNested {
     private StockItem stockItem;
@@ -43,20 +44,22 @@ public class SingleProfileNested {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SingleProfileNested)) return false;
-
+        if (o == null || getClass() != o.getClass()) return false;
         SingleProfileNested that = (SingleProfileNested) o;
-
-        if (repetition != that.repetition) return false;
-        if (stockItem != null ? !stockItem.equals(that.stockItem) : that.stockItem != null) return false;
-        return itemsOnProfile != null ? itemsOnProfile.equals(that.itemsOnProfile) : that.itemsOnProfile == null;
+        return repetition == that.repetition && Objects.equals(stockItem, that.stockItem) && Objects.equals(itemsOnProfile, that.itemsOnProfile);
     }
 
     @Override
     public int hashCode() {
-        int result = stockItem != null ? stockItem.hashCode() : 0;
-        result = 31 * result + (itemsOnProfile != null ? itemsOnProfile.hashCode() : 0);
-        result = 31 * result + repetition;
-        return result;
+        return Objects.hash(stockItem, itemsOnProfile, repetition);
+    }
+
+    @Override
+    public String toString() {
+        return "SingleProfileNested{" +
+                "stockItem=" + stockItem +
+                ", itemsOnProfile=" + itemsOnProfile +
+                ", repetition=" + repetition +
+                '}';
     }
 }

@@ -34,15 +34,14 @@ public class WorkspaceRestController {
 
 
     @PostMapping("/nest")
-    public Workspace doNesting(@RequestParam(value = "stockItemsSignatures[]") List<String> stockSignaturesToUse,
-                               @RequestParam(value = "orderedItemsIds[]") List<Integer> orderedItemsIds,
-                               @RequestParam(value = "profileMargin") Float profileMargin,
-                               @RequestParam(value = "partDistance") Float partDistance) {
+    public Workspace doNesting(@RequestParam(value = "stockItemsSignatures[]") List<String> stockSignaturesToUse, @RequestParam(value = "orderedItemsIds[]") List<Integer> orderedItemsIds, @RequestParam(value = "profileMargin") Float profileMargin, @RequestParam(value = "partDistance") Float partDistance, @RequestParam(value = "minRemnantLength") Float minRemnantLength) {
 
-        Workspace workspace = new Workspace(service.getStockToUseBySignatures(stockSignaturesToUse),service.getOrderedItemsExtendedByIds(orderedItemsIds));
+        Workspace workspace = new Workspace(service.getStockToUseBySignatures(stockSignaturesToUse), service.getOrderedItemsExtendedByIds(orderedItemsIds));
         workspace.setPartDistance(partDistance);
         workspace.setProfileMargin(profileMargin);
-        return service.doNesting(workspace);
+        workspace.setMinRemnantLength(minRemnantLength);
+
+        return service.startNesting(workspace);
     }
 
 }

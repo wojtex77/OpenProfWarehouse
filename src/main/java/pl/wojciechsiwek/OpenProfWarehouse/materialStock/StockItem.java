@@ -4,7 +4,6 @@ package pl.wojciechsiwek.OpenProfWarehouse.materialStock;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -25,7 +24,19 @@ public class StockItem {
     StockItem() {
     }
 
-    StockItem(String signature, String profile, String material, double profileLength, int qty, int availableQty, String materialType) {
+    public StockItem(StockItem stockItem, double profileLength) {
+        this.signature = stockItem.signature;
+        this.profile = stockItem.profile;
+        this.material = stockItem.material;
+        this.profileLength = profileLength;
+        this.qty = 1;
+        this.availableQty = 1;
+//        this.singleWeight = stockItem.singleWeight;
+//        this.wholeWeight = stockItem.wholeWeight;
+        this.materialType = stockItem.materialType;
+    }
+
+    public StockItem(String signature, String profile, String material, double profileLength, int qty, int availableQty, String materialType) {
         this.signature = signature;
         this.profile = profile;
         this.material = material;
@@ -98,6 +109,7 @@ public class StockItem {
     public void setAvailableQty(int availableQty) {
         this.availableQty = availableQty;
     }
+
     public void decreaseAvailableQty() {
         this.availableQty--;
     }
@@ -110,41 +122,31 @@ public class StockItem {
         this.materialType = materialType;
     }
 
+    public void increaseBothQuantities() {
+        this.qty++;
+        this.availableQty++;
+    }
+
+
+
+    public boolean equalsExceptQuantites(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StockItem stockItem = (StockItem) o;
+        return Double.compare(stockItem.profileLength, profileLength) == 0 && Double.compare(stockItem.singleWeight, singleWeight) == 0 && Double.compare(stockItem.wholeWeight, wholeWeight) == 0 && Objects.equals(signature, stockItem.signature) && Objects.equals(profile, stockItem.profile) && Objects.equals(material, stockItem.material) && Objects.equals(materialType, stockItem.materialType);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StockItem)) return false;
-
+        if (o == null || getClass() != o.getClass()) return false;
         StockItem stockItem = (StockItem) o;
-
-        if (Double.compare(stockItem.profileLength, profileLength) != 0) return false;
-        if (qty != stockItem.qty) return false;
-        if (availableQty != stockItem.availableQty) return false;
-        if (Double.compare(stockItem.singleWeight, singleWeight) != 0) return false;
-        if (Double.compare(stockItem.wholeWeight, wholeWeight) != 0) return false;
-        if (signature != null ? !signature.equals(stockItem.signature) : stockItem.signature != null) return false;
-        if (profile != null ? !profile.equals(stockItem.profile) : stockItem.profile != null) return false;
-        if (material != null ? !material.equals(stockItem.material) : stockItem.material != null) return false;
-        return materialType != null ? materialType.equals(stockItem.materialType) : stockItem.materialType == null;
+        return Double.compare(stockItem.profileLength, profileLength) == 0 && qty == stockItem.qty && availableQty == stockItem.availableQty && Double.compare(stockItem.singleWeight, singleWeight) == 0 && Double.compare(stockItem.wholeWeight, wholeWeight) == 0 && Objects.equals(signature, stockItem.signature) && Objects.equals(profile, stockItem.profile) && Objects.equals(material, stockItem.material) && Objects.equals(materialType, stockItem.materialType);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = signature != null ? signature.hashCode() : 0;
-        result = 31 * result + (profile != null ? profile.hashCode() : 0);
-        result = 31 * result + (material != null ? material.hashCode() : 0);
-        temp = Double.doubleToLongBits(profileLength);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + qty;
-        result = 31 * result + availableQty;
-        temp = Double.doubleToLongBits(singleWeight);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(wholeWeight);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (materialType != null ? materialType.hashCode() : 0);
-        return result;
+        return Objects.hash(signature, profile, material, profileLength, qty, availableQty, singleWeight, wholeWeight, materialType);
     }
 
     @Override

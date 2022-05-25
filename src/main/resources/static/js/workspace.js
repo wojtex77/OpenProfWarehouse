@@ -343,7 +343,7 @@ function showSingleProfileNesting(profiles){
 function showPartsOnSingleProfile(data){
     var html = "";
     for(var i=0; i< data.length; i++){
-        html += `<div class="col-2 offset-2">Część: <span class="fw-bold">` + data[i].partName + `</span></div><div class="col-2">L [mm]= <span class="fw-bold">` + data[i].profileLength + `</span></div><div class="col-6"> sztuk: <span class="fw-bold">` + data[i].nestedQty + `</span></div>`;
+        html += `<div class="col-4 offset-2">Część: <span class="fw-bold">` + data[i].partName + `</span></div><div class="col-3">L [mm]= <span class="fw-bold">` + data[i].profileLength + `</span></div><div class="col-3"> sztuk: <span class="fw-bold">` + data[i].nestedQty + `</span></div>`;
     };
     return html;
 }
@@ -367,6 +367,7 @@ function runNesting(){
 
     var profileMargin = $('#profileMargin').val();
     var partDistance = $('#partDistance').val();
+    var minRemnantLength = $('#minRemnantLength').val();
 
 
     var url = window.location.protocol + "//" + window.location.host;
@@ -374,12 +375,14 @@ function runNesting(){
             "stockItemsSignatures" : stockItemsSignatures,
             "orderedItemsIds": orderedItemsIds,
             "profileMargin": profileMargin,
-            "partDistance": partDistance
+            "partDistance": partDistance,
+            "minRemnantLength": minRemnantLength
           })
           .done(function(data) {
             console.log("Nesting done");
             showNestingDetails(data);
             showItemsStatus(data);
+            showRemnants(data);
 
           })
           .fail(function() {
@@ -413,6 +416,29 @@ function showItemsStatus(data){
                     <div class="col-5">Ilość rozłożona:</div>
                     <div class="fw-bold col-7">` + parts[i].nestedQty + `</div>
                 </div>
+            `
+        );
+
+    }
+
+};
+
+
+function showRemnants(data){
+    $('#remnantsDetails').empty();
+    var remnants = data.remnantList;
+
+    for (var i = 0; i< remnants.length; i++){
+
+        $('#remnantsDetails').append(
+           `<div class="row my-3 p-2 bg-dark bg-gradient bg-opacity-10">
+                <div class="col-5">Nazwa:</div>
+                <div class="fw-bold col-7">` + remnants[i].signature + `</div>
+                <div class="col-5">Długość:</div>
+                <div class="fw-bold col-7">` + remnants[i].profileLength + `</div>
+                <div class="col-5">Ilość:</div>
+                <div class="fw-bold col-7">` + remnants[i].qty + `</div>
+            </div>
             `
         );
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.StockItem;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsExtended;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,12 +16,35 @@ public class Workspace {
     private List<SingleProfileNested> profileNestedList;
     private List<OrderedItemsExtended> orderedItemsExtendedList;
     private List<StockItem> stockItemList;
+    private List<StockItem> remnantList;
     private double partDistance;
     private double profileMargin;
+    private double minRemnantLength;
 
     Workspace(List<StockItem> stockItemList, List<OrderedItemsExtended> orderedItemsExtendedList) {
         this.orderedItemsExtendedList = orderedItemsExtendedList;
         this.stockItemList = stockItemList;
+        this.remnantList = new ArrayList<>();
+    }
+
+    void addToRemnantList(StockItem remnant){
+        this.remnantList.add(remnant);
+    }
+
+    public List<StockItem> getRemnantList() {
+        return remnantList;
+    }
+
+    void setRemnantList(List<StockItem> remnantList) {
+        this.remnantList = remnantList;
+    }
+
+    public double getMinRemnantLength() {
+        return minRemnantLength;
+    }
+
+    void setMinRemnantLength(double minRemnantLength) {
+        this.minRemnantLength = minRemnantLength;
     }
 
     void setPartDistance(double partDistance) {
@@ -31,11 +55,11 @@ public class Workspace {
         this.profileMargin = profileMargin;
     }
 
-    double getPartDistance() {
+    public double getPartDistance() {
         return partDistance;
     }
 
-    double getProfileMargin() {
+    public double getProfileMargin() {
         return profileMargin;
     }
 
@@ -68,16 +92,24 @@ public class Workspace {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Workspace workspace = (Workspace) o;
-        return Double.compare(workspace.partDistance, partDistance) == 0 && Double.compare(workspace.profileMargin, profileMargin) == 0 && Objects.equals(profileNestedList, workspace.profileNestedList) && Objects.equals(orderedItemsExtendedList, workspace.orderedItemsExtendedList) && Objects.equals(stockItemList, workspace.stockItemList);
+        return Double.compare(workspace.partDistance, partDistance) == 0 && Double.compare(workspace.profileMargin, profileMargin) == 0 && Double.compare(workspace.minRemnantLength, minRemnantLength) == 0 && Objects.equals(profileNestedList, workspace.profileNestedList) && Objects.equals(orderedItemsExtendedList, workspace.orderedItemsExtendedList) && Objects.equals(stockItemList, workspace.stockItemList) && Objects.equals(remnantList, workspace.remnantList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(profileNestedList, orderedItemsExtendedList, stockItemList, partDistance, profileMargin);
+        return Objects.hash(profileNestedList, orderedItemsExtendedList, stockItemList, remnantList, partDistance, profileMargin, minRemnantLength);
     }
 
     @Override
     public String toString() {
-        return "Workspace{" + "profileNestedList=" + profileNestedList + ", orderedItemsExtendedList=" + orderedItemsExtendedList + ", stockItemList=" + stockItemList + ", partDistance=" + partDistance + ", profileMargin=" + profileMargin + '}';
+        return "Workspace{" +
+                "profileNestedList=" + profileNestedList +
+                ", orderedItemsExtendedList=" + orderedItemsExtendedList +
+                ", stockItemList=" + stockItemList +
+                ", remnantList=" + remnantList +
+                ", partDistance=" + partDistance +
+                ", profileMargin=" + profileMargin +
+                ", minRemnantLength=" + minRemnantLength +
+                '}';
     }
 }

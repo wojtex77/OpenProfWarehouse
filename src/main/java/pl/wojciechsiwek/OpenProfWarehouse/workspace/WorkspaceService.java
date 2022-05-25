@@ -33,7 +33,7 @@ public class WorkspaceService {
         return orderedItemsService.extendListOfOrderedItems(orderedItemsRepository.findByIdInOrderByQtyDesc(orderedItemsIds));
     }
 
-    Workspace doNesting(Workspace workspace) throws IllegalStateException {
+    Workspace startNesting(Workspace workspace) throws IllegalStateException {
 
         Comparator comparator = new OrderetItemsExtendedLengthComparator().reversed();
         workspace.getOrderedItemsExtendedList().sort(comparator);
@@ -42,8 +42,19 @@ public class WorkspaceService {
         if (workspace.getStockItemList() == null || workspace.getOrderedItemsExtendedList() == null) {
             throw new IllegalStateException("Parts or profiles lists to nesting can not be null");
         }
-        int i = 0;
 
+        nest(workspace, list);
+        workspace.setProfileNestedList(list);
+
+        workspace.getOrderedItemsExtendedList().forEach(item -> {
+            item.setNestedQty(item.getQty() - item.getToNestQty());
+        });
+        assignNewSignatures(workspace);
+        return workspace;
+    }
+
+    private void nest(Workspace workspace, List<SingleProfileNested> list) {
+        int i = 0;
         while (i < workspace.getStockItemList().size() && workspace.getOrderedItemsExtendedList().size() > 0) {
             while (workspace.getStockItemList().get(i).getAvailableQty() > 0 && workspace.getOrderedItemsExtendedList().size() > 0) {
                 SingleProfileNested singleProfileNested = nestOnSingleStockItem(workspace.getStockItemList().get(i), workspace.getOrderedItemsExtendedList(), workspace);
@@ -61,13 +72,6 @@ public class WorkspaceService {
             }
             i++;
         }
-        workspace.setProfileNestedList(list);
-
-        workspace.getOrderedItemsExtendedList().forEach(item -> {
-            item.setNestedQty(item.getQty() - item.getToNestQty());
-        });
-
-        return workspace;
     }
 
     private SingleProfileNested nestOnSingleStockItem(StockItem stockItem, List<OrderedItemsExtended> orderedItemsList, Workspace workspace) {
@@ -95,6 +99,46 @@ public class WorkspaceService {
             if (orderedItemsList.get(i).getToNestQty() == 0) fullyNestedItems.add(orderedItemsList.get(i));
             if (availableLength < shortestPartLength) break;
         }
+
+        checkRemnantUsability(stockItem, workspace, availableLength);
+
         return new SingleProfileNested(stockItem, partsOnProfile);
     }
+
+    private void checkRemnantUsability(StockItem stockItem, Workspace workspace, double availableLength) {
+        if ((availableLength + 2 * workspace.getProfileMargin()) >= workspace.getMinRemnantLength()) {
+            availableLength = availableLength + (2 * workspace.getProfileMargin());
+            StockItem newRemnant = new StockItem(stockItem, availableLength);
+
+            boolean isUniqueRemnant = true;
+            for (StockItem remnant : workspace.getRemnantList()) {
+                if (remnant.equalsExceptQuantites(newRemnant)) {
+                    remnant.increaseBothQuantities();
+                    isUniqueRemnant = false;
+                }
+            }
+            if (isUniqueRemnant) workspace.addToRemnantList(newRemnant);
+
+        }
+    }
+
+    private void assignNewSignatures(Workspace workspace) {
+        List<StockItem> remnants = workspace.getRemnantList();
+        for (StockItem remnant : remnants) {
+            Integer i = 1;
+            String currentSignature = remnant.getSignature();
+            while (stockRepository.existsBySignatureEquals(currentSignature)) {
+                String toVerifySignature = currentSignature;
+                currentSignature = currentSignature + "-" + i.toString();
+                for (StockItem remnant2 : remnants) {
+                    while (remnant2.getSignature().equals(currentSignature)) {
+                        i++;
+                        currentSignature = toVerifySignature + "-" + i.toString();
+                    }
+                }
+            }
+            remnant.setSignature(currentSignature);
+        }
+    }
+
 }
