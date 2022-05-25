@@ -4,7 +4,7 @@ spring:
       enabled: true
       path: '/db-console'
   datasource:
-    url: 'jdbc:h2:file:C:/Users/Wojtek/Desktop/OpenProfWarehouse/opw-db'
+    url: 'jdbc:h2:file:C:/Users/Wojciech Siwek/IdeaProjects/OpenProfWarehouse/opw-db.mv.db'
   jpa:
     hibernate:
       ddl-auto: update

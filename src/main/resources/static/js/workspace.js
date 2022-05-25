@@ -332,7 +332,7 @@ function showSingleProfileNesting(profiles){
         $('#nestingDetails').append(`
             <div class='row my-3 bg-dark bg-gradient p-2 bg-opacity-10'>
                 <div class="col-1">Profil: </div>
-                <div class="col-11"><span class = "fw-bold">` + profiles[i].stockItem.signature + `</span><span class="fw-light fw-italic"> (L= ` + profiles[i].stockItem.profileLength + ` mm)</span></div>` +
+                <div class="col-11"><span class = "fw-bold">` + profiles[i].stockItem.signature + `</span><span class="fw-light fw-italic"> (L= ` + profiles[i].stockItem.profileLength + ` mm)</span> powtórzeń: ` + profiles[i].repetition + `</div>` +
                 showPartsOnSingleProfile(profiles[i].itemsOnProfile) + `
             </div>
         `);
@@ -397,7 +397,7 @@ function showItemsStatus(data){
 
         if(parts[i].qty == parts[i].nestedQty) type = `<div class="row my-3 bg-success bg-gradient p-2 bg-opacity-10">`;
         if((parts[i].qty > parts[i].nestedQty) && (parts[i].nestedQty != 0)) type = `<div class="row my-3 bg-primary bg-gradient p-2 bg-opacity-10">`;
-        if(parts[i].nestedQty == 0) type = `<div class="row my-3 p-2">`;
+        if(parts[i].nestedQty == 0) type = `<div class="row my-3 p-2 bg-warning bg-gradient bg-opacity-10">`;
 
         $('#nestedPartsDetails').append(
             type +

@@ -48,7 +48,14 @@ public class WorkspaceService {
             while (workspace.getStockItemList().get(i).getAvailableQty() > 0 && workspace.getOrderedItemsExtendedList().size() > 0) {
                 SingleProfileNested singleProfileNested = nestOnSingleStockItem(workspace.getStockItemList().get(i), workspace.getOrderedItemsExtendedList(), workspace);
                 if (singleProfileNested != null) {
-                    list.add(singleProfileNested);
+                    boolean isUnique = true;
+                    for (SingleProfileNested profileFromList : list) {
+                        if (profileFromList.getItemsOnProfile().equals(singleProfileNested.getItemsOnProfile()) && profileFromList.getStockItem().equals(singleProfileNested.getStockItem())) {
+                            profileFromList.increaseRepetition();
+                            isUnique = false;
+                        }
+                    }
+                    if (isUnique) list.add(singleProfileNested);
                     workspace.getStockItemList().get(i).decreaseAvailableQty();
                 }
             }
