@@ -20,7 +20,7 @@ public class OrderedItemsService {
     }
 
     public void saveItems(String orderNumber, Map<Integer, Integer> map) {
-        List<OrderedItems> items = new LinkedList<OrderedItems>();
+        List<OrderedItems> items = new LinkedList<>();
         map.forEach((partId, qty) -> {
             items.add(new OrderedItems(orderNumber, partId, qty));
         });
@@ -46,9 +46,45 @@ public class OrderedItemsService {
         if (items.size() <= 1) orderedItemsRepository.save(items.get(0));
         else orderedItemsRepository.saveAll(items);
 
-        if (idsToDelete.size() > 1){
+        if (idsToDelete.size() > 1) {
             idsToDelete.remove(0);
             orderedItemsRepository.deleteAllById(idsToDelete);
         }
     }
+
+    public List<OrderedItemsExtended> getAllOrderedItems() {
+        List<OrderedItemsExtended> itemsExtended = new ArrayList<>();
+        List<OrderedItems> simpleItems = orderedItemsRepository.findAll();
+        simpleItems.forEach(simpleItem -> {
+            Part part = partRepository.findById(simpleItem.getPartId()).get();
+            itemsExtended.add(new OrderedItemsExtended(
+                    simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(),
+                    part.getProfile(), part.getProfileLength(), part.getMaterial(), simpleItem.getOrderNumber(), part.getArticle(), part.getDrawing(), part.getWeight()
+            ));
+        });
+        return itemsExtended;
+    }
+
+
+    public OrderedItemsExtended getOrderedItem(int id) {
+        OrderedItems simpleItem = orderedItemsRepository.findById(id).get();
+        return extendOrderedItem(simpleItem);
+    }
+
+    public OrderedItemsExtended extendOrderedItem(OrderedItems item) {
+        Part part = partRepository.findById(item.getPartId()).get();
+        return new OrderedItemsExtended(
+                item.getId(), part.getId(), part.getPartName(), item.getQty(),
+                part.getProfile(), part.getProfileLength(), part.getMaterial(), item.getOrderNumber(), part.getArticle(), part.getDrawing(), part.getWeight());
+
+    }
+
+    public List<OrderedItemsExtended> extendListOfOrderedItems(List<OrderedItems> orderedItems){
+        List<OrderedItemsExtended> extendedItems= new ArrayList<>();
+        orderedItems.forEach(item ->{
+            extendedItems.add(extendOrderedItem(item));
+        });
+        return extendedItems;
+    }
+
 }

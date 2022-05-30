@@ -1,0 +1,27 @@
+<div th:replace="layouts/headToTitle"></div>
+<title>Nowe zlecenie</title>
+
+<div th:replace="layouts/titleToContent"></div>
+
+
+
+<div class="row">
+    <h1>Obszar roboczy</h1>
+    <form th:action="@{/wsrest/save}" method="post">
+        <button type="button" id="saveWSBtn" class="btn btn-outline-secondary">Zapisz</button>
+        <button type="button" id="runNestingBtn" class="btn btn-outline-secondary">Autorozkład</button>
+
+        <div th:replace="workspace/tabs"></div>
+        <div th:replace="workspace/modals"></div>
+
+        <div id="inputs"></div>
+    </form>
+</div>
+
+
+<div th:replace="layouts/afterContent"></div>
+<div th:replace="layouts/scripts"></div>
+<script th:src="@{/js/workspace.js}" type="text/javascript"></script>
+
+
+<div th:replace="layouts/ending"></div>

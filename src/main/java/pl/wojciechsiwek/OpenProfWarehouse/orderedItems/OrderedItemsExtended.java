@@ -8,9 +8,15 @@ public class OrderedItemsExtended {
     private int partId;
     private String partName;
     private int qty;
+    private int nestedQty;
+    private int toNestQty;
     private String profile;
     private double profileLength;
     private String material;
+    private String orderNumber = null;
+    private String article = null;
+    private String drawing = null;
+    private double weight;
 
     OrderedItemsExtended(int id, int partId, String partName, int qty, String profile, double profileLength, String material) {
         this.id = id;
@@ -22,8 +28,96 @@ public class OrderedItemsExtended {
         this.material = material;
     }
 
+    OrderedItemsExtended(int id, int partId, String partName, int qty, String profile, double profileLength, String material, String orderNumber, String article, String drawing, double weight) {
+        this.id = id;
+        this.partId = partId;
+        this.partName = partName;
+        this.qty = qty;
+        this.toNestQty = qty;
+        this.profile = profile;
+        this.profileLength = profileLength;
+        this.material = material;
+        this.orderNumber = orderNumber;
+        this.article = article;
+        this.drawing = drawing;
+        this.weight = weight;
+    }
+
+    OrderedItemsExtended(int id, int partId, String partName, int qty, int nestedQty, int toNestQty, String profile, double profileLength, String material, String orderNumber, String article, String drawing, double weight) {
+        this.id = id;
+        this.partId = partId;
+        this.partName = partName;
+        this.qty = qty;
+        this.nestedQty = nestedQty;
+        this.toNestQty = toNestQty;
+        this.profile = profile;
+        this.profileLength = profileLength;
+        this.material = material;
+        this.orderNumber = orderNumber;
+        this.article = article;
+        this.drawing = drawing;
+        this.weight = weight;
+    }
+
+    public OrderedItemsExtended(OrderedItemsExtended item) {
+        this(item.id, item.partId, item.partName, item.qty, item.nestedQty, item.toNestQty, item.profile, item.profileLength, item.material, item.orderNumber, item.article, item.drawing, item.weight);
+    }
+
+    public int getNestedQty() {
+        return nestedQty;
+    }
+
+    public void setNestedQty(int nestedQty) {
+        this.nestedQty = nestedQty;
+    }
+
+    public int getToNestQty() {
+        return toNestQty;
+    }
+
+    public void setToNestQty(int toNestQty) {
+        this.toNestQty = toNestQty;
+    }
+
+    public void nestItem() {
+        toNestQty--;
+        nestedQty++;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
+    }
+
+    public String getDrawing() {
+        return drawing;
+    }
+
+    public void setDrawing(String drawing) {
+        this.drawing = drawing;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public String getPartName() {
