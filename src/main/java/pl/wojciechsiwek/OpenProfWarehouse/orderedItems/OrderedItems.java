@@ -13,11 +13,13 @@ public class OrderedItems {
     private String orderNumber;
     private Integer partId;
     private Integer qty;
+    private Integer nestedQty;
+    private Integer toNestQty;
 
     public OrderedItems() {
     }
 
-    OrderedItems(Integer id, String orderNumber, Integer partId, Integer qty) {
+    public OrderedItems(Integer id, String orderNumber, Integer partId, Integer qty) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.partId = partId;
@@ -60,6 +62,27 @@ public class OrderedItems {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getNestedQty() {
+        return nestedQty;
+    }
+
+    public void setNestedQty(Integer nestedQty) {
+        this.nestedQty = nestedQty;
+    }
+
+    public Integer getToNestQty() {
+        return toNestQty;
+    }
+
+    public void setToNestQty(Integer toNestQty) {
+        this.toNestQty = toNestQty;
+    }
+
+    public void changeNestedQtyByValue(int nestedQty) {
+        this.nestedQty += nestedQty;
+        toNestQty = qty - nestedQty;
     }
 
     @Override

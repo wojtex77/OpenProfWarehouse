@@ -32,7 +32,13 @@ public class OrderedItemsService {
         List<OrderedItems> simpleItems = orderedItemsRepository.findByOrderNumberEquals(orderNumber);
         simpleItems.forEach(simpleItem -> {
             Part part = partRepository.findById(simpleItem.getPartId()).get();
-            itemsExtended.add(new OrderedItemsExtended(simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(), part.getProfile(), part.getProfileLength(), part.getMaterial()));
+            itemsExtended.add(new OrderedItemsExtended(simpleItem.getId(),
+                    part.getId(),
+                    part.getPartName(),
+                    simpleItem.getQty(),
+                    part.getProfile(),
+                    part.getProfileLength(),
+                    part.getMaterial()));
         });
         return itemsExtended;
     }
@@ -58,8 +64,19 @@ public class OrderedItemsService {
         simpleItems.forEach(simpleItem -> {
             Part part = partRepository.findById(simpleItem.getPartId()).get();
             itemsExtended.add(new OrderedItemsExtended(
-                    simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(),
-                    part.getProfile(), part.getProfileLength(), part.getMaterial(), simpleItem.getOrderNumber(), part.getArticle(), part.getDrawing(), part.getWeight()
+                    simpleItem.getId(),
+                    part.getId(),
+                    part.getPartName(),
+                    simpleItem.getQty(),
+                    simpleItem.getToNestQty(),
+                    simpleItem.getNestedQty(),
+                    part.getProfile(),
+                    part.getProfileLength(),
+                    part.getMaterial(),
+                    simpleItem.getOrderNumber(),
+                    part.getArticle(),
+                    part.getDrawing(),
+                    part.getWeight()
             ));
         });
         return itemsExtended;
@@ -71,11 +88,22 @@ public class OrderedItemsService {
         return extendOrderedItem(simpleItem);
     }
 
-    public OrderedItemsExtended extendOrderedItem(OrderedItems item) {
-        Part part = partRepository.findById(item.getPartId()).get();
+    public OrderedItemsExtended extendOrderedItem(OrderedItems simpleItem) {
+        Part part = partRepository.findById(simpleItem.getPartId()).get();
         return new OrderedItemsExtended(
-                item.getId(), part.getId(), part.getPartName(), item.getQty(),
-                part.getProfile(), part.getProfileLength(), part.getMaterial(), item.getOrderNumber(), part.getArticle(), part.getDrawing(), part.getWeight());
+                simpleItem.getId(),
+                part.getId(),
+                part.getPartName(),
+                simpleItem.getQty(),
+                simpleItem.getToNestQty(),
+                simpleItem.getNestedQty(),
+                part.getProfile(),
+                part.getProfileLength(),
+                part.getMaterial(),
+                simpleItem.getOrderNumber(),
+                part.getArticle(),
+                part.getDrawing(),
+                part.getWeight());
 
     }
 

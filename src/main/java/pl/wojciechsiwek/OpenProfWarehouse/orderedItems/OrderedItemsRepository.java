@@ -13,4 +13,6 @@ public interface OrderedItemsRepository extends JpaRepository<OrderedItems, Inte
 
     List<OrderedItems> findByIdInOrderByQtyDesc(Collection<Integer> ids);
 
+
+
 }

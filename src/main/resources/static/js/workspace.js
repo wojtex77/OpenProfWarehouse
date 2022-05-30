@@ -52,7 +52,7 @@ function initializeProfilesFromDbTable(){
             highlight_keywords: true,
             no_results_message: true,
             col_0: 'none',
-            col_8: 'none',
+            col_10: 'none',
             extensions: [{
                 name: 'sort'
             }],
@@ -212,7 +212,9 @@ function showOrderedItemsInModal(data){
             <tr>
                 <th>Id</th>
                 <th>Nazwa części</th>
-                <th>Ilość</th>
+                <th>Zlecono</th>
+                <th>Rozłożono</th>
+                <th>Do rozłożenia</th>
                 <th>Zlecenie</th>
                 <th>Rysunek</th>
                 <th>Artykuł</th>
@@ -231,6 +233,8 @@ function showOrderedItemsInModal(data){
                     <td>` + data[i].id + `</td>
                     <td>` + data[i].partName + `</td>
                     <td>` + data[i].qty + `</td>
+                    <td>` + data[i].nestedQty + `</td>
+                    <td>` + data[i].toNestQty + `</td>
                     <td>` + data[i].orderNumber + `</td>
                     <td>` + data[i].drawing + `</td>
                     <td>` + data[i].article + `</td>
