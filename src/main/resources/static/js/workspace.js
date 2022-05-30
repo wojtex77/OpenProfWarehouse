@@ -391,6 +391,39 @@ function runNesting(){
           });
 };
 
+function makeReservationAction(){
+    var stockItemsSignatures = [];
+    $('input[name="stockItemId[]"]').each(function() {
+        stockItemsSignatures.push($(this).val());
+    });
+
+    var orderedItemsIds = [];
+    $('input[name="orderedItemId[]"]').each(function() {
+        orderedItemsIds.push($(this).val());
+    });
+
+    var profileMargin = $('#profileMargin').val();
+    var partDistance = $('#partDistance').val();
+    var minRemnantLength = $('#minRemnantLength').val();
+
+
+    var url = window.location.protocol + "//" + window.location.host;
+    var jqxhr = $.post( url + "/wsrest/makeReservation", {
+            "stockItemsSignatures" : stockItemsSignatures,
+            "orderedItemsIds": orderedItemsIds,
+            "profileMargin": profileMargin,
+            "partDistance": partDistance,
+            "minRemnantLength": minRemnantLength
+          })
+          .done(function(data) {
+            console.log("Reservation done");
+          })
+          .fail(function() {
+            console.log( "error" );
+            alert('Nie udało się wykonać rezerwacji');
+          });
+};
+
 function showItemsStatus(data){
     $('#nestedPartsDetails').empty();
     var parts = data.orderedItemsExtendedList;
@@ -454,6 +487,7 @@ $(document).ready(function(){
     var showProfilesFromDBButton = $('#showProfilesFromDb');
 
     var runNestingButton = $('#runNestingBtn');
+    var makeReservation = $('#makeReservationBtn');
 
 
     showPartsFromDBButton.click(function(){
@@ -468,5 +502,9 @@ $(document).ready(function(){
 
     runNestingButton.click(function(){
         runNesting();
+    });
+
+    makeReservation.click(function(){
+        makeReservationAction();
     });
 });
