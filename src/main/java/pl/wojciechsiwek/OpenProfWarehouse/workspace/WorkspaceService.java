@@ -56,9 +56,10 @@ public class WorkspaceService {
     private void nest(Workspace workspace, List<SingleProfileNested> list) {
         int i = 0;
         while (i < workspace.getStockItemList().size() && workspace.getOrderedItemsExtendedList().size() > 0) {
-            while (workspace.getStockItemList().get(i).getAvailableQty() > 0 && workspace.getOrderedItemsExtendedList().size() > 0) {
+            int availableQtyForLoop = workspace.getStockItemList().get(i).getAvailableQty();
+            while (availableQtyForLoop > 0 && workspace.getOrderedItemsExtendedList().size() > 0) {
                 SingleProfileNested singleProfileNested = nestOnSingleStockItem(workspace.getStockItemList().get(i), workspace.getOrderedItemsExtendedList(), workspace);
-                if (singleProfileNested != null) {
+                if (singleProfileNested.getItemsOnProfile().size() > 0) {
                     boolean isUnique = true;
                     for (SingleProfileNested profileFromList : list) {
                         if (profileFromList.getItemsOnProfile().equals(singleProfileNested.getItemsOnProfile()) && profileFromList.getStockItem().equals(singleProfileNested.getStockItem())) {
@@ -66,9 +67,12 @@ public class WorkspaceService {
                             isUnique = false;
                         }
                     }
-                    if (isUnique) list.add(singleProfileNested);
-                    workspace.getStockItemList().get(i).decreaseAvailableQty();
+                    if (isUnique && singleProfileNested.getItemsOnProfile().size() != 0) {
+                        list.add(singleProfileNested);
+                        workspace.getStockItemList().get(i).decreaseAvailableQty();
+                    }
                 }
+                availableQtyForLoop--;
             }
             i++;
         }

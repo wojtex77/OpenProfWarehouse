@@ -383,6 +383,9 @@ function runNesting(){
             showNestingDetails(data);
             showItemsStatus(data);
             showRemnants(data);
+            $('#makeReservationBtn').click(function (){
+                $(this).show();
+            });
 
           })
           .fail(function() {
@@ -417,6 +420,15 @@ function makeReservationAction(){
           })
           .done(function(data) {
             console.log("Reservation done");
+            showNestingDetails(data);
+            showItemsStatus(data);
+            showRemnants(data);
+            $('#makeReservationBtn').click(function (){
+                $(this).hide();
+            });
+            $('#makeReservationBtn').click(function (){
+                $(this).hide();
+            });
           })
           .fail(function() {
             console.log( "error" );

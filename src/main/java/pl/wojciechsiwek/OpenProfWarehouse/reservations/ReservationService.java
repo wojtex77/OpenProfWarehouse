@@ -15,15 +15,16 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
-    public void makeReservation(Workspace workspace) {
+    public Workspace makeReservation(Workspace workspace) {
         List<Reservation> reservations = new ArrayList<>();
         for (int i = 0; i < workspace.getProfileNestedList().size(); i++) {
-            for (int j = 1; j <= workspace.getProfileNestedList().get(i).getRepetition(); j++) {
-                reservations.add(
-                        new Reservation(
-                                workspace.getProfileNestedList().get(i).getStockItem().getSignature(), j));
+            if (workspace.getProfileNestedList().get(i).getItemsOnProfile().size() != 0) {
+                for (int j = 1; j <= workspace.getProfileNestedList().get(i).getRepetition(); j++) {
+                    reservations.add(new Reservation(workspace.getProfileNestedList().get(i).getStockItem().getSignature(), j));
+                }
             }
         }
         reservationRepository.saveAll(reservations);
+        return workspace;
     }
 }

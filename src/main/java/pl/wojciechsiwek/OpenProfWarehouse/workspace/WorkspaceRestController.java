@@ -30,10 +30,10 @@ public class WorkspaceRestController {
 
 
     @PostMapping("/makeReservation")
-    public String saveWS(@RequestParam(value = "stockItemsSignatures[]") List<String> stockSignaturesToUse, @RequestParam(value = "orderedItemsIds[]") List<Integer> orderedItemsIds, @RequestParam(value = "profileMargin") Float profileMargin, @RequestParam(value = "partDistance") Float partDistance, @RequestParam(value = "minRemnantLength") Float minRemnantLength) {
+    public Workspace saveWS(@RequestParam(value = "stockItemsSignatures[]") List<String> stockSignaturesToUse, @RequestParam(value = "orderedItemsIds[]") List<Integer> orderedItemsIds, @RequestParam(value = "profileMargin") Float profileMargin, @RequestParam(value = "partDistance") Float partDistance, @RequestParam(value = "minRemnantLength") Float minRemnantLength) {
 
-        reservationService.makeReservation(this.doNesting(stockSignaturesToUse,orderedItemsIds,profileMargin,partDistance,minRemnantLength));
-        return "Zapisano";
+        return reservationService.makeReservation(this.doNesting(stockSignaturesToUse,orderedItemsIds,profileMargin,partDistance,minRemnantLength));
+
     }
 
 
