@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "ordered_items")
-public class OrderedItems {
+public class OrderedItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -16,10 +16,10 @@ public class OrderedItems {
     private Integer nestedQty;
     private Integer toNestQty;
 
-    public OrderedItems() {
+    public OrderedItem() {
     }
 
-    public OrderedItems(Integer id, String orderNumber, Integer partId, Integer qty) {
+    public OrderedItem(Integer id, String orderNumber, Integer partId, Integer qty) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.partId = partId;
@@ -28,7 +28,7 @@ public class OrderedItems {
         this.nestedQty = 0;
     }
 
-    OrderedItems(String orderNumber, Integer partId, Integer qty) {
+    OrderedItem(String orderNumber, Integer partId, Integer qty) {
         this.orderNumber = orderNumber;
         this.partId = partId;
         this.qty = qty;
@@ -88,23 +88,26 @@ public class OrderedItems {
         this.nestedQty += nestedQty;
         toNestQty = qty - nestedQty;
     }
+    public void recalculateToNestQty(){
+        this.toNestQty = this.qty - this.nestedQty;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderedItems that = (OrderedItems) o;
-        return Objects.equals(id, that.id) && Objects.equals(orderNumber, that.orderNumber) && Objects.equals(partId, that.partId) && Objects.equals(qty, that.qty);
+        OrderedItem that = (OrderedItem) o;
+        return Objects.equals(id, that.id) && Objects.equals(orderNumber, that.orderNumber) && Objects.equals(partId, that.partId) && Objects.equals(qty, that.qty) && Objects.equals(nestedQty, that.nestedQty) && Objects.equals(toNestQty, that.toNestQty);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, orderNumber, partId, qty);
+        return Objects.hash(id, orderNumber, partId, qty, nestedQty, toNestQty);
     }
 
     @Override
     public String toString() {
-        return "OrderedItems{" +
+        return "OrderedItem{" +
                 "id=" + id +
                 ", orderNumber='" + orderNumber + '\'' +
                 ", partId=" + partId +

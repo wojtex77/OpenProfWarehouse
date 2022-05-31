@@ -2,6 +2,7 @@ package pl.wojciechsiwek.OpenProfWarehouse.contrahent;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "contrahents")
@@ -50,21 +51,14 @@ public class Contrahent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Contrahent)) return false;
-
+        if (o == null || getClass() != o.getClass()) return false;
         Contrahent that = (Contrahent) o;
-
-        if (id != that.id) return false;
-        if (alias != null ? !alias.equals(that.alias) : that.alias != null) return false;
-        return fullName != null ? fullName.equals(that.fullName) : that.fullName == null;
+        return id == that.id && Objects.equals(alias, that.alias) && Objects.equals(fullName, that.fullName);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (alias != null ? alias.hashCode() : 0);
-        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-        return result;
+        return Objects.hash(id, alias, fullName);
     }
 
     @Override

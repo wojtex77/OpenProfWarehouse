@@ -7,11 +7,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface OrderedItemsRepository extends JpaRepository<OrderedItems, Integer> {
+public interface OrderedItemRepository extends JpaRepository<OrderedItem, Integer> {
 
-    List<OrderedItems> findByOrderNumberEquals(String orderNumber);
+    List<OrderedItem> findByOrderNumberEquals(String orderNumber);
 
-    List<OrderedItems> findByIdInOrderByQtyDesc(Collection<Integer> ids);
+    List<OrderedItem> findByIdInOrderByQtyDesc(Collection<Integer> ids);
 
 
 

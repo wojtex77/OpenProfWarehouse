@@ -1,7 +1,7 @@
 package pl.wojciechsiwek.OpenProfWarehouse.orders;
 
 import org.springframework.stereotype.Service;
-import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemRepository;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsService;
 
 import java.util.LinkedHashMap;
@@ -13,7 +13,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderedItemsService itemsService;
 
-    public OrderService(OrderRepository orderRepository, OrderedItemsRepository orderedItemsRepository, OrderedItemsService itemsService) {
+    public OrderService(OrderRepository orderRepository, OrderedItemRepository orderedItemsRepository, OrderedItemsService itemsService) {
         this.orderRepository = orderRepository;
         this.itemsService = itemsService;
     }

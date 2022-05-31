@@ -155,12 +155,12 @@ public class OrderedItemsExtended {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderedItemsExtended that = (OrderedItemsExtended) o;
-        return id == that.id && qty == that.qty && profileLength == that.profileLength && Objects.equals(partName, that.partName) && Objects.equals(profile, that.profile) && Objects.equals(material, that.material);
+        return id == that.id && partId == that.partId && qty == that.qty && nestedQty == that.nestedQty && Double.compare(that.profileLength, profileLength) == 0 && Double.compare(that.weight, weight) == 0 && Objects.equals(partName, that.partName) && Objects.equals(profile, that.profile) && Objects.equals(material, that.material) && Objects.equals(orderNumber, that.orderNumber) && Objects.equals(article, that.article) && Objects.equals(drawing, that.drawing);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, partName, qty, profile, profileLength, material);
+        return Objects.hash(id, partId, partName, qty, nestedQty, toNestQty, profile, profileLength, material, orderNumber, article, drawing, weight);
     }
 
     @Override

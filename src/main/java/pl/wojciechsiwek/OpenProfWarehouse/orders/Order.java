@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -50,27 +51,17 @@ public class Order {
         this.id = id;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Order)) return false;
-
+        if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-
-        if (id != null ? !id.equals(order.id) : order.id != null) return false;
-        if (orderNumber != null ? !orderNumber.equals(order.orderNumber) : order.orderNumber != null) return false;
-        if (term != null ? !term.equals(order.term) : order.term != null) return false;
-        return contrahent != null ? contrahent.equals(order.contrahent) : order.contrahent == null;
+        return Objects.equals(id, order.id) && Objects.equals(orderNumber, order.orderNumber) && Objects.equals(term, order.term) && Objects.equals(contrahent, order.contrahent);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (orderNumber != null ? orderNumber.hashCode() : 0);
-        result = 31 * result + (term != null ? term.hashCode() : 0);
-        result = 31 * result + (contrahent != null ? contrahent.hashCode() : 0);
-        return result;
+        return Objects.hash(id, orderNumber, term, contrahent);
     }
 
     @Override

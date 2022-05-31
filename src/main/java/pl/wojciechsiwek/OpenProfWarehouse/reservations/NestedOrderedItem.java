@@ -1,6 +1,7 @@
 package pl.wojciechsiwek.OpenProfWarehouse.reservations;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "nested_ordered_items")
@@ -50,5 +51,28 @@ public class NestedOrderedItem {
 
     public void setNestedQty(Integer nestedQty) {
         this.nestedQty = nestedQty;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NestedOrderedItem that = (NestedOrderedItem) o;
+        return Objects.equals(id, that.id) && Objects.equals(reservationId, that.reservationId) && Objects.equals(orderedItemId, that.orderedItemId) && Objects.equals(nestedQty, that.nestedQty);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, reservationId, orderedItemId, nestedQty);
+    }
+
+    @Override
+    public String toString() {
+        return "NestedOrderedItem{" +
+                "id=" + id +
+                ", reservationId=" + reservationId +
+                ", orderedItemId=" + orderedItemId +
+                ", nestedQty=" + nestedQty +
+                '}';
     }
 }

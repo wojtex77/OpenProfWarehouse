@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.StockItem;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsExtended;
-import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemRepository;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsService;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderetItemsExtendedLengthComparator;
 
@@ -16,10 +16,10 @@ import java.util.List;
 public class WorkspaceService {
 
     private final MaterialStockRepository stockRepository;
-    private final OrderedItemsRepository orderedItemsRepository;
+    private final OrderedItemRepository orderedItemsRepository;
     private final OrderedItemsService orderedItemsService;
 
-    public WorkspaceService(MaterialStockRepository stockRepository, OrderedItemsRepository orderedItemsRepository, OrderedItemsService orderedItemsService) {
+    public WorkspaceService(MaterialStockRepository stockRepository, OrderedItemRepository orderedItemsRepository, OrderedItemsService orderedItemsService) {
         this.stockRepository = stockRepository;
         this.orderedItemsRepository = orderedItemsRepository;
         this.orderedItemsService = orderedItemsService;
@@ -62,6 +62,9 @@ public class WorkspaceService {
                 if (singleProfileNested.getItemsOnProfile().size() > 0) {
                     boolean isUnique = true;
                     for (SingleProfileNested profileFromList : list) {
+                        List<OrderedItemsExtended> list1 = profileFromList.getItemsOnProfile();
+                        List<OrderedItemsExtended> list2 = singleProfileNested.getItemsOnProfile();
+
                         if (profileFromList.getItemsOnProfile().equals(singleProfileNested.getItemsOnProfile()) && profileFromList.getStockItem().equals(singleProfileNested.getStockItem())) {
                             profileFromList.increaseRepetition();
                             isUnique = false;

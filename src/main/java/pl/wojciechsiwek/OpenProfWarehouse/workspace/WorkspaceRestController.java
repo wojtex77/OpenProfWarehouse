@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.MaterialStockRepository;
-import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsRepository;
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemRepository;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsService;
 import pl.wojciechsiwek.OpenProfWarehouse.reservations.ReservationService;
 
@@ -17,10 +17,10 @@ public class WorkspaceRestController {
     private final WorkspaceService service;
     private final MaterialStockRepository materialStockRepository;
     private final OrderedItemsService orderedItemsService;
-    private final OrderedItemsRepository orderedItemsRepository;
+    private final OrderedItemRepository orderedItemsRepository;
     private final ReservationService reservationService;
 
-    public WorkspaceRestController(WorkspaceService service, MaterialStockRepository materialStockRepository, OrderedItemsService orderedItemsService, OrderedItemsRepository orderedItemsRepository, ReservationService reservationService) {
+    public WorkspaceRestController(WorkspaceService service, MaterialStockRepository materialStockRepository, OrderedItemsService orderedItemsService, OrderedItemRepository orderedItemsRepository, ReservationService reservationService) {
         this.service = service;
         this.materialStockRepository = materialStockRepository;
         this.orderedItemsService = orderedItemsService;
