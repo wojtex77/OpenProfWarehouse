@@ -14,7 +14,7 @@ function initializeOrderedItemsFromDbTable(){
             highlight_keywords: true,
             no_results_message: true,
             col_0: 'none',
-            col_10: 'none',
+            col_12: 'none',
             extensions: [{
                 name: 'sort'
             }],

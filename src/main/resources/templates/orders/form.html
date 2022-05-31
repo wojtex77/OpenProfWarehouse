@@ -32,7 +32,9 @@
                 <tr>
                     <th hidden></th>
                     <th>Część</th>
-                    <th>Ilość</th>
+                    <th>Zamówiono</th>
+                    <th>Rozłożono</th>
+                    <th>Pozostało</th>
                     <th>Przekrój</th>
                     <th>Długość [mm]</th>
                     <th>Materiał</th>
@@ -42,7 +44,9 @@
                 <tr  th:each="item: ${orderedItems}" th:id="'rowPart-' + ${item.id}" status="active">
                     <td hidden><input type="number" name="partId" th:value="${item.partId}"> </td>
                     <td th:text="${item.partName}"/>
-                    <td><input type = "number" class="form-control form-control-sm" name = "ammountOfPart" step="1" min="0" th:value = ${item.qty}></td>
+                    <td><input type = "number" class="form-control form-control-sm" name = "ammountOfPart" step="1" th:min=${item.nestedQty} th:value = ${item.qty}></td>
+                    <td th:text="${item.nestedQty}"/>
+                    <td th:text="${item.toNestQty}"/>
                     <td th:text="${item.profile}"/>
                     <td th:text="${item.profileLength}"/>
                     <td th:text="${item.material}"/>

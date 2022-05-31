@@ -32,25 +32,32 @@ public class OrderedItemsService {
         List<OrderedItems> simpleItems = orderedItemsRepository.findByOrderNumberEquals(orderNumber);
         simpleItems.forEach(simpleItem -> {
             Part part = partRepository.findById(simpleItem.getPartId()).get();
-            itemsExtended.add(new OrderedItemsExtended(simpleItem.getId(),
-                    part.getId(),
-                    part.getPartName(),
-                    simpleItem.getQty(),
-                    part.getProfile(),
-                    part.getProfileLength(),
-                    part.getMaterial()));
+            itemsExtended.add(new OrderedItemsExtended(simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(), simpleItem.getToNestQty(), simpleItem.getNestedQty(), part.getProfile(), part.getProfileLength(), part.getMaterial(), simpleItem.getOrderNumber(), part.getArticle(), part.getDrawing(), part.getWeight()));
         });
         return itemsExtended;
     }
 
     public void saveChanges(String orderNumber, List<Integer> partIds, List<Integer> ammountOfParts, List<Integer> itemIds, List<Integer> idsToDelete) {
 
-        List<OrderedItems> items = new LinkedList<OrderedItems>();
+        List<OrderedItems> itemsToSave = new LinkedList<OrderedItems>();
         for (int i = 0; i < partIds.size(); i++) {
-            items.add(new OrderedItems(itemIds.get(i), orderNumber, partIds.get(i), ammountOfParts.get(i)));
+            OrderedItems itemFromDB = null;
+            if (itemIds.get(i) != null){
+                int u= 32;
+                itemFromDB = orderedItemsRepository.findById(itemIds.get(i)).get();
+            }
+
+
+            if (itemFromDB == null) {
+                itemsToSave.add(new OrderedItems(itemIds.get(i), orderNumber, partIds.get(i), ammountOfParts.get(i)));
+            } else {
+                itemFromDB.setQty(ammountOfParts.get(i));
+                itemFromDB.setToNestQty(ammountOfParts.get(i) - itemFromDB.getNestedQty());
+                itemsToSave.add(itemFromDB);
+            }
         }
-        if (items.size() <= 1) orderedItemsRepository.save(items.get(0));
-        else orderedItemsRepository.saveAll(items);
+        if (itemsToSave.size() <= 1) orderedItemsRepository.save(itemsToSave.get(0));
+        else orderedItemsRepository.saveAll(itemsToSave);
 
         if (idsToDelete.size() > 1) {
             idsToDelete.remove(0);
@@ -63,21 +70,7 @@ public class OrderedItemsService {
         List<OrderedItems> simpleItems = orderedItemsRepository.findAll();
         simpleItems.forEach(simpleItem -> {
             Part part = partRepository.findById(simpleItem.getPartId()).get();
-            itemsExtended.add(new OrderedItemsExtended(
-                    simpleItem.getId(),
-                    part.getId(),
-                    part.getPartName(),
-                    simpleItem.getQty(),
-                    simpleItem.getToNestQty(),
-                    simpleItem.getNestedQty(),
-                    part.getProfile(),
-                    part.getProfileLength(),
-                    part.getMaterial(),
-                    simpleItem.getOrderNumber(),
-                    part.getArticle(),
-                    part.getDrawing(),
-                    part.getWeight()
-            ));
+            itemsExtended.add(new OrderedItemsExtended(simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(), simpleItem.getToNestQty(), simpleItem.getNestedQty(), part.getProfile(), part.getProfileLength(), part.getMaterial(), simpleItem.getOrderNumber(), part.getArticle(), part.getDrawing(), part.getWeight()));
         });
         return itemsExtended;
     }
@@ -90,26 +83,13 @@ public class OrderedItemsService {
 
     public OrderedItemsExtended extendOrderedItem(OrderedItems simpleItem) {
         Part part = partRepository.findById(simpleItem.getPartId()).get();
-        return new OrderedItemsExtended(
-                simpleItem.getId(),
-                part.getId(),
-                part.getPartName(),
-                simpleItem.getQty(),
-                simpleItem.getToNestQty(),
-                simpleItem.getNestedQty(),
-                part.getProfile(),
-                part.getProfileLength(),
-                part.getMaterial(),
-                simpleItem.getOrderNumber(),
-                part.getArticle(),
-                part.getDrawing(),
-                part.getWeight());
+        return new OrderedItemsExtended(simpleItem.getId(), part.getId(), part.getPartName(), simpleItem.getQty(), simpleItem.getToNestQty(), simpleItem.getNestedQty(), part.getProfile(), part.getProfileLength(), part.getMaterial(), simpleItem.getOrderNumber(), part.getArticle(), part.getDrawing(), part.getWeight());
 
     }
 
-    public List<OrderedItemsExtended> extendListOfOrderedItems(List<OrderedItems> orderedItems){
-        List<OrderedItemsExtended> extendedItems= new ArrayList<>();
-        orderedItems.forEach(item ->{
+    public List<OrderedItemsExtended> extendListOfOrderedItems(List<OrderedItems> orderedItems) {
+        List<OrderedItemsExtended> extendedItems = new ArrayList<>();
+        orderedItems.forEach(item -> {
             extendedItems.add(extendOrderedItem(item));
         });
         return extendedItems;

@@ -24,12 +24,16 @@ public class OrderedItems {
         this.orderNumber = orderNumber;
         this.partId = partId;
         this.qty = qty;
+        this.toNestQty = qty;
+        this.nestedQty = 0;
     }
 
     OrderedItems(String orderNumber, Integer partId, Integer qty) {
         this.orderNumber = orderNumber;
         this.partId = partId;
         this.qty = qty;
+        this.toNestQty = qty;
+        this.nestedQty = 0;
     }
 
     String getOrderNumber() {
