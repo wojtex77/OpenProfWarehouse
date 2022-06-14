@@ -89,13 +89,37 @@ public class WorkspaceService {
         workspace.getStockItemList().forEach(stockItem -> {
             while (stockItem.getAvailableQty() > 0) {
                 SingleProfileNested profileNested = nestOnSingleStockItem(stockItem, workspace);
-                if (profileNested != null) {
+                if (profileNested.getItemsOnProfile().size() > 0) {
                     checkProfileNestedDuplication(workspace, profileNested);
                     stockItem.decreaseAvailableQty();
-                }
+                    verifyRemnantUsability(workspace, profileNested);
+                } else break;
             }
         });
 
+
+    }
+
+    private void verifyRemnantUsability(Workspace workspace, SingleProfileNested profileNested) {
+        double usedLength = 0;
+
+        List<OrderedItemsExtended> orderedItemsExtendedList = profileNested.getItemsOnProfile();
+        usedLength = orderedItemsExtendedList.stream().mapToDouble(item -> ((item.getProfileLength() + workspace.getPartDistance()) * item.getRepetition())).sum();
+
+        double availableLength = profileNested.getStockItem().getProfileLength() - usedLength - workspace.getProfileMargin();
+
+        if (availableLength >= workspace.getMinRemnantLength()) {
+            StockItem stockFromProfileNested = profileNested.getStockItem();
+            int newIndex = 1;
+
+            while (stockRepository.existsBySignatureEquals(stockFromProfileNested.getSignature() + "-" + newIndex)){
+                newIndex++;
+            }
+            String newSignature = stockFromProfileNested.getSignature() + "-" + newIndex;
+
+            StockItem newStockItem = new StockItem(newSignature, stockFromProfileNested.getProfile(), stockFromProfileNested.getMaterial(), availableLength, profileNested.getRepetition(), profileNested.getRepetition(), "");
+            workspace.getRemnantList().add(newStockItem);
+        }
 
     }
 
