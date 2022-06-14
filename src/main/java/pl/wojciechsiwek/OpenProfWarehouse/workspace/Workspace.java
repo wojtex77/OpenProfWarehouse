@@ -4,8 +4,10 @@ package pl.wojciechsiwek.OpenProfWarehouse.workspace;
 import org.springframework.stereotype.Component;
 import pl.wojciechsiwek.OpenProfWarehouse.materialStock.StockItem;
 import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderedItemsExtended;
+import pl.wojciechsiwek.OpenProfWarehouse.orderedItems.OrderetItemsExtendedLengthComparator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,6 +27,7 @@ public class Workspace {
         this.orderedItemsExtendedList = orderedItemsExtendedList;
         this.stockItemList = stockItemList;
         this.remnantList = new ArrayList<>();
+        this.profileNestedList = new ArrayList<>();
     }
 
     void addToRemnantList(StockItem remnant){
@@ -85,6 +88,17 @@ public class Workspace {
 
     void setStockItemList(List<StockItem> stockItemList) {
         this.stockItemList = stockItemList;
+    }
+
+    void sortOrderedItemsByLengthDecreasing(){
+        Comparator comparator = new OrderetItemsExtendedLengthComparator().reversed();
+        this.orderedItemsExtendedList.sort(comparator);
+    }
+
+
+    void sortProfilesByLengthAscending() {
+        Comparator comparator = new StockItemLengthComparator();
+        this.getStockItemList().sort(comparator);
     }
 
     @Override

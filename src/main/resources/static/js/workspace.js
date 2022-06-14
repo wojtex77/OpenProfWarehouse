@@ -344,10 +344,12 @@ function showSingleProfileNesting(profiles){
 
 };
 
-function showPartsOnSingleProfile(data){
+function showPartsOnSingleProfile(itemsOnProfile){
     var html = "";
-    for(var i=0; i< data.length; i++){
-        html += `<div class="col-4 offset-2">Część: <span class="fw-bold">` + data[i].partName + `</span></div><div class="col-3">L [mm]= <span class="fw-bold">` + data[i].profileLength + `</span></div><div class="col-3"> sztuk: <span class="fw-bold">` + data[i].nestedQty + `</span></div>`;
+    for(var i=0; i< itemsOnProfile.length; i++){
+        html += `<div class="col-4 offset-2">Część: <span class="fw-bold">` + itemsOnProfile[i].partName +
+                `</span></div><div class="col-3">L [mm]= <span class="fw-bold">` + itemsOnProfile[i].profileLength + `</span></div><div class="col-3">
+                sztuk: <span class="fw-bold">` + itemsOnProfile[i].repetition + `</span></div>`;
     };
     return html;
 }

@@ -17,6 +17,7 @@ public class OrderedItemsExtended {
     private String article = null;
     private String drawing = null;
     private double weight;
+    private int repetition = 1;
 
     public OrderedItemsExtended() {
     }
@@ -36,7 +37,6 @@ public class OrderedItemsExtended {
         this.drawing = orderedItem.drawing;
         this.weight = orderedItem.weight;
     }
-
 
     public OrderedItemsExtended(Integer id, int id1, String partName, Integer qty, String profile, double profileLength, String material) {
         this.id = id;
@@ -62,6 +62,18 @@ public class OrderedItemsExtended {
         this.article = article;
         this.drawing = drawing;
         this.weight = weight;
+    }
+
+    public int getRepetition() {
+        return repetition;
+    }
+
+    public void setRepetition(int repetition) {
+        this.repetition = repetition;
+    }
+    public void increaseRepetition(){
+        repetition++;
+        this.decreaseToNestQty();
     }
 
     public int getNestedQty() {
@@ -148,6 +160,11 @@ public class OrderedItemsExtended {
     public void changeNestedQtyByValue(int nestedQty) {
         this.nestedQty -= nestedQty;
         toNestQty = qty - this.nestedQty;
+    }
+
+    public void decreaseToNestQty() {
+        this.toNestQty--;
+        this.nestedQty++;
     }
 
     @Override

@@ -11,8 +11,8 @@ public class SingleProfileNested {
     private List<OrderedItemsExtended> itemsOnProfile;
     private int repetition;
 
-    SingleProfileNested(StockItem profileSignature, List itemsOnProfile) {
-        this.stockItem = profileSignature;
+    SingleProfileNested(StockItem stockItem, List itemsOnProfile) {
+        this.stockItem = stockItem;
         this.itemsOnProfile = itemsOnProfile;
         this.repetition = 1;
     }
@@ -21,7 +21,7 @@ public class SingleProfileNested {
         return repetition;
     }
 
-    void increaseRepetition(){
+    void increaseRepetition() {
         repetition++;
     }
 
@@ -39,6 +39,21 @@ public class SingleProfileNested {
 
     public void setItemsOnProfile(List itemsOnProfile) {
         this.itemsOnProfile = itemsOnProfile;
+    }
+
+    public boolean equalsExceptRepetition(SingleProfileNested o) {
+        if (this == o) return true;
+        if (this.stockItem.getSignature() != o.stockItem.getSignature()) return false;
+        if (this.itemsOnProfile.size() != o.itemsOnProfile.size()) return false;
+        if (this.itemsOnProfile.size() != 0) {
+            for (int i = 0; i < this.itemsOnProfile.size(); i++) {
+                if (this.itemsOnProfile.get(i).getId() != o.itemsOnProfile.get(i).getId()) return false;
+                else {
+                    if (this.itemsOnProfile.get(i).getRepetition() != o.itemsOnProfile.get(i).getRepetition()) return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
